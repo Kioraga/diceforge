@@ -10,6 +10,6 @@
     "daisyui": "^5.0.32"
   },
   "scripts": {
-    "build:css": "npx @tailwindcss/cli -i ./static/src/input.css -o ./static/dist/output.css"
+    "build:css": "npx @tailwindcss/cli -i ./static/src/input.css -o ./static/dist/output.css --watch"
   }
 }

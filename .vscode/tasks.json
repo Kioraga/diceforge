@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build:css",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "npm: build:css",
+			"detail": "npx @tailwindcss/cli -i ./static/src/input.css -o ./static/dist/output.css --watch",
+			"isBackground": true
+		}
+	]
+}
