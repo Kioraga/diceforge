@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="latte">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}{{title}}</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='dist/output.css')}}"
+    />
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-base">
+    <!-- prettier-ignore -->
+    {% include 'header.html' %}
+    
+    {% block content %}{% endblock %}
+    
+    {% include 'footer.html' %}
+  </body>
+</html>

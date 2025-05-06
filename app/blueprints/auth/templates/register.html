@@ -1,0 +1,13 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+
+{% block title %}Register - {% endblock %}
+{% block content %}
+
+<div class="flex-auto container mx-auto mt-12 px-4">
+  <h1 class="text-3xl font-bold">Register</h1>
+  <br class="my-10" />
+  <a href="{{url_for('auth.login')}}" class="btn btn-primary">Login</a>
+</div>
+
+{% endblock %}

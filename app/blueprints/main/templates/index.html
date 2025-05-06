@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="latte">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diceforge</title>
-    <link
-      rel="stylesheet"
-      href="{{url_for('static',filename='dist/output.css')}}"
-    />
-  </head>
+{% extends 'base.html' %} {% block content %}
 
-  <body>
-    {% include 'header.html' %}
-    
-  </body>
-</html>
+<div class="flex-auto container mx-auto mt-12 px-4">
+  <h1 class="text-3xl font-bold">Welcome to {{title}}</h1>
+  <p class="mt-2">Another website to create and manage your D&D characters</p>
+  <br class="my-10" />
+  <div class="grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-9">
+    <button class="btn">Default</button>
+    <button class="btn btn-neutral">Neutral</button>
+    <button class="btn btn-primary">Primary</button>
+    <button class="btn btn-secondary">Secondary</button>
+    <button class="btn btn-accent">Accent</button>
+    <button class="btn btn-info">Info</button>
+    <button class="btn btn-success">Success</button>
+    <button class="btn btn-warning">Warning</button>
+    <button class="btn btn-error">Error</button>
+  </div>
+</div>
+
+{% endblock %}
