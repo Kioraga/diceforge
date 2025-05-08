@@ -1,11 +1,9 @@
-from flask import Flask
-from flask import render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import LoginManager
 import sirope
 from datetime import datetime
 
-from blueprints.main import main
-from blueprints.auth import auth
+from views import blueprints
 from model.userdto import UserDto
 
 
@@ -20,9 +18,11 @@ def create_app():
     app.jinja_env.globals.update(now=datetime.now)
 
     lm.init_app(app)
+    lm.login_view = "auth.login"
 
-    app.register_blueprint(main.main_bp)
-    app.register_blueprint(auth.auth_bp)
+    # Registrando los blueprints
+    for bp in blueprints:
+        app.register_blueprint(bp)
 
     app.register_error_handler(404, lambda e: render_template("errors/404.html"))
 
@@ -32,7 +32,6 @@ def create_app():
 app, lm, srp = create_app()
 
 
-# Initialize the LoginManager
 @lm.user_loader
 def user_loader(username):
     return UserDto(srp, username)
@@ -41,7 +40,7 @@ def user_loader(username):
 @lm.unauthorized_handler
 def unauthorized_handler():
     flash("Unauthorized")
-    return redirect(url_for("main.index"))
+    return redirect(url_for("home.index"))
 
 
 if __name__ == "__main__":

@@ -16,12 +16,12 @@ auth_bp = get_blueprint()
 
 @auth_bp.route("/login")
 def login():
-    return render_template("login.html")
+    return render_template("auth/login.html")
 
 
 @auth_bp.route("/register")
 def register():
-    return render_template("register.html")
+    return render_template("auth/register.html")
 
 
 @auth_bp.route("/login", methods=["POST"])
@@ -31,7 +31,7 @@ def login_post():
 
     print(f"Username: {username}, Password: {password}")
 
-    return redirect(url_for("main.index"))
+    return redirect(url_for("home.index"))
 
 
 @auth_bp.route("/register", methods=["POST"])
@@ -43,8 +43,8 @@ def register_post():
 
     if password != confirm_password:
         flash("Passwords do not match. Please try again.", "error")
-        return render_template("register.html")
+        return render_template("auth/register.html")
 
     print(f"Username: {username}, Email: {email}, Password: {password}")
 
-    return redirect(url_for("main.index"))
+    return redirect(url_for("home.index"))
