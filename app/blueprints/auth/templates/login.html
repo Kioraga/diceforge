@@ -4,10 +4,35 @@
 {% block title %}Login - {% endblock %}
 {% block content %}
 
-<div class="flex-auto container mx-auto mt-12 px-4">
-  <h1 class="text-3xl font-bold">Login</h1>
-  <br class="my-10" />
-  <a href="{{url_for('auth.register')}}" class="btn btn-primary">Register</a>
+<div class="flex-auto container max-w-md mx-auto mt-12 px-4">
+  <form method="POST" action="{{ url_for('auth.login') }}" class="space-y-4">
+    <fieldset class="fieldset w-md p-4">
+      <h1 class="text-3xl font-bold mb-6">Login</h1>
+
+      <label class="label"> Username </label>
+      <input type="text" name="username" class="input w-full" required />
+      <br />
+
+      <label class="label"> Password </label>
+      <input type="password" name="password" class="input w-full" required />
+      <br />
+
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Remember me</span>
+          <input type="checkbox" name="remember" class="checkbox" />
+        </label>
+      </div>
+      <div class="divider"></div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+
+      <p class="mt-4 text-sm">
+        Don't have an account?
+        <a href="{{ url_for('auth.register') }}" class="link link-primary">Register</a>
+      </p>
+    </fieldset>
+  </form>
 </div>
 
 {% endblock %}

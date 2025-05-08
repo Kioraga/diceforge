@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "*.css": "tailwindcss"
+        "*.css": "tailwindcss",
+        "*py.template": "python"
+    },
+    "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": "./.vscode/daisyui.md"
     }
+  ]
 }

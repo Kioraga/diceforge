@@ -1,0 +1,18 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+
+{% block title %}Success! - {% endblock %}
+{% block content %}
+
+<div class="flex-auto container max-w-md mx-auto mt-12 px-4">
+  <h1 class="text-3xl font-bold mb-6">Datos de usuario</h1>
+  <p class="text-lg">usuario: {{username}}</p>
+  <p class="text-lg">email: {{email}}</p>
+  <p class="text-lg">password: {{password}}</p>
+
+  <a href="{{ url_for('main.index') }}" class="btn btn-primary mt-4"
+    >Go to Home</a
+  >
+</div>
+
+{% endblock %}
