@@ -8,4 +8,4 @@ htmlcov/
 .tox/
 docs/_build/
 .DS_Store
-config.json
+config.py
