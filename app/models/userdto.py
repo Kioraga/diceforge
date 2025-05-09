@@ -18,7 +18,7 @@ class UserDto(flask_login.UserMixin):
         return self._email
 
     def get_id(self):
-        return self.username
+        return self._username
 
     def chk_password(self, pswd):
         return safe.check_password_hash(self._password, pswd)
@@ -34,5 +34,7 @@ class UserDto(flask_login.UserMixin):
         return usr
 
     @staticmethod
-    def find(s: sirope.Sirope, username: str) -> "UserDto":
-        return s.find_first(UserDto, lambda u: u.username == username)
+    def find(s: sirope.Sirope, user_id: str) -> "UserDto":
+        return s.find_first(UserDto, lambda u: u.get_id() == user_id)
+    
+    

@@ -1,17 +1,19 @@
-from flask import Blueprint
-from flask import request
-from flask import render_template, redirect, url_for, flash
+from flask import Blueprint, request, render_template, redirect, url_for, flash
+import sirope
+
+from models.userdto import UserDto
 
 
 def get_blueprint():
     auth = Blueprint(
         "auth", __name__, template_folder="templates", static_folder="static"
     )
+    srp = sirope.Sirope()
 
-    return auth
+    return auth, srp
 
 
-auth_bp = get_blueprint()
+auth_bp, srp = get_blueprint()
 
 
 @auth_bp.route("/login")
@@ -31,6 +33,11 @@ def login_post():
 
     print(f"Username: {username}, Password: {password}")
 
+    user = UserDto.find(srp, username)
+    if user is None or not user.chk_password(password):
+        flash("Invalid username or password. Please try again.", "error")
+        return render_template("auth/login.html")
+
     return redirect(url_for("home.index"))
 
 
@@ -45,6 +52,12 @@ def register_post():
         flash("Passwords do not match. Please try again.", "error")
         return render_template("auth/register.html")
 
+    if UserDto.find(srp, username) is not None:
+        flash("Username already exists. Please choose a different one.", "error")
+        return render_template("auth/register.html")
+
     print(f"Username: {username}, Email: {email}, Password: {password}")
+
+    srp.save(UserDto(username, email, password))
 
     return redirect(url_for("home.index"))

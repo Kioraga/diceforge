@@ -4,7 +4,7 @@ import sirope
 from datetime import datetime
 
 from views import blueprints
-from model.userdto import UserDto
+import models.userdto as UserDto
 
 
 def create_app():
