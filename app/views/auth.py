@@ -1,16 +1,15 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 
-import db
-import login_manager
-from models.userdto import UserDto
+import app
+from ..models.userdto import UserDto
 
 
 def get_blueprint():
     auth = Blueprint(
         "auth", __name__, template_folder="templates", static_folder="static"
     )
-    lm = login_manager.lm
-    srp = db.srp
+    lm = app.lm
+    srp = app.srp
 
     return auth, lm, srp
 
@@ -35,12 +34,10 @@ def login_post():
 
     print(f"Username: {username}, Password: {password}")
 
-    user = login_manager.load_user(username)
+    user = lm.load_user(username)
     if user is None or not user.chk_password(password):
         flash("Invalid username or password. Please try again.", "error")
         return render_template("auth/login.html")
-    
-    
 
     return redirect(url_for("home.index"))
 

@@ -8,7 +8,7 @@
       "name": "Python: Flask",
       "type": "debugpy",
       "request": "launch",
-      "program": "app/app.py",
+      "program": "app.py",
       "console": "integratedTerminal",
       "preLaunchTask": "npm: build:css"
     }
