@@ -1,16 +1,16 @@
 from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import LoginManager
-import sirope
 from datetime import datetime
 
+import db
 from views import blueprints
 import models.userdto as UserDto
 
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
-    lm = LoginManager()
-    srp = sirope.Sirope()
+    lm = db.lm
+    srp = db.srp
 
     app.name = "Diceforge"
     app.config.from_pyfile("config.py")

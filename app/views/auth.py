@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
-import sirope
 
+import db
 from models.userdto import UserDto
 
 
@@ -8,12 +8,13 @@ def get_blueprint():
     auth = Blueprint(
         "auth", __name__, template_folder="templates", static_folder="static"
     )
-    srp = sirope.Sirope()
+    lm = db.lm
+    srp = db.srp
 
-    return auth, srp
+    return auth, lm, srp
 
 
-auth_bp, srp = get_blueprint()
+auth_bp, lm, srp = get_blueprint()
 
 
 @auth_bp.route("/login")
