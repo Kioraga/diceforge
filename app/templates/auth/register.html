@@ -1,32 +1,27 @@
 <!-- prettier-ignore -->
 {% extends 'base.html' %}
 
-{% block title %}Register - {% endblock %}
+{% block title %}Registrarse - {% endblock %}
 {% block content %}
 
 <div class="flex-auto container max-w-md mx-auto mt-12 px-4">
   <form method="POST" action="{{ url_for('auth.register') }}" class="space-y-4">
     <fieldset class="fieldset p-4">
-      <h1 class="text-3xl font-bold mb-6">Register</h1>
+      <h1 class="text-3xl font-bold mb-6">Registrarse</h1>
 
-      <label class="label"> Username </label>
+      <label class="label">Usuario</label>
       <input type="text" name="username" class="input w-full" required />
       <br />
 
-      <label class="label"> Email </label>
+      <label class="label">Correo</label>
       <input type="email" name="email" class="input w-full" required />
       <br />
 
-      <label class="label"> Password </label>
-      <input
-        type="password"
-        name="password"
-        class="input w-full"
-        required
-      />
+      <label class="label">Contraseña</label>
+      <input type="password" name="password" class="input w-full" required />
       <br />
 
-      <label class="label"> Confirm Password </label>
+      <label class="label">Confirmar contraseña</label>
       <input
         type="password"
         name="confirm_password"
@@ -34,13 +29,13 @@
         required
       />
       <div class="divider"></div>
-      
-      <button type="submit" class="btn btn-primary">Register</button>
+
+      <button type="submit" class="btn btn-primary">Registarse</button>
 
       <p class="mt-4 text-sm">
-        Already have an account?
+        ¿Ya tienes una cuenta?
         <a href="{{ url_for('auth.login') }}" class="link link-primary"
-          >Login</a
+          >Iniciar sesión</a
         >
       </p>
     </fieldset>

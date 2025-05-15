@@ -1,4 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
+import flask_login
 
 import app
 from ..models.userdto import UserDto
@@ -31,13 +32,17 @@ def register():
 def login_post():
     username = request.form.get("username")
     password = request.form.get("password")
+    remember = request.form.get("remember")
 
-    print(f"Username: {username}, Password: {password}")
-
-    user = lm.load_user(username)
+    user = app.load_user(username)
     if user is None or not user.chk_password(password):
         flash("Invalid username or password. Please try again.", "error")
         return render_template("auth/login.html")
+
+    if remember:
+        flask_login.login_user(user, remember=True)
+    else:
+        flask_login.login_user(user)
 
     return redirect(url_for("home.index"))
 
@@ -57,8 +62,19 @@ def register_post():
         flash("Username already exists. Please choose a different one.", "error")
         return render_template("auth/register.html")
 
-    print(f"Username: {username}, Email: {email}, Password: {password}")
-
     srp.save(UserDto(username, email, password))
 
+    user = UserDto.find(srp, username)
+    if user is None:
+        flash("Registration failed. Please try again.", "error")
+        return render_template("auth/register.html")
+
+    flask_login.login_user(user)
+
+    return redirect(url_for("home.index"))
+
+
+@auth_bp.route("/logout")
+def logout():
+    flask_login.logout_user()
     return redirect(url_for("home.index"))

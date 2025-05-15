@@ -6,25 +6,38 @@
       >
     </div>
     <div class="flex gap-2">
-      <a href="{{url_for('auth.login')}}" class="btn">Login</a>
-      <div class="dropdown dropdown-end hidden">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-          <div class="w-10 rounded-full">
-            <img
-              alt="Tailwind CSS Navbar component"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-            />
+      {% if current_user.is_authenticated %}
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost gap-2">
+          <div class="avatar">
+            <div class="w-10 rounded-full">
+              <img
+                alt="User Avatar"
+                src="https://www.gravatar.com/avatar/{{ current_user.email|hashlib_md5 }}?d=identicon&s=80"
+              />
+            </div>
           </div>
+          <span class="text-base-content">{{ current_user.username }}</span>
         </div>
         <ul
           tabindex="0"
           class="menu menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3 w-40 p-2 shadow"
         >
-          <li><a>Profile</a></li>
-          <li><a>Settings</a></li>
-          <li><a>Logout</a></li>
+          {% if current_user.is_admin %}
+          <li>
+            <a href="{{url_for('admin.index')}}" class="text-primary">Admin</a>
+          </li>
+          {% endif %}
+          <li><a>Perfil</a></li>
+          <li><a>Ajustes</a></li>
+          <li>
+            <a href="{{url_for('auth.logout')}}">Cerrar sesión</a>
+          </li>
         </ul>
       </div>
+      {% else %}
+      <a href="{{url_for('auth.login')}}" class="btn">Iniciar sesión</a>
+      {% endif %}
     </div>
   </div>
 </header>

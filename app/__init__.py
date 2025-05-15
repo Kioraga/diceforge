@@ -3,6 +3,7 @@ from flask_login import LoginManager
 import sirope
 from datetime import datetime
 
+from app.utils import hashlib_md5
 from app.models.userdto import UserDto
 
 lm = LoginManager()
@@ -15,6 +16,7 @@ def create_app():
     app.name = "Diceforge"
     app.config.from_pyfile("config.py")
     app.jinja_env.globals["title"] = app.name
+    app.jinja_env.filters['hashlib_md5'] = hashlib_md5
     app.jinja_env.globals.update(now=datetime.now)
 
     lm.init_app(app)
