@@ -4,7 +4,7 @@ import sirope
 from datetime import datetime
 
 from app.utils import hashlib_md5
-from app.models.userdto import UserDto
+from app.models.user_dto import UserDto
 
 lm = LoginManager()
 srp = sirope.Sirope()
@@ -26,6 +26,7 @@ def create_app():
 
     app.register_blueprint(views.home_bp)
     app.register_blueprint(views.auth_bp)
+    app.register_blueprint(views.characters_bp)
 
     app.register_error_handler(404, lambda e: render_template("errors/404.html"))
 
@@ -39,5 +40,5 @@ def load_user(user_id):
 
 @lm.unauthorized_handler
 def unauthorized_handler():
-    flash("Unauthorized")
-    return redirect(url_for("home.index"))
+    flash("Tienes que iniciar sesión para acceder a esta página.", "error")
+    return redirect(url_for("auth.login"))

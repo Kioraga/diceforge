@@ -28,7 +28,10 @@
             <a href="{{url_for('admin.index')}}" class="text-primary">Admin</a>
           </li>
           {% endif %}
-          <li><a>Perfil</a></li>
+          <li>
+            <a href="{{ url_for('characters.dashboard') }}">Mis personajes</a>
+          </li>
+          <li><a>Perf1il</a></li>
           <li><a>Ajustes</a></li>
           <li>
             <a href="{{url_for('auth.logout')}}">Cerrar sesión</a>

@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash
 import flask_login
 
 import app
-from ..models.userdto import UserDto
+from ..models.user_dto import UserDto
 
 
 def get_blueprint():
@@ -44,7 +44,7 @@ def login_post():
     else:
         flask_login.login_user(user)
 
-    return redirect(url_for("home.index"))
+    return redirect(url_for("characters.dashboard"))
 
 
 @auth_bp.route("/register", methods=["POST"])
@@ -71,7 +71,7 @@ def register_post():
 
     flask_login.login_user(user)
 
-    return redirect(url_for("home.index"))
+    return redirect(url_for("characters.dashboard"))
 
 
 @auth_bp.route("/logout")
