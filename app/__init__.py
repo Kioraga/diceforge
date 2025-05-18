@@ -14,6 +14,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     app.name = "Diceforge"
+    app.debug = True
     app.config.from_pyfile("config.py")
     app.jinja_env.globals["title"] = app.name
     app.jinja_env.filters['hashlib_md5'] = hashlib_md5

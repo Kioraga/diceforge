@@ -7,5 +7,14 @@
     {
       "file": "./.vscode/daisyui.md"
     }
-  ]
+  ],
+  "piny.project_settings": {
+    "open-pages": [
+      "index.html"
+    ],
+    "tw-external-config": {},
+    "source-folders": null,
+    "preview-url": "http://127.0.0.1:5000",
+    "ai-project-brief": null
+  }
 }
