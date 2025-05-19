@@ -12,7 +12,7 @@
 
   <!-- prettier-ignore -->
   <body class="min-h-screen flex flex-col bg-base">
-    {% include 'header.html' %}
+    {% include 'base/header.html' %}
 
     <!-- Flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -32,6 +32,6 @@
 
     {% block content %}{% endblock %}
 
-    {% include 'footer.html' %}
+    {% include 'base/footer.html' %}
   </body>
 </html>

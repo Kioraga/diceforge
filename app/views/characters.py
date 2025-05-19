@@ -16,7 +16,7 @@ characters_bp = get_blueprint()
 
 @characters_bp.route("/characters")
 @login_required
-def dashboard():
+def character_gallery():
     characters = [
         CharacterDto("John Doe", "Fighter", 5),
         CharacterDto("Jane Smith", "Wizard", 3),
@@ -30,4 +30,4 @@ def dashboard():
         CharacterDto("Hank Red", "Warlock", 4),
     ]
 
-    return render_template("characters/dashboard.html", characters=characters)
+    return render_template("characters/character_gallery.html", characters=characters)

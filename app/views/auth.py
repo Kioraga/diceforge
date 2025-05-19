@@ -36,7 +36,7 @@ def login_post():
 
     user = app.load_user(username)
     if user is None or not user.chk_password(password):
-        flash("Invalid username or password. Please try again.", "error")
+        flash("Nombre de usuario o contraseña no válidos. Por favor, inténtelo de nuevo.", "error")
         return render_template("auth/login.html")
 
     if remember:
@@ -44,7 +44,7 @@ def login_post():
     else:
         flask_login.login_user(user)
 
-    return redirect(url_for("characters.dashboard"))
+    return redirect(url_for("characters.character_gallery"))
 
 
 @auth_bp.route("/register", methods=["POST"])
@@ -55,11 +55,11 @@ def register_post():
     confirm_password = request.form.get("confirm_password")
 
     if password != confirm_password:
-        flash("Passwords do not match. Please try again.", "error")
+        flash("Las contraseñas no coinciden. Por favor, inténtelo de nuevo.", "error")
         return render_template("auth/register.html")
 
     if UserDto.find(srp, username) is not None:
-        flash("Username already exists. Please choose a different one.", "error")
+        flash("El nombre de usuario ya existe. Por favor, elija otro.", "error")
         return render_template("auth/register.html")
 
     srp.save(UserDto(username, email, password))
@@ -71,7 +71,7 @@ def register_post():
 
     flask_login.login_user(user)
 
-    return redirect(url_for("characters.dashboard"))
+    return redirect(url_for("characters.character_gallery"))
 
 
 @auth_bp.route("/logout")
