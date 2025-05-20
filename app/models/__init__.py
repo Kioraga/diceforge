@@ -1,4 +1,4 @@
-from .user_dto import UserDto
-from .character_dto import CharacterDto
+from .character import Character
+from .user import User
 
-__all__ = ["UserDto", "CharacterDto"]
+__all__ = ["Character", "User"]

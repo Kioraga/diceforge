@@ -1,46 +1,46 @@
 <header>
-  <div class="navbar bg-base-300 shadow-sm">
-    <div class="flex-1">
-      <a href="{{url_for('home.index')}}" class="btn btn-ghost text-xl"
-        >{{title}}</a
-      >
-    </div>
-    <div class="flex gap-2">
-      {% if current_user.is_authenticated %}
-      <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost gap-2">
-          <div class="avatar">
-            <div class="w-10 rounded-full">
-              <img
-                alt="User Avatar"
-                src="https://www.gravatar.com/avatar/{{ current_user.email|hashlib_md5 }}?d=identicon&s=80"
-              />
-            </div>
-          </div>
-          <span class="text-base-content">{{ current_user.username }}</span>
+    <div class="navbar bg-base-300 shadow-sm">
+        <div class="flex-1">
+            <a href="{{ url_for('home.index') }}" class="btn btn-ghost text-xl"
+            >{{ title }}</a
+            >
         </div>
-        <ul
-          tabindex="0"
-          class="menu menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3 w-40 p-2 shadow"
-        >
-          {% if current_user.is_admin %}
-          <li>
-            <a href="{{url_for('admin.index')}}" class="text-primary">Admin</a>
-          </li>
-          {% endif %}
-          <li>
-            <a href="{{ url_for('characters.character_gallery') }}">Mis personajes</a>
-          </li>
-          <li><a>Perf1il</a></li>
-          <li><a>Ajustes</a></li>
-          <li>
-            <a href="{{url_for('auth.logout')}}">Cerrar sesión</a>
-          </li>
-        </ul>
-      </div>
-      {% else %}
-      <a href="{{url_for('auth.login')}}" class="btn">Iniciar sesión</a>
-      {% endif %}
+        <div class="flex gap-2">
+            {% if current_user.is_authenticated %}
+                <div class="dropdown dropdown-end">
+                    <div tabindex="0" role="button" class="btn btn-ghost gap-2">
+                        <div class="avatar">
+                            <div class="w-10 rounded-full">
+                                <img
+                                        alt="User Avatar"
+                                        src="https://www.gravatar.com/avatar/{{ current_user.email|hashlib_md5 }}?d=identicon&s=80"
+                                />
+                            </div>
+                        </div>
+                        <span class="text-base-content">{{ current_user.username }}</span>
+                    </div>
+                    <ul
+                            tabindex="0"
+                            class="menu menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3 w-40 p-2 shadow"
+                    >
+                        {% if current_user.is_admin %}
+                            <li>
+                                <a href="{{ url_for('admin.index') }}" class="text-primary">Admin</a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{{ url_for('characters.character_gallery') }}">Mis personajes</a>
+                        </li>
+                        <li><a>Perf1il</a></li>
+                        <li><a>Ajustes</a></li>
+                        <li>
+                            <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="btn">Iniciar sesión</a>
+            {% endif %}
+        </div>
     </div>
-  </div>
 </header>

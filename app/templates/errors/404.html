@@ -4,14 +4,14 @@
 {% block title %}404 - Page Not Found{% endblock %}
 {% block content %}
 
-<div class="hero min-h-screen bg-base-200">
-  <div class="hero-content text-center">
-    <div class="max-w-md">
-      <h1 class="text-5xl font-bold text-error">404</h1>
-      <p class="py-6 text-lg">Lo sentimos, la página que buscas no existe.</p>
-      <a href="{{ url_for('home.index') }}" class="btn btn-primary">Volver a inicio</a>
+    <div class="hero min-h-screen bg-base-200">
+        <div class="hero-content text-center">
+            <div class="max-w-md">
+                <h1 class="text-5xl font-bold text-error">404</h1>
+                <p class="py-6 text-lg">Lo sentimos, la página que buscas no existe.</p>
+                <a href="{{ url_for('home.index') }}" class="btn btn-primary">Volver a inicio</a>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 {% endblock %}

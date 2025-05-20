@@ -1,40 +1,37 @@
-<!-- prettier-ignore -->
 {% extends 'base.html' %}
 
 {% block title %}Iniciar sesión - {% endblock %}
 {% block content %}
 
-<div class="flex-auto container max-w-md mx-auto mt-12 px-4">
-  <form method="POST" action="{{ url_for('auth.login') }}" class="space-y-4">
-    <fieldset class="fieldset p-4">
-      <h1 class="text-3xl font-bold mb-6">Iniciar sesión</h1>
+    <div class="flex-auto container max-w-md mx-auto mt-12 px-4">
+        <form method="POST" action="{{ url_for('auth.login') }}" class="space-y-4">
+            <fieldset class="fieldset p-4">
+                <h1 class="text-3xl font-bold mb-6">Iniciar sesión</h1>
 
-      <label class="label">Nombre de usuario</label>
-      <input type="text" name="username" class="input w-full" required />
-      <br />
+                <label class="label">Nombre de usuario</label>
+                <input type="text" name="username" class="input w-full" required/>
+                <br/>
 
-      <label class="label">Contraseña</label>
-      <input type="password" name="password" class="input w-full" required />
-      <br />
+                <label class="label">Contraseña</label>
+                <input type="password" name="password" class="input w-full" required/>
+                <br/>
 
-      <div class="form-control">
-        <label class="label cursor-pointer">
-          <span class="label-text">Recuérdame</span>
-          <input type="checkbox" name="remember" class="checkbox" />
-        </label>
-      </div>
-      <div class="divider"></div>
+                <div class="form-control">
+                    <label class="label cursor-pointer">
+                        <span class="label-text">Recuérdame</span>
+                        <input type="checkbox" name="remember" class="checkbox"/>
+                    </label>
+                </div>
+                <div class="divider"></div>
 
-      <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
 
-      <p class="mt-4 text-sm">
-        ¿No tienes una cuenta?
-        <a href="{{ url_for('auth.register') }}" class="link link-primary"
-          >Registrarse</a
-        >
-      </p>
-    </fieldset>
-  </form>
-</div>
+                <p class="mt-4 text-sm">
+                    ¿No tienes una cuenta?
+                    <a href="{{ url_for('auth.register') }}" class="link link-primary">Registrarse</a>
+                </p>
+            </fieldset>
+        </form>
+    </div>
 
 {% endblock %}

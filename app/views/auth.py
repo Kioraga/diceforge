@@ -1,8 +1,9 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 import flask_login
 
+from app.models.user import User
+
 import app
-from ..models.user_dto import UserDto
 
 
 def get_blueprint():
@@ -10,12 +11,11 @@ def get_blueprint():
         "auth", __name__, template_folder="templates", static_folder="static"
     )
     lm = app.lm
-    srp = app.srp
 
-    return auth, lm, srp
+    return auth, lm
 
 
-auth_bp, lm, srp = get_blueprint()
+auth_bp, lm = get_blueprint()
 
 
 @auth_bp.route("/login")
@@ -34,9 +34,12 @@ def login_post():
     password = request.form.get("password")
     remember = request.form.get("remember")
 
-    user = app.load_user(username)
+    user = User.find_one(User.username == username).run()
     if user is None or not user.chk_password(password):
-        flash("Nombre de usuario o contraseña no válidos. Por favor, inténtelo de nuevo.", "error")
+        flash(
+            "Nombre de usuario o contraseña no válidos. Por favor, inténtelo de nuevo.",
+            "error",
+        )
         return render_template("auth/login.html")
 
     if remember:
@@ -53,18 +56,20 @@ def register_post():
     email = request.form.get("email")
     password = request.form.get("password")
     confirm_password = request.form.get("confirm_password")
+    print(username)
 
     if password != confirm_password:
         flash("Las contraseñas no coinciden. Por favor, inténtelo de nuevo.", "error")
         return render_template("auth/register.html")
 
-    if UserDto.find(srp, username) is not None:
+    if User.find_one(User.username == username).run() is not None:
         flash("El nombre de usuario ya existe. Por favor, elija otro.", "error")
         return render_template("auth/register.html")
 
-    srp.save(UserDto(username, email, password))
+    new_user = User(username=username, email=email, password=User.hash_password(password))
+    new_user.save()
 
-    user = UserDto.find(srp, username)
+    user = User.find_one(User.username == username).run()
     if user is None:
         flash("Registration failed. Please try again.", "error")
         return render_template("auth/register.html")

@@ -1,46 +1,43 @@
-<!-- prettier-ignore -->
 {% extends 'base.html' %}
 
 {% block title %}Registrarse - {% endblock %}
 
 {% block content %}
 
-<div class="flex-auto container max-w-md mx-auto mt-12 px-4">
-  <form method="POST" action="{{ url_for('auth.register') }}" class="space-y-4">
-    <fieldset class="fieldset p-4">
-      <h1 class="text-3xl font-bold mb-6">Registrarse</h1>
+    <div class="flex-auto container max-w-md mx-auto mt-12 px-4">
+        <form method="POST" action="{{ url_for('auth.register') }}" class="space-y-4">
+            <fieldset class="fieldset p-4">
+                <h1 class="text-3xl font-bold mb-6">Registrarse</h1>
 
-      <label class="label">Nombre de usuario</label>
-      <input type="text" name="username" class="input w-full" required />
-      <br />
+                <label class="label">Nombre de usuario</label>
+                <input type="text" name="username" class="input w-full" required/>
+                <br/>
 
-      <label class="label">Correo</label>
-      <input type="email" name="email" class="input w-full" required />
-      <br />
+                <label class="label">Correo</label>
+                <input type="email" name="email" class="input w-full" required/>
+                <br/>
 
-      <label class="label">Contraseña</label>
-      <input type="password" name="password" class="input w-full" required />
-      <br />
+                <label class="label">Contraseña</label>
+                <input type="password" name="password" class="input w-full" required/>
+                <br/>
 
-      <label class="label">Confirmar contraseña</label>
-      <input
-        type="password"
-        name="confirm_password"
-        class="input w-full"
-        required
-      />
-      <div class="divider"></div>
+                <label class="label">Confirmar contraseña</label>
+                <input
+                        type="password"
+                        name="confirm_password"
+                        class="input w-full"
+                        required
+                />
+                <div class="divider"></div>
 
-      <button type="submit" class="btn btn-primary">Registarse</button>
+                <button type="submit" class="btn btn-primary">Registarse</button>
 
-      <p class="mt-4 text-sm">
-        ¿Ya tienes una cuenta?
-        <a href="{{ url_for('auth.login') }}" class="link link-primary"
-          >Iniciar sesión</a
-        >
-      </p>
-    </fieldset>
-  </form>
-</div>
+                <p class="mt-4 text-sm">
+                    ¿Ya tienes una cuenta?
+                    <a href="{{ url_for('auth.login') }}" class="link link-primary">Iniciar sesión</a>
+                </p>
+            </fieldset>
+        </form>
+    </div>
 
 {% endblock %}

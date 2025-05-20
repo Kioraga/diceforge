@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
 
-from app.models import CharacterDto
-
+from app.models import Character
 
 def get_blueprint():
     characters = Blueprint(
@@ -18,16 +17,16 @@ characters_bp = get_blueprint()
 @login_required
 def character_gallery():
     characters = [
-        CharacterDto("John Doe", "Fighter", 5),
-        CharacterDto("Jane Smith", "Wizard", 3),
-        CharacterDto("Bob Johnson", "Rogue", 4),
-        CharacterDto("Alice Brown", "Cleric", 2),
-        CharacterDto("Charlie White", "Paladin", 6),
-        CharacterDto("Diana Green", "Ranger", 4),
-        CharacterDto("Eve Black", "Sorcerer", 5),
-        CharacterDto("Frank Blue", "Bard", 3),
-        CharacterDto("Grace Yellow", "Monk", 2),
-        CharacterDto("Hank Red", "Warlock", 4),
+        Character(name="Astarion", char_class="Rogue", race="High Elf", level=1),
+        Character(name="Shadowheart", char_class="Cleric", race="Half-Elf", level=1),
+        Character(name="Gale", char_class="Wizard", race="Human", level=1),
+        Character(name="Lae'zel", char_class="Fighter", race="Githyanki", level=1),
+        Character(name="Wyll", char_class="Warlock", race="Human", level=1),
+        Character(name="Karlach", char_class="Barbarian", race="Tiefling", level=1),
+        Character(name="Halsin", char_class="Druid", race="Wood Elf", level=5),
+        Character(name="Minthara", char_class="Paladin", race="Drow", level=5),
+        Character(name="Jaheira", char_class="Druid", race="Half-Elf", level=7),
+        Character(name="Minsc", char_class="Ranger", race="Human", level=7)
     ]
 
     return render_template("characters/character_gallery.html", characters=characters)

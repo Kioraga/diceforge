@@ -4,48 +4,39 @@
 {% block title %}Tus personajes - {% endblock %}
 
 {% block content %}
-<div class="flex-auto container mx-auto max-w-4xl py-8 mt-5">
-  <h1 class="text-3xl font-bold">Personajes</h1>
-  <div
-    class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 mt-10"
-  >
-    <div class="flex flex-1 gap-2 items-center">
-      <input
-        type="text"
-        placeholder="Buscar personaje..."
-        class="input input-bordered w-full max-w-xs"
-        id="searchInput"
-      />
-      <select class="select select-bordered max-w-xs" id="classFilter">
-        <option value="">Todas las clases</option>
-        {% for c in characters|map(attribute='char_class')|unique %}
-        <option value="{{ c }}">{{ c }}</option>
-        {% endfor %}
-      </select>
-      <a href="" class="btn btn-primary whitespace-nowrap">Crear personaje</a>
-    </div>
-  </div>
-  <div
-    id="charactersList"
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-  >
-    {% for character in characters %}
-    <div class="card bg-base-200 shadow-md">
-      <div class="card-body">
-        <h2 class="card-title">{{ character.name }}</h2>
-        <span class="badge badge-secondary mb-2"
-          >{{ character.char_class }}</span
-        >
-        <p class="text-sm text-base-content/70">Nivel {{ character.level }}</p>
-        <div class="card-actions justify-end mt-4">
-          <a href="" class="btn btn-sm btn-outline">Modificar</a>
+    <div class="flex-auto container mx-auto max-w-4xl py-8 mt-5">
+        <h1 class="text-3xl font-bold">Personajes</h1>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 mt-10">
+            <div class="flex flex-1 gap-2 items-center">
+                <input type="text"
+                       placeholder="Buscar personaje..."
+                       class="input input-bordered w-full max-w-xs"
+                       id="searchInput"/>
+                <select class="select select-bordered max-w-xs" id="classFilter">
+                    <option value="">Todas las clases</option>
+                    {% for c in characters|map(attribute='char_class')|unique %}
+                        <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+                <a href="" class="btn btn-primary whitespace-nowrap">Crear personaje</a>
+            </div>
         </div>
-      </div>
+        <div id="charactersList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for character in characters %}
+                <div class="card bg-base-200 shadow-md">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ character.name }}</h2>
+                        <span class="badge badge-secondary mb-2">{{ character.char_class }}</span>
+                        <p class="text-sm text-base-content/70">Nivel {{ character.level }}</p>
+                        <div class="card-actions justify-end mt-4">
+                            <a href="" class="btn btn-sm btn-outline">Modificar</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if not characters %}
+            <div class="alert alert-info mt-8">No tienes personajes.</div>
+        {% endif %}
     </div>
-    {% endfor %}
-  </div>
-  {% if not characters %}
-  <div class="alert alert-info mt-8">No tienes personajes.</div>
-  {% endif %}
-</div>
 {% endblock %}
