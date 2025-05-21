@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil - {% endblock %}
+
+{% block content %}
+    <div class="flex-auto justify-center items-center p-4">
+        <div class="card w-96 bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title text-center">Mi Perfil</h2>
+
+                <!-- Vista de datos -->
+                <div id="profile-view">
+                    <div class="flex flex-col gap-4">
+                        <div>
+                            <label class="text-sm font-medium">Nombre de usuario:</label>
+                            <p class="text-lg">{{ current_user.username }}</p>
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium">Email:</label>
+                            <p class="text-lg">{{ current_user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="card-actions justify-end mt-4">
+                        <button class="btn btn-primary" onclick="toggleEdit()">Editar Perfil</button>
+                    </div>
+                </div>
+
+                <!-- Formulario de edición -->
+                <form id="profile-edit" class="hidden" method="POST" action="">
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Nombre de usuario</span>
+                        </label>
+                        <input type="text" name="username" value="{{ current_user.username }}"
+                               class="input input-bordered w-full" required/>
+                    </div>
+
+                    <div class="form-control w-full mt-4">
+                        <label class="label">
+                            <span class="label-text">Email</span>
+                        </label>
+                        <input type="email" name="email" value="{{ current_user.email }}"
+                               class="input input-bordered w-full" required/>
+                    </div>
+
+                    <div class="form-control w-full mt-4">
+                        <label class="label">
+                            <span class="label-text">Contraseña (dejar en blanco para mantener la actual)</span>
+                        </label>
+                        <input type="password" name="password" class="input input-bordered w-full"/>
+                    </div>
+
+                    <div class="card-actions justify-end mt-6 space-x-2">
+                        <button type="button" class="btn" onclick="toggleEdit()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleEdit() {
+            const viewSection = document.getElementById('profile-view');
+            const editSection = document.getElementById('profile-edit');
+
+            if (viewSection.classList.contains('hidden')) {
+                viewSection.classList.remove('hidden');
+                editSection.classList.add('hidden');
+            } else {
+                viewSection.classList.add('hidden');
+                editSection.classList.remove('hidden');
+            }
+        }
+    </script>
+{% endblock %}

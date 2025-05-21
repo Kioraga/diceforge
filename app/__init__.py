@@ -5,7 +5,7 @@ from pymongo import MongoClient
 from bunnet import init_bunnet
 
 from app.utils import hashlib_md5
-from app.models import Character, User
+import app.models as models
 
 lm = LoginManager()
 
@@ -26,14 +26,20 @@ def create_app():
     lm.login_view = "auth.login"
 
     # Database initialization
-    client = MongoClient("mongodb://localhost:27017")
-    init_bunnet(database=client.diceforge, document_models=[Character, User])
+    try:
+        client = MongoClient("mongodb://localhost:27017", serverSelectionTimeoutMS=5000)
+        init_bunnet(database=client.diceforge, document_models=models.__all__)
+        print("Connection to MongoDB established successfully")
+    except Exception as e:
+        print("Failed to connect to MongoDB:", e)
+        exit(1)
 
     # Registering the blueprints
     from . import views
 
     app.register_blueprint(views.home_bp)
     app.register_blueprint(views.auth_bp)
+    app.register_blueprint(views.account_bp)
     app.register_blueprint(views.characters_bp)
 
     app.register_error_handler(404, lambda e: render_template("errors/404.html"))
@@ -43,7 +49,7 @@ def create_app():
 
 @lm.user_loader
 def load_user(username):
-    return User.find_one(User.username == username).run()
+    return models.User.find_one(models.User.username == username).run()
 
 
 @lm.unauthorized_handler
