@@ -9,4 +9,4 @@ server.watch("app/static")
 
 
 if __name__ == "__main__":
-    server.serve()
+    server.serve(port=5000)
