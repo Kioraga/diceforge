@@ -2,10 +2,11 @@
 venv*/
 node_modules/
 __pycache__/
-dist/
-.coverage*
-htmlcov/
-.tox/
 docs/_build/
+htmlcov/
+dist/
+plugins/
+.tox/
 .DS_Store
+.coverage*
 config.py
