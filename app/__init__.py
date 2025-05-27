@@ -4,6 +4,7 @@ from datetime import datetime
 from pymongo import MongoClient
 from bunnet import init_bunnet
 
+from app.plugins import plugin_manager, compendium
 from app.utils import hashlib_md5
 import app.models as models
 
@@ -33,6 +34,10 @@ def create_app():
     except Exception as e:
         print("Failed to connect to MongoDB:", e)
         exit(1)
+
+    # Plugin manager initialization
+    plugin_manager.load_all_plugins()
+    print(compendium.get_races().keys())
 
     # Registering the blueprints
     from . import views
