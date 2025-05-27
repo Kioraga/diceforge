@@ -1,58 +1,81 @@
 {% extends "base.html" %}
 
-{% block title %}Mi Perfil - {% endblock %}
+{% block title %}Perfil - {% endblock %}
 
 {% block content %}
-    <div class="flex-auto justify-center items-center p-4">
-        <div class="card w-96 bg-base-100 shadow-xl">
-            <div class="card-body">
-                <h2 class="card-title text-center">Mi Perfil</h2>
+    <div class="flex-auto container mx-auto mt-12 px-4 mb-8">
+        <div class="card bg-base-200 shadow-xl max-w-2xl mx-auto">
+            <figure class="px-10 pt-10">
+                <a class="avatar" target="_blank" href="https://gravatar.com/profile">
+                    <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        <img src="https://www.gravatar.com/avatar/{{ current_user.email|hashlib_md5 }}?d=identicon&s=200"
+                             alt="Avatar de {{ current_user.username }}"/>
+                    </div>
+                </a>
+            </figure>
+
+            <div class="card-body items-center text-center">
+                <h2 class="card-title text-3xl font-bold">Perfil</h2>
+                <p class="text-base-content/70">Gestiona tu información personal</p>
 
                 <!-- Vista de datos -->
-                <div id="profile-view">
-                    <div class="flex flex-col gap-4">
-                        <div>
-                            <label class="text-sm font-medium">Nombre de usuario:</label>
-                            <p class="text-lg">{{ current_user.username }}</p>
+                <div id="profile-view" class="w-full mt-4">
+                    <div class="grid gap-6">
+                        <div class="bg-base-100 rounded-lg p-4 text-left">
+                            <label class="text-sm font-medium text-base-content/70">Nombre de usuario</label>
+                            <p class="text-lg font-semibold mt-1">{{ current_user.username }}</p>
                         </div>
-                        <div>
-                            <label class="text-sm font-medium">Email:</label>
-                            <p class="text-lg">{{ current_user.email }}</p>
+                        <div class="bg-base-100 rounded-lg p-4 text-left">
+                            <label class="text-sm font-medium text-base-content/70">Email</label>
+                            <p class="text-lg font-semibold mt-1">{{ current_user.email }}</p>
                         </div>
                     </div>
-                    <div class="card-actions justify-end mt-4">
-                        <button class="btn btn-primary" onclick="toggleEdit()">Editar Perfil</button>
+                    <div class="card-actions justify-end mt-6">
+                        <button class="btn btn-primary" onclick="toggleEdit()">Editar perfil</button>
                     </div>
                 </div>
 
                 <!-- Formulario de edición -->
-                <form id="profile-edit" class="hidden" method="POST" action="">
-                    <div class="form-control w-full">
-                        <label class="label">
-                            <span class="label-text">Nombre de usuario</span>
-                        </label>
-                        <input type="text" name="username" value="{{ current_user.username }}"
-                               class="input input-bordered w-full" required/>
+                <form id="profile-edit" class="hidden w-full" method="POST" action="">
+                    <div class="grid gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-control">
+                                <label class="label flex py-2">
+                                    <span class="label-text">Nombre de usuario</span>
+                                </label>
+                                <input type="text" name="username" value="{{ current_user.username }}"
+                                       class="input input-bordered w-full" required/>
+                            </div>
+                            <div class="form-control">
+                                <label class="label flex py-2">
+                                    <span class="label-text">Email</span>
+                                </label>
+                                <input type="email" name="email" value="{{ current_user.email }}"
+                                       class="input input-bordered w-full" required/>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-control">
+                                <label class="label flex py-2">
+                                    <span class="label-text">Nueva contraseña</span>
+                                </label>
+                                <input type="password" name="password" class="input input-bordered w-full"
+                                       placeholder="Dejar en blanco para mantener la actual"/>
+                            </div>
+                            <div class="form-control">
+                                <label class="label flex py-2">
+                                    <span class="label-text">Confirmar contraseña</span>
+                                </label>
+                                <input type="password" name="confirm_password" class="input input-bordered w-full"
+                                       placeholder="Repite la nueva contraseña"/>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-control w-full mt-4">
-                        <label class="label">
-                            <span class="label-text">Email</span>
-                        </label>
-                        <input type="email" name="email" value="{{ current_user.email }}"
-                               class="input input-bordered w-full" required/>
-                    </div>
-
-                    <div class="form-control w-full mt-4">
-                        <label class="label">
-                            <span class="label-text">Contraseña (dejar en blanco para mantener la actual)</span>
-                        </label>
-                        <input type="password" name="password" class="input input-bordered w-full"/>
-                    </div>
-
-                    <div class="card-actions justify-end mt-6 space-x-2">
-                        <button type="button" class="btn" onclick="toggleEdit()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <div class="card-actions justify-end space-x-2 mt-6">
+                        <button type="button" class="btn btn-error" onclick="toggleEdit()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
                     </div>
                 </form>
             </div>

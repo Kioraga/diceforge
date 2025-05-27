@@ -56,7 +56,6 @@ def register_post():
     email = request.form.get("email")
     password = request.form.get("password")
     confirm_password = request.form.get("confirm_password")
-    print(username)
 
     if password != confirm_password:
         flash("Las contraseñas no coinciden. Por favor, inténtelo de nuevo.", "error")
