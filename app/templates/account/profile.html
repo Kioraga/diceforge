@@ -7,7 +7,7 @@
         <div class="card bg-base-200 shadow-xl max-w-2xl mx-auto">
             <figure class="px-10 pt-10">
                 <a class="avatar" target="_blank" href="https://gravatar.com/profile">
-                    <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                    <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2 mb-1">
                         <img src="https://www.gravatar.com/avatar/{{ current_user.email|hashlib_md5 }}?d=identicon&s=200"
                              alt="Avatar de {{ current_user.username }}"/>
                     </div>
@@ -16,7 +16,7 @@
 
             <div class="card-body items-center text-center">
                 <h2 class="card-title text-3xl font-bold">Perfil</h2>
-                <p class="text-base-content/70">Gestiona tu información personal</p>
+                <p class="text-base-content/70 mb-2">Gestiona tu información personal</p>
 
                 <!-- Vista de datos -->
                 <div id="profile-view" class="w-full mt-4">
@@ -40,14 +40,14 @@
                     <div class="grid gap-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="form-control">
-                                <label class="label flex py-2">
+                                <label class="label flex py-1.5">
                                     <span class="label-text">Nombre de usuario</span>
                                 </label>
                                 <input type="text" name="username" value="{{ current_user.username }}"
                                        class="input input-bordered w-full" required/>
                             </div>
                             <div class="form-control">
-                                <label class="label flex py-2">
+                                <label class="label flex py-1.5">
                                     <span class="label-text">Email</span>
                                 </label>
                                 <input type="email" name="email" value="{{ current_user.email }}"
@@ -57,14 +57,14 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="form-control">
-                                <label class="label flex py-2">
+                                <label class="label flex py-1.5">
                                     <span class="label-text">Nueva contraseña</span>
                                 </label>
                                 <input type="password" name="password" class="input input-bordered w-full"
                                        placeholder="Dejar en blanco para mantener la actual"/>
                             </div>
                             <div class="form-control">
-                                <label class="label flex py-2">
+                                <label class="label flex py-1.5">
                                     <span class="label-text">Confirmar contraseña</span>
                                 </label>
                                 <input type="password" name="confirm_password" class="input input-bordered w-full"
@@ -74,18 +74,51 @@
                     </div>
 
                     <div class="card-actions justify-end space-x-2 mt-6">
-                        <button type="button" class="btn btn-error" onclick="toggleEdit()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        <button type="button" class="btn btn-ghost" onclick="toggleEdit()">Cancelar</button>
+                        <button type="submit" id="saveButton" class="btn btn-primary" disabled>Guardar cambios</button>
                     </div>
+
+                    <!-- Zona de peligro -->
+                    <div class="divider mt-12 mb-6">Zona de peligro</div>
+                    <button type="button" class="btn btn-error btn-outline btn-sm"
+                            onclick="delete_account_modal.showModal()" aria-label="Eliminar cuenta">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        Eliminar cuenta
+                    </button>
                 </form>
+
+                <!-- Modal de confirmación para eliminar cuenta -->
+                <dialog id="delete_account_modal" class="modal">
+                    <div class="modal-box">
+                        <h3 class="font-bold text-lg">¿Estás seguro?</h3>
+                        <p class="py-4">Esta acción eliminará permanentemente tu cuenta y todos tus datos. Esta acción
+                            no se puede deshacer.</p>
+                        <div class="modal-action flex gap-2">
+                            <button class="btn btn-ghost" onclick="delete_account_modal.close()">Cancelar</button>
+                            <form action="{{ url_for('account.delete_account') }}" method="POST">
+                                <button type="submit" class="btn btn-error">Eliminar cuenta</button>
+                            </form>
+                        </div>
+                    </div>
+                    <form method="dialog" class="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                </dialog>
             </div>
         </div>
     </div>
 
     <script>
+        let originalValues = {};
+
         function toggleEdit() {
             const viewSection = document.getElementById('profile-view');
             const editSection = document.getElementById('profile-edit');
+            const saveButton = document.getElementById('saveButton');
 
             if (viewSection.classList.contains('hidden')) {
                 viewSection.classList.remove('hidden');
@@ -93,7 +126,46 @@
             } else {
                 viewSection.classList.add('hidden');
                 editSection.classList.remove('hidden');
+                // Guardar los valores originales cuando se abre el formulario
+                originalValues = {
+                    username: document.querySelector('input[name="username"]').value,
+                    email: document.querySelector('input[name="email"]').value,
+                    password: '',
+                    confirm_password: ''
+                };
+                // Deshabilitar el botón inicialmente
+                saveButton.disabled = true;
             }
         }
+
+        // Función para verificar si hay cambios en el formulario
+        function checkFormChanges() {
+            const currentValues = {
+                username: document.querySelector('input[name="username"]').value,
+                email: document.querySelector('input[name="email"]').value,
+                password: document.querySelector('input[name="password"]').value,
+                confirm_password: document.querySelector('input[name="confirm_password"]').value
+            };
+
+            // Verificar si hay algún cambio en los campos
+            const hasChanges =
+                currentValues.username !== originalValues.username ||
+                currentValues.email !== originalValues.email ||
+                currentValues.password !== originalValues.password ||
+                currentValues.confirm_password !== originalValues.confirm_password;
+
+            // Verificar si las contraseñas coinciden cuando se han introducido
+            const passwordsMatch =
+                !currentValues.password ||
+                (currentValues.password && currentValues.password === currentValues.confirm_password);
+
+            // Habilitar el botón solo si hay cambios y las contraseñas coinciden (o están vacías)
+            document.getElementById('saveButton').disabled = !hasChanges || !passwordsMatch;
+        }
+
+        // Agregar event listeners a todos los campos del formulario
+        document.querySelectorAll('#profile-edit input').forEach(input => {
+            input.addEventListener('input', checkFormChanges);
+        });
     </script>
 {% endblock %}

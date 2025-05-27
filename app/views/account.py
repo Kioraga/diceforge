@@ -29,21 +29,32 @@ def edit_account():
     password = request.form.get("password")
     confirm_password = request.form.get("confirm_password")
 
+    user: User = current_user
+
     if password != confirm_password:
         flash("Las contraseñas no coinciden. Por favor, inténtelo de nuevo.", "error")
         return render_template("account/profile.html")
 
-    if username != current_user.username:
+    if username != user.username:
         if User.find_one(User.username == username).run() is not None:
             flash("El nombre de usuario ya existe. Por favor, elija otro.", "error")
             return render_template("account/profile.html")
 
-    current_user.username = username
-    current_user.email = email
+    user.username = username
+    user.email = email
     if password:
-        current_user.password = generate_password_hash(password)
+        user.password = generate_password_hash(password)
 
-    current_user.save()
+    user.save()
     flash("Perfil actualizado correctamente.", "success")
 
     return redirect(url_for("account.profile"))
+
+
+@account_bp.route("/delete_account", methods=["POST"])
+@login_required
+def delete_account():
+    user: User = current_user
+    user.delete()
+    flash("Cuenta eliminada correctamente.", "success")
+    return redirect(url_for("auth.login"))
