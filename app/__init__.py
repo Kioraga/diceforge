@@ -37,7 +37,7 @@ def create_app():
 
     # Plugin manager initialization
     plugin_manager.load_all_plugins()
-    print(compendium.get_races().keys())
+    print(compendium.class_names())
 
     # Registering the blueprints
     from . import views
