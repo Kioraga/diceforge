@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Crear personaje - {% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl md:text-3xl font-bold mb-6">Crear personaje</h1>
+
+    <form method="POST" class="flex flex-col gap-4 lg:gap-8 mb-16">
+        <div class="flex flex-col lg:flex-row gap-4 lg:gap-8">
+            <!-- Main Content Column -->
+            <div class="flex-1 space-y-4 lg:space-y-8 order-2 lg:order-1">
+                <!-- Detalles Section -->
+                <div class="card bg-base-200 shadow-xl w-full">
+                    <div class="card-body p-4 md:p-6">
+                        <h2 class="card-title text-xl md:text-2xl">Detalles</h2>
+                        <p class="text-sm text-base-content/70">Introduce los detalles de tu personaje, incluyendo su nombre, raza y la clase para el nivel 1.</p>
+                        
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Nombre</span>
+                            </label>
+                            <input type="text" name="name" class="input input-bordered w-full" required />
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Raza</span>
+                            </label>
+                            <select class="select select-bordered w-full" name="race" required>
+                                <option disabled selected>Selecciona una raza</option>
+                                <option>Humano</option>
+                                <option>Elfo</option>
+                                <option>Enano</option>
+                                <option>Mediano</option>
+                            </select>
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Clase en el nivel 1</span>
+                            </label>
+                            <select class="select select-bordered w-full" name="class" required>
+                                <option disabled selected>Selecciona una clase</option>
+                                <option>Bárbaro</option>
+                                <option>Bardo</option>
+                                <option>Clérigo</option>
+                                <option>Druida</option>
+                                <option>Guerrero</option>
+                                <option>Mago</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trasfondo Section -->
+                <div class="card bg-base-200 shadow-xl w-full">
+                    <div class="card-body p-4 md:p-6">
+                        <h2 class="card-title text-xl md:text-2xl">Trasfondo</h2>
+                        <p class="text-sm text-base-content/70">Cada historia tiene un principio. El trasfondo de tu personaje revela de dónde viene, su lugar en el mundo, y sus lazos con otras personas.</p>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Personalidad</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm" placeholder="Describe la personalidad de tu personaje..."></textarea>
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Rasgos de personalidad</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm" placeholder="Describe los rasgos de personalidad..."></textarea>
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Ideales</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm" placeholder="Describe los ideales de tu personaje..."></textarea>
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Vínculos</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm" placeholder="Describe los vínculos de tu personaje..."></textarea>
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Defectos</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm" placeholder="Describe los defectos de tu personaje..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información Section -->
+                <div class="card bg-base-200 shadow-xl w-full">
+                    <div class="card-body p-4 md:p-6">
+                        <h2 class="card-title text-xl md:text-2xl">Información</h2>
+                        <p class="text-sm text-base-content/70">Añade información adicional a tu personaje.</p>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Alineamiento</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm" placeholder="Describe el alineamiento de tu personaje..."></textarea>
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Apariencia</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm" placeholder="Describe la apariencia de tu personaje..."></textarea>
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text py-1.5">Historia</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm" placeholder="Escribe la historia de tu personaje..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Características Column -->
+            <div class="w-full lg:w-96 order-1 lg:order-2">
+                <div class="card bg-base-200 shadow-xl lg:sticky lg:top-4">
+                    <div class="card-body p-4 md:p-6">
+                        <h2 class="card-title text-xl md:text-2xl">Características</h2>
+                        <p class="text-sm text-base-content/70">Puedes ajustar las características básicas, dando una variedad de puntos o mejorando puntos con los valores.</p>
+
+                        <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
+                            <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
+                                <div class="stat-title text-sm md:text-base pb-1.5">Fuerza</div>
+                                <div class="stat-value flex items-center gap-2">
+                                    <input type="number" class="input input-bordered w-16 md:w-20 text-lg" value="10" min="1" max="20"/>
+                                    <div class="badge bg-accent text-accent-content">+0</div>
+                                </div>
+                            </div>
+
+                            <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
+                                <div class="stat-title text-sm md:text-base pb-1.5">Destreza</div>
+                                <div class="stat-value flex items-center gap-2">
+                                    <input type="number" class="input input-bordered w-16 md:w-20 text-lg" value="10" min="1" max="20"/>
+                                    <div class="badge bg-accent text-accent-content">+0</div>
+                                </div>
+                            </div>
+
+                            <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
+                                <div class="stat-title text-sm md:text-base pb-1.5">Constitución</div>
+                                <div class="stat-value flex items-center gap-2">
+                                    <input type="number" class="input input-bordered w-16 md:w-20 text-lg" value="10" min="1" max="20"/>
+                                    <div class="badge bg-accent text-accent-content">+0</div>
+                                </div>
+                            </div>
+
+                            <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
+                                <div class="stat-title text-sm md:text-base pb-1.5">Inteligencia</div>
+                                <div class="stat-value flex items-center gap-2">
+                                    <input type="number" class="input input-bordered w-16 md:w-20 text-lg" value="10" min="1" max="20"/>
+                                    <div class="badge bg-accent text-accent-content">+0</div>
+                                </div>
+                            </div>
+
+                            <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
+                                <div class="stat-title text-sm md:text-base pb-1.5">Sabiduría</div>
+                                <div class="stat-value flex items-center gap-2">
+                                    <input type="number" class="input input-bordered w-16 md:w-20 text-lg" value="10" min="1" max="20"/>
+                                    <div class="badge bg-accent text-accent-content">+0</div>
+                                </div>
+                            </div>
+
+                            <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
+                                <div class="stat-title text-sm md:text-base pb-1.5">Carisma</div>
+                                <div class="stat-value flex items-center gap-2">
+                                    <input type="number" class="input input-bordered w-16 md:w-20 text-lg" value="10" min="1" max="20"/>
+                                    <div class="badge bg-accent text-accent-content">+0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 flex justify-center lg:justify-start lg:pl-0 mt-4">
+            <button type="submit" class="btn btn-primary w-full md:w-40">Crear personaje</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

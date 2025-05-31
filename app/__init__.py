@@ -4,7 +4,7 @@ from datetime import datetime
 from pymongo import MongoClient
 from bunnet import init_bunnet
 
-from app.plugins import plugin_manager, compendium
+from app.plugins import plugin_manager
 from app.utils import hashlib_md5
 import app.models as models
 
@@ -45,6 +45,7 @@ def create_app():
     app.register_blueprint(views.auth_bp)
     app.register_blueprint(views.account_bp)
     app.register_blueprint(views.characters_bp)
+    app.register_blueprint(views.plugins_bp)
 
     app.register_error_handler(404, lambda e: render_template("errors/404.html"))
 

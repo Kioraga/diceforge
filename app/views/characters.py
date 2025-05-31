@@ -30,3 +30,9 @@ def character_gallery():
     ]
 
     return render_template("characters/character_gallery.html", characters=characters)
+
+
+@characters_bp.route("/characters/create")
+@login_required
+def create_character():
+    return render_template("characters/character_creator.html")

@@ -121,6 +121,8 @@ class PluginManager:
             with open(plugin_path, 'w', encoding='utf-8') as f:
                 json.dump(config, f, indent=2, ensure_ascii=False)
 
+            print(f"Plugin {plugin_id} habilitado")
+
             self.load_plugin(plugin_id)
 
     def disable_plugin(self, plugin_id: str):
@@ -138,7 +140,9 @@ class PluginManager:
             with open(plugin_path, 'w', encoding='utf-8') as f:
                 json.dump(config, f, indent=2, ensure_ascii=False)
 
-    def list_plugins(self) -> List[Dict[str, Any]]:
+            print(f"Plugin {plugin_id} deshabilitado")
+
+    def list_plugins(self) -> List[Plugin]:
         """Lista todos los plugins con su información"""
         all_plugins = []
 
@@ -146,16 +150,8 @@ class PluginManager:
             try:
                 plugin_path = self.plugins_dir / plugin_dir
                 temp_plugin = Plugin(str(plugin_path))
-                all_plugins.append({
-                    'id': temp_plugin.id,
-                    'name': temp_plugin.name,
-                    'version': temp_plugin.version,
-                    'enabled': temp_plugin.enabled,
-                    'loaded': temp_plugin.id in self.plugins,
-                    'priority': temp_plugin.priority,
-                    'dependencies': temp_plugin.dependencies
-                })
+                all_plugins.append(temp_plugin)
             except Exception as e:
                 print(f"Error al procesar plugin {plugin_dir}: {e}")
 
-        return sorted(all_plugins, key=lambda x: x.get('priority', 0), reverse=True)
+        return all_plugins

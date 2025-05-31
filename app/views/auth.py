@@ -20,11 +20,15 @@ auth_bp, lm = get_blueprint()
 
 @auth_bp.route("/login")
 def login():
+    if flask_login.current_user.is_authenticated:
+        return redirect(url_for("characters.character_gallery"))
     return render_template("auth/login.html")
 
 
 @auth_bp.route("/register")
 def register():
+    if flask_login.current_user.is_authenticated:
+        return redirect(url_for("characters.character_gallery"))
     return render_template("auth/register.html")
 
 

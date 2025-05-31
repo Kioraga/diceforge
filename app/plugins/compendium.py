@@ -128,6 +128,6 @@ class Compendium:
         """Obtiene estadísticas del compendium"""
         stats = {}
         for data_type in self.get_available_data_types():
-            stats[data_type] = len(self._get_all_data(data_type))
+            stats[data_type] = len(self._get_all_data(data_type).get('entries', {}))
 
         return stats
