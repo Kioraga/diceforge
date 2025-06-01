@@ -1,0 +1,512 @@
+{% extends "base.html" %}
+
+{% block title %}{{ character.name }} - {% endblock %}
+
+{% block content %}
+    <div class="flex-auto container mx-auto p-4 max-w-6xl">
+        <!-- Character Header with Navigation and Actions -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+            <a href="{{ url_for('characters.character_gallery') }}" class="btn btn-outline btn-sm gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Volver
+            </a>
+            <div class="flex gap-2">
+                <a href="{{ url_for('characters.character_detail', char_id='example') }}"
+                   class="btn btn-outline btn-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                    </svg>
+                    Editar
+                </a>
+                <a class="btn btn-outline btn-sm" hidden>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                    </svg>
+                    Compartir
+                </a>
+                <a class="btn btn-outline btn-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Imprimir
+                </a>
+            </div>
+        </div>
+
+        <!-- Character Profile Header -->
+        <div class="card bg-base-200 shadow-xl mb-6">
+            <div class="card-body p-6">
+                <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+                    <!-- Character Avatar -->
+                    <div class="avatar placeholder">
+                        <div class="bg-neutral text-neutral-content rounded-full w-24">
+                            <span class="text-3xl flex justify-center h-full items-center">{{ character.name[:2]|upper }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Character Basic Info -->
+                    <div class="flex-1">
+                        <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4">
+                            <div>
+                                <h1 class="text-3xl font-bold">{{ character.name }}</h1>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <span class="badge badge-lg">{{ character.race }}</span>
+                                    <span class="badge badge-accent badge-lg">{{ character.char_class }}</span>
+                                    <span class="badge badge-secondary badge-lg">Nivel {{ character.level }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Character Points -->
+                            <div class="stats bg-base-100 shadow">
+                                <div class="stat px-4 py-2">
+                                    <div class="stat-title">Puntos de Golpe</div>
+                                    <div class="stat-value text-center">{{ character.hp|default(19) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs for different sections -->
+        <div class="tabs tabs-lift">
+            <input type="radio" name="char_sections" class="tab" aria-label="Información" checked="checked"/>
+            <div class="tab-content bg-base-100 border-base-300 p-6">
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Left Column - Characteristics -->
+                    <div class="w-full lg:w-1/3">
+                        <!-- Characteristics Card -->
+                        <div class="card bg-base-200 shadow-xl mb-6">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-xl mb-4">Características</h2>
+
+                                <div class="grid grid-cols-3 gap-4">
+                                    <!-- FUE -->
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">FUE</div>
+                                        <div class="stat-value text-2xl">{{ character.strength|default(0) }}</div>
+                                        <div class="badge badge-accent mt-1">
+                                            +{{ character.strength_mod|default(0) }}</div>
+                                    </div>
+
+                                    <!-- DES -->
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">DES</div>
+                                        <div class="stat-value text-2xl">{{ character.dexterity|default(1) }}</div>
+                                        <div class="badge badge-accent mt-1">
+                                            +{{ character.dexterity_mod|default(1) }}</div>
+                                    </div>
+
+                                    <!-- CON -->
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">CON</div>
+                                        <div class="stat-value text-2xl">{{ character.constitution|default(1) }}</div>
+                                        <div class="badge badge-accent mt-1">
+                                            +{{ character.constitution_mod|default(1) }}</div>
+                                    </div>
+
+                                    <!-- INT -->
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">INT</div>
+                                        <div class="stat-value text-2xl">{{ character.intelligence|default(3) }}</div>
+                                        <div class="badge badge-accent mt-1">
+                                            +{{ character.intelligence_mod|default(3) }}</div>
+                                    </div>
+
+                                    <!-- SAB -->
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">SAB</div>
+                                        <div class="stat-value text-2xl">{{ character.wisdom|default(2) }}</div>
+                                        <div class="badge badge-accent mt-1">
+                                            +{{ character.wisdom_mod|default(2) }}</div>
+                                    </div>
+
+                                    <!-- CAR -->
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">CAR</div>
+                                        <div class="stat-value text-2xl">{{ character.charisma|default(1) }}</div>
+                                        <div class="badge badge-accent mt-1">
+                                            +{{ character.charisma_mod|default(1) }}</div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Stats -->
+                                <div class="grid grid-cols-3 gap-4 mt-4">
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">Iniciativa</div>
+                                        <div class="stat-value text-xl">+{{ character.initiative|default(1) }}</div>
+                                    </div>
+
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">Velocidad</div>
+                                        <div class="stat-value text-xl">{{ character.speed|default(15) }}</div>
+                                        <div class="text-xs">pies</div>
+                                    </div>
+
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">Clase de</div>
+                                        <div class="stat-value text-xl">{{ character.armor_class|default(12) }}</div>
+                                        <div class="stat-title text-xs">armadura</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saving Throws Card -->
+                        <div class="card bg-base-200 shadow-xl mb-6">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-xl mb-4">Tiradas de Salvación</h2>
+
+                                <div class="overflow-x-auto">
+                                    <table class="table table-zebra w-full">
+                                        <tbody>
+                                        <!-- Fuerza -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.save_strength %}checked{% endif %}/>
+                                                <span>Fuerza (Fue)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.save_strength_mod|default(0) }}</td>
+                                        </tr>
+
+                                        <!-- Destreza -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.save_dexterity %}checked{% endif %}/>
+                                                <span>Destreza (Des)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.save_dexterity_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Constitución -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.save_constitution %}checked{% endif %}/>
+                                                <span>Constitución (Con)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.save_constitution_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Inteligencia -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.save_intelligence %}checked{% endif %}/>
+                                                <span>Inteligencia (Int)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.save_intelligence_mod|default(3) }}</td>
+                                        </tr>
+
+                                        <!-- Sabiduría -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.save_wisdom %}checked{% endif %}/>
+                                                <span>Sabiduría (Sab)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.save_wisdom_mod|default(2) }}</td>
+                                        </tr>
+
+                                        <!-- Carisma -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.save_charisma %}checked{% endif %}/>
+                                                <span>Carisma (Car)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.save_charisma_mod|default(1) }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Attacks Card -->
+                        <div class="card bg-base-200 shadow-xl mb-6">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-xl mb-4">Ataques</h2>
+                                <p class="text-sm text-base-content/70 mb-4">Añade armas a tu personaje para ver en esta
+                                    sección
+                                    el resumen de tus ataques</p>
+
+                                {% if character.weapons %}
+                                    <div class="overflow-x-auto">
+                                        <table class="table table-zebra w-full">
+                                            <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Ataque</th>
+                                                <th>Daño</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for weapon in character.weapons %}
+                                                <tr>
+                                                    <td>{{ weapon.name }}</td>
+                                                    <td>+{{ weapon.attack_bonus }}</td>
+                                                    <td>{{ weapon.damage }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             class="stroke-current shrink-0 w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>No hay armas añadidas a este personaje.</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Skills and Abilities -->
+                    <div class="w-full lg:w-2/3">
+                        <!-- Skills Card -->
+                        <div class="card bg-base-200 shadow-xl mb-6">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-xl mb-4">Habilidades</h2>
+
+                                <div class="overflow-x-auto">
+                                    <table class="table table-zebra w-full">
+                                        <tbody>
+                                        <!-- Acrobacias -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_acrobatics %}checked{% endif %}/>
+                                                <span>Acrobacias (Des)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_acrobatics_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Arcanos -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_arcana %}checked{% endif %}/>
+                                                <span>Arcanos (Int)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_arcana_mod|default(5) }}</td>
+                                        </tr>
+
+                                        <!-- Atletismo -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_athletics %}checked{% endif %}/>
+                                                <span>Atletismo (Fue)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_athletics_mod|default(0) }}</td>
+                                        </tr>
+
+                                        <!-- Engañar -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_deception %}checked{% endif %}/>
+                                                <span>Engañar (Car)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_deception_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Historia -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_history %}checked{% endif %}/>
+                                                <span>Historia (Int)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_history_mod|default(5) }}</td>
+                                        </tr>
+
+                                        <!-- Interpretación -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_performance %}checked{% endif %}/>
+                                                <span>Interpretación (Car)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_performance_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Intimidar -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_intimidation %}checked{% endif %}/>
+                                                <span>Intimidar (Car)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_intimidation_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Investigación -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_investigation %}checked{% endif %}/>
+                                                <span>Investigación (Int)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_investigation_mod|default(3) }}</td>
+                                        </tr>
+
+                                        <!-- Juego de Manos -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_sleight_of_hand %}checked{% endif %}/>
+                                                <span>Juego de Manos (Des)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_sleight_of_hand_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Medicina -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_medicine %}checked{% endif %}/>
+                                                <span>Medicina (Sab)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_medicine_mod|default(2) }}</td>
+                                        </tr>
+
+                                        <!-- Naturaleza -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_nature %}checked{% endif %}/>
+                                                <span>Naturaleza (Int)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_nature_mod|default(3) }}</td>
+                                        </tr>
+
+                                        <!-- Percepción -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_perception %}checked{% endif %}/>
+                                                <span>Percepción (Sab)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_perception_mod|default(2) }}</td>
+                                        </tr>
+
+                                        <!-- Perspicacia -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_insight %}checked{% endif %}/>
+                                                <span>Perspicacia (Sab)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_insight_mod|default(2) }}</td>
+                                        </tr>
+
+                                        <!-- Persuasión -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_persuasion %}checked{% endif %}/>
+                                                <span>Persuasión (Car)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_persuasion_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Religión -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_religion %}checked{% endif %}/>
+                                                <span>Religión (Int)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_religion_mod|default(3) }}</td>
+                                        </tr>
+
+                                        <!-- Sigilo -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_stealth %}checked{% endif %}/>
+                                                <span>Sigilo (Des)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_stealth_mod|default(1) }}</td>
+                                        </tr>
+
+                                        <!-- Supervivencia -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_survival %}checked{% endif %}/>
+                                                <span>Supervivencia (Sab)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_survival_mod|default(2) }}</td>
+                                        </tr>
+
+                                        <!-- Trato con Animales -->
+                                        <tr>
+                                            <td class="flex items-center gap-2">
+                                                <input type="checkbox" class="checkbox checkbox-sm"
+                                                       {% if character.skill_animal_handling %}checked{% endif %}/>
+                                                <span>Trato con Animales (Sab)</span>
+                                            </td>
+                                            <td class="text-right">{{ character.skill_animal_handling_mod|default(2) }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other Competencies Card -->
+                        <div class="card bg-base-200 shadow-xl mb-6">
+                            <div class="card-body p-4">
+                                <h2 class="card-title text-xl mb-4">Otras Competencias</h2>
+
+                                <div class="mb-4">
+                                    <p class="font-medium mb-2">Dispones de las siguientes competencias adicionales:</p>
+                                    <ul class="list-disc list-inside space-y-1 pl-4">
+                                        <li>Ballesta ligera, Bastón, Daga, Dardo y Honda</li>
+                                        {% for competency in character.other_competencies %}
+                                            <li>{{ competency }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <input type="radio" name="char_sections" class="tab" aria-label="Rasgos"/>
+            <div class="tab-content bg-base-100 border-base-300 p-6">Tab content 2</div>
+
+            <input type="radio" name="char_sections" class="tab" aria-label="Conjuros"/>
+            <div class="tab-content bg-base-100 border-base-300 p-6">Tab content 3</div>
+
+            <input type="radio" name="char_sections" class="tab" aria-label="Equipo"/>
+            <div class="tab-content bg-base-100 border-base-300 p-6">Tab content 3</div>
+
+            <input type="radio" name="char_sections" class="tab" aria-label="Trasfondo"/>
+            <div class="tab-content bg-base-100 border-base-300 p-6">Tab content 3</div>
+        </div>
+    </div>
+
+
+{% endblock %}

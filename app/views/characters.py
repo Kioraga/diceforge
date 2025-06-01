@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, url_for
 from flask_login import login_required
 
 from app.models import Character
+
 
 def get_blueprint():
     characters = Blueprint(
@@ -36,3 +37,11 @@ def character_gallery():
 @login_required
 def create_character():
     return render_template("characters/character_creator.html")
+
+
+@characters_bp.route("/characters/<char_id>")
+@login_required
+def character_detail(char_id):
+    character = Character(name="Astarion", char_class="Rogue", race="High Elf", level=1)
+
+    return render_template("characters/character.html", character=character)

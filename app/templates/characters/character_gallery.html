@@ -63,7 +63,8 @@
                             <span class="badge badge-secondary badge-lg">Nivel {{ character.level }}</span>
                         </div>
                         <div class="card-actions justify-center mt-4">
-                            <a href="" class="btn btn-primary btn-outline gap-2">
+                            <a href="{{ url_for('characters.character_detail', char_id='123') }}"
+                               class="btn btn-primary btn-outline gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                      stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
