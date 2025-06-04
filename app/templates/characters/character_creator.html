@@ -39,7 +39,7 @@
                                     <span class="label-text py-1.5" id="race-label">Raza</span>
                                 </label>
                                 <select class="select select-bordered w-full" name="race" id="race" required>
-                                    <option disabled selected>Selecciona una raza</option>
+                                    <option disabled selected value="">Selecciona una raza</option>
                                     {% for race in races %}
                                         <option>{{ race }}</option>
                                     {% endfor %}
@@ -51,7 +51,7 @@
                                     <span class="label-text py-1.5" id="class-label">Clase en el nivel 1</span>
                                 </label>
                                 <select class="select select-bordered w-full" name="class" id="class" required>
-                                    <option disabled selected>Selecciona una clase</option>
+                                    <option disabled selected value="">Selecciona una clase</option>
                                     {% for class in classes %}
                                         <option>{{ class }}</option>
                                     {% endfor %}

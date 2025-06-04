@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
+from pydantic import ValidationError
 
-from app.models import Character
+from app.models import Character, User
 from app.plugins import compendium
 
 
@@ -18,20 +19,12 @@ characters_bp = get_blueprint()
 @characters_bp.route("/characters")
 @login_required
 def character_gallery():
-    characters_test = [
-        Character(name="Astarion", char_class="Rogue", race="High Elf", level=1, ability_scores={}),
-        Character(name="Shadowheart", char_class="Cleric", race="Half-Elf", level=1, ability_scores={}),
-        Character(name="Gale", char_class="Wizard", race="Human", level=1, ability_scores={}),
-        Character(name="Lae'zel", char_class="Fighter", race="Githyanki", level=1, ability_scores={}),
-        Character(name="Wyll", char_class="Warlock", race="Human", level=1, ability_scores={}),
-        Character(name="Karlach", char_class="Barbarian", race="Tiefling", level=1, ability_scores={}),
-        Character(name="Halsin", char_class="Druid", race="Wood Elf", level=5, ability_scores={}),
-        Character(name="Minthara", char_class="Paladin", race="Drow", level=5, ability_scores={}),
-        Character(name="Jaheira", char_class="Druid", race="Half-Elf", level=7, ability_scores={}),
-        Character(name="Minsc", char_class="Ranger", race="Human", level=7, ability_scores={})
-    ]
+    characters = Character.find(
+        Character.user.id == current_user.id,
+        fetch_links=True
+    ).to_list()
 
-    return render_template("characters/character_gallery.html", characters=characters_test)
+    return render_template("characters/character_gallery.html", characters=characters)
 
 
 @characters_bp.route("/characters/create")
@@ -72,9 +65,7 @@ def create_character_post():
                           },
                           user=current_user)
 
-    print(character)
-    # character.save()
-
+    character.save()
     flash("Se ha creado el personaje correctamente.", "success")
 
     return redirect(url_for("characters.character_gallery"))
@@ -83,7 +74,15 @@ def create_character_post():
 @characters_bp.route("/characters/<char_id>")
 @login_required
 def character_detail(char_id):
-    if char_id is None:
-        character = Character(name="Astarion", char_class="Rogue", race="High Elf", level=1, ability_scores={})
+    try:
+        character = Character.get(char_id).run()
 
-    return render_template("characters/character.html", character=character)
+        if character is None:
+            flash("No se ha podido cargar el personaje.", "error")
+            return redirect(url_for("characters.character_gallery"))
+
+        return render_template("characters/character.html", character=character)
+
+    except ValidationError:
+        flash("ID de personaje inválido.", "error")
+        return redirect(url_for("characters.character_gallery"))

@@ -45,7 +45,7 @@ def edit_account():
     if password:
         user.password = generate_password_hash(password)
 
-    user.save()
+    user.update()
     flash("Perfil actualizado correctamente.", "success")
 
     return redirect(url_for("account.profile"))
