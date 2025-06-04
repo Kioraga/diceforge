@@ -74,7 +74,7 @@ def register_post():
 
     user = User.find_one(User.username == username).run()
     if user is None:
-        flash("Registration failed. Please try again.", "error")
+        flash("Registro fallido. Por favor, inténtelo de nuevo.", "error")
         return render_template("auth/register.html")
 
     flask_login.login_user(user)

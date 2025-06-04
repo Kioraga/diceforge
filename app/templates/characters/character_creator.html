@@ -15,11 +15,12 @@
             Volver
         </a>
 
-        <form method="POST" class="flex flex-col gap-4 lg:gap-8 mb-16">
+        <form method="POST" action="{{ url_for('characters.create_character') }}"
+              class="flex flex-col gap-4 lg:gap-8 mb-16">
             <div class="flex flex-col lg:flex-row gap-4 lg:gap-8">
-                <!-- Main Content Column -->
+                <!-- Columna izquierda -->
                 <div class="flex-1 space-y-4 lg:space-y-8 order-2 lg:order-1">
-                    <!-- Detalles Section -->
+                    <!-- Sección detalles -->
                     <div class="card bg-base-200 shadow-xl w-full">
                         <div class="card-body p-4 md:p-6">
                             <h2 class="card-title text-xl md:text-2xl">Detalles</h2>
@@ -27,43 +28,39 @@
                                 su nombre, raza y la clase para el nivel 1.</p>
 
                             <div class="form-control w-full">
-                                <label class="label">
-                                    <span class="label-text py-1.5">Nombre</span>
+                                <label class="label" for="name">
+                                    <span class="label-text py-1.5" id="name-label">Nombre</span>
                                 </label>
-                                <input type="text" name="name" class="input input-bordered w-full" required/>
+                                <input type="text" name="name" id="name" class="input input-bordered w-full" required/>
                             </div>
 
                             <div class="form-control w-full">
-                                <label class="label">
-                                    <span class="label-text py-1.5">Raza</span>
+                                <label class="label" for="race">
+                                    <span class="label-text py-1.5" id="race-label">Raza</span>
                                 </label>
-                                <select class="select select-bordered w-full" name="race" required>
+                                <select class="select select-bordered w-full" name="race" id="race" required>
                                     <option disabled selected>Selecciona una raza</option>
-                                    <option>Humano</option>
-                                    <option>Elfo</option>
-                                    <option>Enano</option>
-                                    <option>Mediano</option>
+                                    {% for race in races %}
+                                        <option>{{ race }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
 
                             <div class="form-control w-full">
                                 <label class="label">
-                                    <span class="label-text py-1.5">Clase en el nivel 1</span>
+                                    <span class="label-text py-1.5" id="class-label">Clase en el nivel 1</span>
                                 </label>
-                                <select class="select select-bordered w-full" name="class" required>
+                                <select class="select select-bordered w-full" name="class" id="class" required>
                                     <option disabled selected>Selecciona una clase</option>
-                                    <option>Bárbaro</option>
-                                    <option>Bardo</option>
-                                    <option>Clérigo</option>
-                                    <option>Druida</option>
-                                    <option>Guerrero</option>
-                                    <option>Mago</option>
+                                    {% for class in classes %}
+                                        <option>{{ class }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Trasfondo Section -->
+                    <!-- Sección de trasfondo -->
                     <div class="card bg-base-200 shadow-xl w-full">
                         <div class="card-body p-4 md:p-6">
                             <h2 class="card-title text-xl md:text-2xl">Trasfondo</h2>
@@ -72,93 +69,95 @@
                                 personas.</p>
 
                             <div class="form-control w-full">
-                                <label class="label">
-                                    <span class="label-text py-1.5">Personalidad</span>
+                                <label class="label w-full">
+                                    <span class="label-text py-1.5" id="bg_name-label">Trasfondo</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
-                                          placeholder="Describe la personalidad de tu personaje..."></textarea>
+                                <textarea name="bg_name" id="bg_name" class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
+                                          placeholder="Nombre del trasfondo"></textarea>
                             </div>
 
                             <div class="form-control w-full">
-                                <label class="label">
-                                    <span class="label-text py-1.5">Rasgos de personalidad</span>
+                                <label class="label" for="bg_features">
+                                    <span class="label-text py-1.5" id="bg_features-label">Rasgos de personalidad</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
+                                <textarea name="bg_features" id="bg_features" class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
                                           placeholder="Describe los rasgos de personalidad..."></textarea>
                             </div>
 
                             <div class="form-control w-full">
                                 <label class="label">
-                                    <span class="label-text py-1.5">Ideales</span>
+                                    <span class="label-text py-1.5" id="bg_ideals-label">Ideales</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
+                                <textarea name="bg_ideals" id="bg_ideals" class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
                                           placeholder="Describe los ideales de tu personaje..."></textarea>
                             </div>
 
                             <div class="form-control w-full">
-                                <label class="label">
-                                    <span class="label-text py-1.5">Vínculos</span>
+                                <label class="label" for="bg_bonds">
+                                    <span class="label-text py-1.5" id="bg_bonds-label">Vínculos</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
+                                <textarea name="bg_bonds" id="bg_bonds" class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
                                           placeholder="Describe los vínculos de tu personaje..."></textarea>
                             </div>
 
                             <div class="form-control w-full">
-                                <label class="label">
-                                    <span class="label-text py-1.5">Defectos</span>
+                                <label class="label" for="bg_flaws">
+                                    <span class="label-text py-1.5" id="bg_flaws-label">Defectos</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
+                                <textarea name="bg_flaws" id="bg_flaws" class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
                                           placeholder="Describe los defectos de tu personaje..."></textarea>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Información Section -->
+                    <!-- Sección de información -->
                     <div class="card bg-base-200 shadow-xl w-full">
                         <div class="card-body p-4 md:p-6">
                             <h2 class="card-title text-xl md:text-2xl">Información</h2>
                             <p class="text-sm text-base-content/70">Añade información adicional a tu personaje.</p>
 
                             <div class="form-control w-full">
-                                <label class="label">
+                                <label class="label" for="alignment">
                                     <span class="label-text py-1.5">Alineamiento</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
+                                <textarea name="alignment" id="alignment" class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
                                           placeholder="Describe el alineamiento de tu personaje..."></textarea>
                             </div>
 
                             <div class="form-control w-full">
-                                <label class="label">
-                                    <span class="label-text py-1.5">Apariencia</span>
+                                <label class="label" for="appearance">
+                                    <span class="label-text py-1.5" id="appearance-label">Apariencia</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
+                                <textarea name="appearance" id="appearance" class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
                                           placeholder="Describe la apariencia de tu personaje..."></textarea>
                             </div>
 
                             <div class="form-control w-full">
-                                <label class="label">
-                                    <span class="label-text py-1.5">Historia</span>
+                                <label class="label" for="history">
+                                    <span class="label-text py-1.5" id="history-label">Historia</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
+                                <textarea name="history" id="history" class="textarea textarea-bordered h-20 md:h-24 w-full text-sm"
                                           placeholder="Escribe la historia de tu personaje..."></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Características Column -->
+                <!-- Columna derecha, sección de características -->
                 <div class="w-full lg:w-96 order-1 lg:order-2">
                     <div class="card bg-base-200 shadow-xl lg:sticky lg:top-4">
                         <div class="card-body p-4 md:p-6">
                             <h2 class="card-title text-xl md:text-2xl">Características</h2>
-                            <p class="text-sm text-base-content/70 mb-1.5">Puedes ajustar las características básicas,
-                                dando una variedad de puntos o mejorando puntos con los valores.</p>
+                            <p class="text-sm text-base-content/70 mb-1.5">Puedes determinar las puntuaciones de
+                                característica lanzando dados, gastando una cantidad de puntos o repartiendo
+                                puntuaciones, según lo indique el Director de Juego.</p>
 
                             <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
                                 <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
                                     <div class="stat-title text-sm md:text-base pb-1.5">Fuerza</div>
                                     <div class="stat-value flex items-center gap-2">
-                                        <input type="number" class="input input-bordered w-16 md:w-20 text-lg"
+                                        <input type="number" name="strength"
+                                               class="input input-bordered w-16 md:w-20 text-lg"
                                                value="10" min="1" max="20"/>
                                         <div class="badge bg-accent text-accent-content">+0</div>
                                     </div>
@@ -167,7 +166,8 @@
                                 <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
                                     <div class="stat-title text-sm md:text-base pb-1.5">Destreza</div>
                                     <div class="stat-value flex items-center gap-2">
-                                        <input type="number" class="input input-bordered w-16 md:w-20 text-lg"
+                                        <input type="number" name="dexterity"
+                                               class="input input-bordered w-16 md:w-20 text-lg"
                                                value="10" min="1" max="20"/>
                                         <div class="badge bg-accent text-accent-content">+0</div>
                                     </div>
@@ -176,7 +176,8 @@
                                 <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
                                     <div class="stat-title text-sm md:text-base pb-1.5">Constitución</div>
                                     <div class="stat-value flex items-center gap-2">
-                                        <input type="number" class="input input-bordered w-16 md:w-20 text-lg"
+                                        <input type="number" name="constitution"
+                                               class="input input-bordered w-16 md:w-20 text-lg"
                                                value="10" min="1" max="20"/>
                                         <div class="badge bg-accent text-accent-content">+0</div>
                                     </div>
@@ -185,7 +186,8 @@
                                 <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
                                     <div class="stat-title text-sm md:text-base pb-1.5">Inteligencia</div>
                                     <div class="stat-value flex items-center gap-2">
-                                        <input type="number" class="input input-bordered w-16 md:w-20 text-lg"
+                                        <input type="number" name="intelligence"
+                                               class="input input-bordered w-16 md:w-20 text-lg"
                                                value="10" min="1" max="20"/>
                                         <div class="badge bg-accent text-accent-content">+0</div>
                                     </div>
@@ -194,7 +196,8 @@
                                 <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
                                     <div class="stat-title text-sm md:text-base pb-1.5">Sabiduría</div>
                                     <div class="stat-value flex items-center gap-2">
-                                        <input type="number" class="input input-bordered w-16 md:w-20 text-lg"
+                                        <input type="number" name="wisdom"
+                                               class="input input-bordered w-16 md:w-20 text-lg"
                                                value="10" min="1" max="20"/>
                                         <div class="badge bg-accent text-accent-content">+0</div>
                                     </div>
@@ -203,7 +206,8 @@
                                 <div class="stat bg-base-100 rounded-lg p-2 md:p-4">
                                     <div class="stat-title text-sm md:text-base pb-1.5">Carisma</div>
                                     <div class="stat-value flex items-center gap-2">
-                                        <input type="number" class="input input-bordered w-16 md:w-20 text-lg"
+                                        <input type="number" name="charisma"
+                                               class="input input-bordered w-16 md:w-20 text-lg"
                                                value="10" min="1" max="20"/>
                                         <div class="badge bg-accent text-accent-content">+0</div>
                                     </div>
@@ -218,5 +222,37 @@
                 <button type="submit" class="btn btn-primary w-full md:w-40">Crear personaje</button>
             </div>
         </form>
+
+        <script>
+            //  Se calcula el modificador de una puntuación de característica
+            function calculateModifier(score) {
+                return Math.floor((score - 10) / 2);
+            }
+
+            // Se formatea el modificador para mostrarlo en el badge
+            function formatModifier(modifier) {
+                if (modifier === 0) return '+0';
+                return modifier >= 0 ? `+${modifier}` : `-${Math.abs(modifier)}`;
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // Se obtienen todos los inputs de las puntuaciones de las características
+                const characteristicInputs = document.querySelectorAll('.stat-value input[type="number"]');
+
+                characteristicInputs.forEach(input => {
+                    const modifierBadge = input.nextElementSibling;
+
+                    // Se calcula el modificador inicial
+                    const initialScore = parseInt(input.value);
+                    modifierBadge.textContent = formatModifier(calculateModifier(initialScore));
+
+                    // Se actualiza el modificador cuando el input cambia
+                    input.addEventListener('input', function () {
+                        const score = parseInt(input.value);
+                        modifierBadge.textContent = formatModifier(calculateModifier(score));
+                    });
+                });
+            });
+        </script>
     </div>
 {% endblock %}
