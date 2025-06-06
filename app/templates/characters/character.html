@@ -192,63 +192,68 @@
                                 <div class="overflow-x-auto">
                                     <table class="table table-zebra w-full">
                                         <tbody>
+
+                                        <tr>
+                                            <td class="text-center">Competencia</td>
+                                        </tr>
+                                        
                                         <!-- Fuerza -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.save_strength %}checked{% endif %}/>
-                                                <span>Fuerza (Fue)</span>
                                             </td>
+                                            <td>Fuerza (Fue)</td>
                                             <td class="text-right">{{ character.save_strength_mod|default(0) }}</td>
                                         </tr>
 
                                         <!-- Destreza -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.save_dexterity %}checked{% endif %}/>
-                                                <span>Destreza (Des)</span>
                                             </td>
+                                            <td>Destreza (Des)</td>
                                             <td class="text-right">{{ character.save_dexterity_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Constitución -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.save_constitution %}checked{% endif %}/>
-                                                <span>Constitución (Con)</span>
                                             </td>
+                                            <td>Constitución (Con)</td>
                                             <td class="text-right">{{ character.save_constitution_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Inteligencia -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.save_intelligence %}checked{% endif %}/>
-                                                <span>Inteligencia (Int)</span>
                                             </td>
+                                            <td>Inteligencia (Int)</td>
                                             <td class="text-right">{{ character.save_intelligence_mod|default(3) }}</td>
                                         </tr>
 
                                         <!-- Sabiduría -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.save_wisdom %}checked{% endif %}/>
-                                                <span>Sabiduría (Sab)</span>
                                             </td>
+                                            <td>Sabiduría (Sab)</td>
                                             <td class="text-right">{{ character.save_wisdom_mod|default(2) }}</td>
                                         </tr>
 
                                         <!-- Carisma -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.save_charisma %}checked{% endif %}/>
-                                                <span>Carisma (Car)</span>
                                             </td>
+                                            <td>Carisma (Car)</td>
                                             <td class="text-right">{{ character.save_charisma_mod|default(1) }}</td>
                                         </tr>
                                         </tbody>
@@ -309,183 +314,188 @@
                                 <div class="overflow-x-auto">
                                     <table class="table table-zebra w-full">
                                         <tbody>
+
+                                        <tr>
+                                            <td class="text-center">Competencia</td>
+                                        </tr>
+                                            
                                         <!-- Acrobacias -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_acrobatics %}checked{% endif %}/>
-                                                <span>Acrobacias (Des)</span>
                                             </td>
+                                            <td>Acrobacias (Des)</td>
                                             <td class="text-right">{{ character.skill_acrobatics_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Arcanos -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_arcana %}checked{% endif %}/>
-                                                <span>Arcanos (Int)</span>
                                             </td>
+                                            <td>Arcanos (Int)</td>
                                             <td class="text-right">{{ character.skill_arcana_mod|default(5) }}</td>
                                         </tr>
 
                                         <!-- Atletismo -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_athletics %}checked{% endif %}/>
-                                                <span>Atletismo (Fue)</span>
                                             </td>
+                                            <td>Atletismo (Fue)</td>
                                             <td class="text-right">{{ character.skill_athletics_mod|default(0) }}</td>
                                         </tr>
 
                                         <!-- Engañar -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_deception %}checked{% endif %}/>
-                                                <span>Engañar (Car)</span>
                                             </td>
+                                            <td>Engañar (Car)</td>
                                             <td class="text-right">{{ character.skill_deception_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Historia -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_history %}checked{% endif %}/>
-                                                <span>Historia (Int)</span>
                                             </td>
+                                            <td>Historia (Int)</td>
                                             <td class="text-right">{{ character.skill_history_mod|default(5) }}</td>
                                         </tr>
 
                                         <!-- Interpretación -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_performance %}checked{% endif %}/>
-                                                <span>Interpretación (Car)</span>
                                             </td>
+                                            <td>Interpretación (Car)</td>
                                             <td class="text-right">{{ character.skill_performance_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Intimidar -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_intimidation %}checked{% endif %}/>
-                                                <span>Intimidar (Car)</span>
                                             </td>
+                                            <td>Intimidar (Car)</td>
                                             <td class="text-right">{{ character.skill_intimidation_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Investigación -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_investigation %}checked{% endif %}/>
-                                                <span>Investigación (Int)</span>
                                             </td>
+                                            <td>Investigación (Int)</td>
                                             <td class="text-right">{{ character.skill_investigation_mod|default(3) }}</td>
                                         </tr>
 
                                         <!-- Juego de Manos -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_sleight_of_hand %}checked{% endif %}/>
-                                                <span>Juego de Manos (Des)</span>
                                             </td>
+                                            <td>Juego de Manos (Des)</td>
                                             <td class="text-right">{{ character.skill_sleight_of_hand_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Medicina -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_medicine %}checked{% endif %}/>
-                                                <span>Medicina (Sab)</span>
                                             </td>
+                                            <td>Medicina (Sab)</td>
                                             <td class="text-right">{{ character.skill_medicine_mod|default(2) }}</td>
                                         </tr>
 
                                         <!-- Naturaleza -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_nature %}checked{% endif %}/>
-                                                <span>Naturaleza (Int)</span>
                                             </td>
+                                            <td>Naturaleza (Int)</td>
                                             <td class="text-right">{{ character.skill_nature_mod|default(3) }}</td>
                                         </tr>
 
                                         <!-- Percepción -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_perception %}checked{% endif %}/>
-                                                <span>Percepción (Sab)</span>
                                             </td>
+                                            <td>Percepción (Sab)</td>
                                             <td class="text-right">{{ character.skill_perception_mod|default(2) }}</td>
                                         </tr>
 
                                         <!-- Perspicacia -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_insight %}checked{% endif %}/>
-                                                <span>Perspicacia (Sab)</span>
                                             </td>
+                                            <td>Perspicacia (Sab)</td>
                                             <td class="text-right">{{ character.skill_insight_mod|default(2) }}</td>
                                         </tr>
 
                                         <!-- Persuasión -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_persuasion %}checked{% endif %}/>
-                                                <span>Persuasión (Car)</span>
                                             </td>
+                                            <td>Persuasión (Car)</td>
                                             <td class="text-right">{{ character.skill_persuasion_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Religión -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_religion %}checked{% endif %}/>
-                                                <span>Religión (Int)</span>
                                             </td>
+                                            <td>Religión (Int)</td>
                                             <td class="text-right">{{ character.skill_religion_mod|default(3) }}</td>
                                         </tr>
 
                                         <!-- Sigilo -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_stealth %}checked{% endif %}/>
-                                                <span>Sigilo (Des)</span>
                                             </td>
+                                            <td>Sigilo (Des)</td>
                                             <td class="text-right">{{ character.skill_stealth_mod|default(1) }}</td>
                                         </tr>
 
                                         <!-- Supervivencia -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_survival %}checked{% endif %}/>
-                                                <span>Supervivencia (Sab)</span>
                                             </td>
+                                            <td>Supervivencia (Sab)</td>
                                             <td class="text-right">{{ character.skill_survival_mod|default(2) }}</td>
                                         </tr>
 
                                         <!-- Trato con Animales -->
                                         <tr>
-                                            <td class="flex items-center gap-2">
+                                            <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
                                                        {% if character.skill_animal_handling %}checked{% endif %}/>
-                                                <span>Trato con Animales (Sab)</span>
                                             </td>
+                                            <td>Trato con Animales (Sab)</td>
                                             <td class="text-right">{{ character.skill_animal_handling_mod|default(2) }}</td>
                                         </tr>
                                         </tbody>
