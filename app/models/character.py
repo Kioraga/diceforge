@@ -1,4 +1,3 @@
-from tkinter import Image
 from typing import Optional
 
 from bunnet import Document, Link
