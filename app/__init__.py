@@ -1,12 +1,13 @@
+from datetime import datetime
+
+from bunnet import init_bunnet
 from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import LoginManager
-from datetime import datetime
 from pymongo import MongoClient
-from bunnet import init_bunnet
 
+import app.models as models
 from app.plugins import plugin_manager
 from app.utils import hashlib_md5
-import app.models as models
 
 lm = LoginManager()
 
@@ -46,6 +47,7 @@ def create_app():
     app.register_blueprint(views.account_bp)
     app.register_blueprint(views.characters_bp)
     app.register_blueprint(views.plugins_bp)
+    app.register_blueprint(views.themes_bp)
 
     app.register_error_handler(404, lambda e: render_template("errors/404.html"))
 
