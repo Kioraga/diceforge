@@ -25,7 +25,7 @@ def create_app():
 
     # Función para obtener el tema actual
     def get_current_theme():
-        return session.get('theme', 'latte')  # 'mocha' como tema por defecto
+        return session.get('theme', 'mocha')  # 'mocha' como tema por defecto
 
     # Hacer la función disponible en todas las plantillas
     app.jinja_env.globals['get_current_theme'] = get_current_theme
