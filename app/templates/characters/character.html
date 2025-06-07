@@ -219,7 +219,7 @@
                                         <tr>
                                             <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
-                                                       {% if character.save_strength %}checked{% endif %}/>
+                                                       onclick="updateSaveBonus(this)"/>
                                             </td>
                                             <td>Fuerza (Fue)</td>
                                             {% set save_strength = strength_mod %}
@@ -230,7 +230,7 @@
                                         <tr>
                                             <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
-                                                       {% if character.save_dexterity %}checked{% endif %}/>
+                                                       onclick="updateSaveBonus(this)"/>
                                             </td>
                                             <td>Destreza (Des)</td>
                                             {% set save_dexterity = dexterity_mod %}
@@ -241,7 +241,7 @@
                                         <tr>
                                             <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
-                                                       {% if character.save_constitution %}checked{% endif %}/>
+                                                       onclick="updateSaveBonus(this)"/>
                                             </td>
                                             <td>Constitución (Con)</td>
                                             {% set save_constitution = constitution_mod %}
@@ -252,7 +252,7 @@
                                         <tr>
                                             <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
-                                                       {% if character.save_intelligence %}checked{% endif %}/>
+                                                       onclick="updateSaveBonus(this)"/>
                                             </td>
                                             <td>Inteligencia (Int)</td>
                                             {% set save_intelligence = intelligence_mod %}
@@ -263,7 +263,7 @@
                                         <tr>
                                             <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
-                                                       {% if character.save_wisdom %}checked{% endif %}/>
+                                                       onclick="updateSaveBonus(this)"/>
                                             </td>
                                             <td>Sabiduría (Sab)</td>
                                             {% set save_wisdom = wisdom_mod %}
@@ -274,7 +274,7 @@
                                         <tr>
                                             <td class="text-center">
                                                 <input type="checkbox" class="checkbox checkbox-sm"
-                                                       {% if character.save_charisma %}checked{% endif %}/>
+                                                       onclick="updateSaveBonus(this)"/>
                                             </td>
                                             <td>Carisma (Car)</td>
                                             {% set save_charisma = charisma_mod %}
@@ -291,8 +291,7 @@
                             <div class="card-body p-4">
                                 <h2 class="card-title text-xl mb-4">Ataques</h2>
                                 <p class="text-sm text-base-content/70 mb-4">Añade armas a tu personaje para ver en esta
-                                    sección
-                                    el resumen de tus ataques</p>
+                                    sección el resumen de tus ataques</p>
 
                                 {% if character.weapons %}
                                     <div class="overflow-x-auto">
@@ -578,7 +577,26 @@
                    aria-label="Trasfondo"/>
             <div class="tab-content bg-base-100 border-accent p-6">Tab content 3</div>
         </div>
+
+        <script>
+            function updateSaveBonus(checkbox) {
+                const proficiency_bonus = parseInt("{{ proficiency_bonus | tojson }}");
+                const bonusCell = checkbox.parentElement.nextElementSibling.nextElementSibling;
+                const currentValue = parseInt(bonusCell.textContent);
+                const originalValue = parseInt(checkbox.dataset.originalValue || currentValue);
+                
+                if (checkbox.checked) {
+                    // Almacena el valor original si no se ha almacenado
+                    if (!checkbox.dataset.originalValue) {
+                        checkbox.dataset.originalValue = currentValue.toString();
+                    }
+                    const newValue = originalValue + proficiency_bonus;
+                    bonusCell.textContent = (newValue >= 0 ? '+' : '') + newValue;
+                } else {
+                    // Restaura el valor original con su signo
+                    bonusCell.textContent = (originalValue >= 0 ? '+' : '') + originalValue;
+                }
+            }
+        </script>
     </div>
-
-
 {% endblock %}
