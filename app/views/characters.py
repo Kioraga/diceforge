@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
 from flask_login import login_required, current_user
 from pydantic import ValidationError
 
@@ -66,7 +66,16 @@ def create_character_post():
                           },
                           user=current_user)
 
-    character.ability_modifiers = calculate_ability_modifiers(character.ability_scores)
+    character.update_ability_modifiers()
+
+    character.proficiencies = {
+        'strength': 'proficiency',
+        'dexterity': 'expertise',
+        'constitution': 'proficiency',
+        'intelligence': 'expertise',
+        'wisdom': 'proficiency',
+        'charisma': 'proficiency',
+    }
 
     character.save()
     flash("Se ha creado el personaje correctamente.", "success")
@@ -84,19 +93,35 @@ def character_detail(char_id):
             flash("No se ha podido cargar el personaje.", "error")
             return redirect(url_for("characters.character_gallery"))
 
-        return render_template("characters/character.html", character=character)
+        # Actualización temporal del personaje
+        character.proficiencies = {
+            'strength': '',
+            'dexterity': 'expertise',
+            'constitution': 'proficiency',
+            'intelligence': 'expertise',
+            'wisdom': 'proficiency',
+            'charisma': '',
+        }
+
+        character.save()
+
+        response = make_response(render_template("characters/character.html", character=character))
+
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+
+        return response
 
     except ValidationError:
         flash("ID de personaje inválido.", "error")
         return redirect(url_for("characters.character_gallery"))
 
 
-def calculate_ability_modifiers(ability_scores):
-    # Calcula los modificadores de habilidad basados en los valores de habilidad
-    modifiers = {}
-    for ability, score in ability_scores.items():
-        if score is not None:
-            modifiers[ability] = (score - 10) // 2
-        else:
-            modifiers[ability] = None
-    return modifiers
+@characters_bp.route("/delete_character/<char_id>", methods=["POST"])
+@login_required
+def delete_character(char_id):
+    character = Character.get(char_id).run()
+    character.delete()
+    flash("Personaje eliminado correctamente.", "success")
+    return redirect(url_for("characters.character_gallery"))
