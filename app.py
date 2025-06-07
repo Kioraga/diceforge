@@ -1,7 +1,6 @@
-from flask import session
+from livereload import Server
 
 from app import create_app
-from livereload import Server
 
 app = create_app()
 

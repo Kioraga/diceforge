@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from bunnet import init_bunnet
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, session
 from flask_login import LoginManager
 from pymongo import MongoClient
 
@@ -22,6 +22,13 @@ def create_app():
     app.jinja_env.globals["title"] = app.name
     app.jinja_env.filters["hashlib_md5"] = hashlib_md5
     app.jinja_env.globals.update(now=datetime.now)
+
+    # Función para obtener el tema actual
+    def get_current_theme():
+        return session.get('theme', 'latte')  # 'mocha' como tema por defecto
+
+    # Hacer la función disponible en todas las plantillas
+    app.jinja_env.globals['get_current_theme'] = get_current_theme
 
     # Login manager configuration
     lm.init_app(app)
