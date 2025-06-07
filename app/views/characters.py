@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from pydantic import ValidationError
 
 from app.models import Character
-from app.plugins import compendium
+from app.plugins import compendium, plugin_manager
 
 
 def get_blueprint():
@@ -39,7 +39,8 @@ def create_character():
 @characters_bp.route("/characters/create", methods=["POST"])
 @login_required
 def create_character_post():
-    character = Character(name=request.form["name"],
+    character = Character(user=current_user,
+                          name=request.form["name"],
                           race=compendium.get_race_id(request.form["race"]),
                           char_class=compendium.get_class_id(request.form["class"]),
                           level=1,
@@ -63,10 +64,10 @@ def create_character_post():
                               "alignment": request.form.get("alignment", ""),
                               "appearance": request.form.get("appearance", ""),
                               "history": request.form.get("history", "")
-                          },
-                          user=current_user)
+                          })
 
     character.update_ability_modifiers()
+    character.update_dependencies()
 
     character.save()
     flash("Se ha creado el personaje correctamente.", "success")
@@ -80,12 +81,9 @@ def character_detail(char_id):
     try:
         character = Character.get(char_id).run()
 
-        if character is None:
+        if character.check_dependencies() is False or character is None:
             flash("No se ha podido cargar el personaje.", "error")
             return redirect(url_for("characters.character_gallery"))
-
-        character.race = 'Human'  # Placeholder
-        character.char_class = 'Wizard'  # Placeholder
 
         response = make_response(
             render_template("characters/character.html", character=character, compendium=compendium))

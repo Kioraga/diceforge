@@ -155,3 +155,7 @@ class PluginManager:
                 print(f"Error al procesar plugin {plugin_dir}: {e}")
 
         return all_plugins
+
+    def get_enabled_plugins(self) -> List[Plugin]:
+        """Obtiene una lista de todos los plugins habilitados"""
+        return [plugin for plugin in self.plugins.values() if plugin.enabled]
