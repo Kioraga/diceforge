@@ -1,0 +1,43 @@
+<div class="space-y-8">
+    <!-- Race Features Section -->
+    <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">
+                <span class="text-accent">{{ compendium.get_race(character.race).get('name', '') }}</span>
+            </h2>
+            <div class="prose max-w-none">
+                {{ compendium.get_race(character.race).get('description', '')|safe }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Class Features Section -->
+    <div class="card bg-base-200 shadow-xl mt-6">
+        <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">
+                <span class="text-accent">{{ compendium.get_class(character.char_class).get('name', '') }}</span>
+            </h2>
+            <div class="prose max-w-none">
+                {{ compendium.get_class(character.char_class).get('description', '')|safe }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Subclass Features Section -->
+    {% set subclasses = compendium.get_class(character.char_class).get('subclasses', []) %}
+    {% if subclasses %}
+        {% for subclass_id in subclasses %}
+            {% set subclass = compendium.get_subclass(subclass_id) %}
+            <div class="card bg-base-200 shadow-xl mt-6">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl mb-4">
+                        <span class="text-accent">{{ subclass.get('name', '') }}</span>
+                    </h2>
+                    <div class="prose max-w-none">
+                        {{ subclass.get('description', '')|safe }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

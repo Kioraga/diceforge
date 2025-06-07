@@ -27,11 +27,3 @@ class Character(Document):
         # Calcula los modificadores de habilidad basados en los valores de habilidad
         for ability, score in self.ability_scores.items():
             self.ability_modifiers[ability] = (score - 10) // 2
-
-    def get_race_features(self) -> str:
-        """Obtiene los rasgos de raza en formato HTML"""
-        return compendium.get_race(self.race).get('description', '')
-
-    def get_class_features(self) -> str:
-        """Obtiene los rasgos de clase en formato HTML"""
-        pass
