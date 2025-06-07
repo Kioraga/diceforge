@@ -16,6 +16,7 @@ def set_theme(theme):
     allowed_themes = ['mocha', 'latte']
 
     if theme in allowed_themes:
+        print(f"Estableciendo tema: {theme}")
         session['theme'] = theme
         return jsonify({'success': True, 'theme': theme})
     else:

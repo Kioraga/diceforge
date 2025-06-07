@@ -59,9 +59,15 @@
     </div>
 
     <script>
+        let lastTheme;
+
         async function toggleTheme(checkbox) {
             // Determinar el nuevo tema basado en el estado del checkbox
-            const newTheme = checkbox.value;
+            let newTheme = checkbox.value;
+            if (lastTheme === newTheme) {
+                newTheme = newTheme === "mocha" ? "latte" : "mocha";
+            }
+            lastTheme = newTheme;
 
             try {
                 const response = await fetch(`/set-theme/${newTheme}`, {
@@ -76,10 +82,11 @@
                     console.log('Tema cambiado a:', newTheme);
                 } else {
                     console.error('Error al cambiar el tema');
-                    // Opcional: mostrar mensaje de error al usuario
+                    checkbox.checked = !checkbox.checked;
                 }
             } catch (error) {
                 console.error('Error al cambiar el tema:', error);
+                checkbox.checked = !checkbox.checked;
             }
         }
     </script>
