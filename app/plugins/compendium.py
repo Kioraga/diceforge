@@ -60,6 +60,13 @@ class Compendium:
         """Obtiene los nombres de todas las razas disponibles"""
         return [race.get('name', '') for race in self.get_races().values()]
 
+    def get_race_id(self, race_name: str) -> Optional[str]:
+        """Obtiene el ID de una raza por su nombre"""
+        for race_id, race_data in self.get_races().items():
+            if race_data.get('name') == race_name:
+                return race_id
+        return None
+
     # Métodos para clases
     def get_classes(self) -> Dict[str, Any]:
         """Obtiene todas las clases disponibles"""
@@ -72,6 +79,13 @@ class Compendium:
     def class_names(self) -> List[Any]:
         """Obtiene los nombres de todas las clases disponibles"""
         return [cls.get('name', '') for cls in self.get_classes().values()]
+
+    def get_class_id(self, class_name: str) -> Optional[str]:
+        """Obtiene el ID de una clase por su nombre"""
+        for cls_id, cls_data in self.get_classes().items():
+            if cls_data.get('name') == class_name:
+                return cls_id
+        return None
 
     # Métodos para hechizos
     def get_spells(self) -> Dict[str, Any]:

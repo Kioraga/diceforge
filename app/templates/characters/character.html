@@ -82,8 +82,8 @@
                             <div>
                                 <h1 class="text-3xl font-bold">{{ character.name }}</h1>
                                 <div class="flex flex-wrap gap-2 mt-2">
-                                    <span class="badge badge-lg">{{ character.race }}</span>
-                                    <span class="badge badge-accent badge-lg">{{ character.char_class }}</span>
+                                    <span class="badge badge-lg">{{ compendium.get_race(character.race).get('name', '') }}</span>
+                                    <span class="badge badge-accent badge-lg">{{ compendium.get_class(character.char_class).get('name', '') }}</span>
                                     <span class="badge badge-secondary badge-lg">Nivel {{ character.level }}</span>
                                 </div>
                             </div>
@@ -111,16 +111,22 @@
             </div>
 
             <input type="radio" name="char_sections" class="tab [--tab-border-color:var(--color-accent)]"
+                   aria-label="Trasfondo"/>
+            <div class="tab-content bg-base-100 border-accent p-6">
+                {% include 'characters/character/background_tab.html' %}
+            </div>
+
+            <input type="radio" name="char_sections" class="tab [--tab-border-color:var(--color-accent)]"
                    aria-label="Rasgos"/>
-            <div class="tab-content bg-base-100 border-accent p-6">Tab content 2</div>
+            <div class="tab-content bg-base-100 border-accent p-6">
+                {% include 'characters/character/features_tab.html' %}
+            </div>
 
             <input type="radio" name="char_sections" class="tab [--tab-border-color:var(--color-accent)]"
                    aria-label="Conjuros"/>
-            <div class="tab-content bg-base-100 border-accent p-6">Tab content 3</div>
-
-            <input type="radio" name="char_sections" class="tab [--tab-border-color:var(--color-accent)]"
-                   aria-label="Trasfondo"/>
-            <div class="tab-content bg-base-100 border-accent p-6">Tab content 3</div>
+            <div class="tab-content bg-base-100 border-accent p-6">
+                {% include 'characters/character/spells_tab.html' %}
+            </div>
         </div>
     </div>
 {% endblock %}

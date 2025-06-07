@@ -40,8 +40,8 @@ def create_character():
 @login_required
 def create_character_post():
     character = Character(name=request.form["name"],
-                          race=request.form["race"],
-                          char_class=request.form["class"],
+                          race=compendium.get_race_id(request.form["race"]),
+                          char_class=compendium.get_class_id(request.form["class"]),
                           level=1,
                           hp=42,
                           ability_scores={
@@ -68,15 +68,6 @@ def create_character_post():
 
     character.update_ability_modifiers()
 
-    character.proficiencies = {
-        'strength': 'proficiency',
-        'dexterity': 'expertise',
-        'constitution': 'proficiency',
-        'intelligence': 'expertise',
-        'wisdom': 'proficiency',
-        'charisma': 'proficiency',
-    }
-
     character.save()
     flash("Se ha creado el personaje correctamente.", "success")
 
@@ -93,24 +84,14 @@ def character_detail(char_id):
             flash("No se ha podido cargar el personaje.", "error")
             return redirect(url_for("characters.character_gallery"))
 
-        # Actualización temporal del personaje
-        character.proficiencies = {
-            'strength': '',
-            'dexterity': 'expertise',
-            'constitution': 'proficiency',
-            'intelligence': 'expertise',
-            'wisdom': 'proficiency',
-            'charisma': '',
-        }
+        character.race = 'Human'  # Placeholder
+        character.char_class = 'Wizard'  # Placeholder
 
-        character.save()
-
-        response = make_response(render_template("characters/character.html", character=character))
-
+        response = make_response(
+            render_template("characters/character.html", character=character, compendium=compendium))
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
-
         return response
 
     except ValidationError:
