@@ -90,7 +90,7 @@
             <div class="tab-content bg-base-100 border-accent p-6">
                 <div class="flex flex-col lg:flex-row gap-6">
                     <!-- Columna izquierda - Características -->
-                    <div class="w-full lg:w-1/3">
+                    <div class="w-full lg:w-2/5 xl:w-5/12">
                         <!-- Tarjeta de Características -->
                         <div class="card bg-base-200 shadow-xl mb-6">
                             <div class="card-body p-4">
@@ -103,8 +103,8 @@
                                         <div class="stat-value text-2xl">{{ character.ability_scores.get('strength', 0) }}</div>
                                         <div class="flex justify-center w-full">
                                             <div class="badge badge-accent mt-1">
-                                                {% set modifier = (character.ability_scores.get('strength', 10) - 10) // 2 %}
-                                                {{ "%+d"|format(modifier) }}
+                                                {% set strength_mod = character.ability_modifiers.get('strength', 0) %}
+                                                {{ "%+d"|format(strength_mod) }}
                                             </div>
                                         </div>
                                     </div>
@@ -115,8 +115,8 @@
                                         <div class="stat-value text-2xl">{{ character.ability_scores.get('dexterity', 0) }}</div>
                                         <div class="flex justify-center w-full">
                                             <div class="badge badge-accent mt-1">
-                                                {% set modifier = (character.ability_scores.get('dexterity', 10) - 10) // 2 %}
-                                                {{ "%+d"|format(modifier) }}
+                                                {% set dexterity_mod = character.ability_modifiers.get('dexterity', 0) %}
+                                                {{ "%+d"|format(dexterity_mod) }}
                                             </div>
                                         </div>
                                     </div>
@@ -127,8 +127,8 @@
                                         <div class="stat-value text-2xl">{{ character.ability_scores.get('constitution', 0) }}</div>
                                         <div class="flex justify-center w-full">
                                             <div class="badge badge-accent mt-1">
-                                                {% set modifier = (character.ability_scores.get('constitution', 10) - 10) // 2 %}
-                                                {{ "%+d"|format(modifier) }}
+                                                {% set constitution_mod = character.ability_modifiers.get('constitution', 0) %}
+                                                {{ "%+d"|format(constitution_mod) }}
                                             </div>
                                         </div>
                                     </div>
@@ -139,8 +139,8 @@
                                         <div class="stat-value text-2xl">{{ character.ability_scores.get('intelligence', 0) }}</div>
                                         <div class="flex justify-center w-full">
                                             <div class="badge badge-accent mt-1">
-                                                {% set modifier = (character.ability_scores.get('intelligence', 10) - 10) // 2 %}
-                                                {{ "%+d"|format(modifier) }}
+                                                {% set intelligence_mod = character.ability_modifiers.get('intelligence', 0) %}
+                                                {{ "%+d"|format(intelligence_mod) }}
                                             </div>
                                         </div>
                                     </div>
@@ -151,8 +151,8 @@
                                         <div class="stat-value text-2xl">{{ character.ability_scores.get('wisdom', 0) }}</div>
                                         <div class="flex justify-center w-full">
                                             <div class="badge badge-accent mt-1">
-                                                {% set modifier = (character.ability_scores.get('wisdom', 10) - 10) // 2 %}
-                                                {{ "%+d"|format(modifier) }}
+                                                {% set wisdom_mod = character.ability_modifiers.get('wisdom', 0) %}
+                                                {{ "%+d"|format(wisdom_mod) }}
                                             </div>
                                         </div>
                                     </div>
@@ -163,31 +163,40 @@
                                         <div class="stat-value text-2xl">{{ character.ability_scores.get('charisma', 0) }}</div>
                                         <div class="flex justify-center w-full">
                                             <div class="badge badge-accent mt-1">
-                                                {% set modifier = (character.ability_scores.get('charisma', 10) - 10) // 2 %}
-                                                {{ "%+d"|format(modifier) }}
+                                                {% set charisma_mod = character.ability_modifiers.get('charisma', 0) %}
+                                                {{ "%+d"|format(charisma_mod) }}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Stats adicionales -->
-                                <div class="grid grid-cols-3 gap-4 mt-4">
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
                                     <div class="stat bg-base-100 rounded-box p-2 text-center">
                                         <div class="stat-title text-xs">Iniciativa</div>
-                                        {% set dexterity_mod = (character.ability_scores.get('dexterity', 10) - 10) // 2 %}
                                         <div class="stat-value text-xl">{{ "%+d"|format(dexterity_mod) }}</div>
                                     </div>
 
                                     <div class="stat bg-base-100 rounded-box p-2 text-center">
                                         <div class="stat-title text-xs">Velocidad</div>
-                                        <div class="stat-value text-xl">{{ character.speed|default(15) }}</div>
+                                        <div class="stat-value text-xl">{{ character.speed|default(42) }}</div>
                                         <div class="text-xs">pies</div>
                                     </div>
 
                                     <div class="stat bg-base-100 rounded-box p-2 text-center">
                                         <div class="stat-title text-xs">Clase de</div>
-                                        <div class="stat-value text-xl">{{ character.armor_class|default(12) }}</div>
+                                        <div class="stat-value text-xl">{{ character.armor_class|default(42) }}</div>
                                         <div class="stat-title text-xs">armadura</div>
+                                    </div>
+
+                                    <div class="stat bg-base-100 rounded-box p-2 text-center">
+                                        <div class="stat-title text-xs">Bonif. de</div>
+                                        <div class="stat-value text-xl">
+                                            {% set level = character.level|default(1) %}
+                                            {% set proficiency_bonus = ((level - 1) // 4) + 2 %}
+                                            +{{ proficiency_bonus }}
+                                        </div>
+                                        <div class="stat-title text-xs">competencia</div>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +222,8 @@
                                                        {% if character.save_strength %}checked{% endif %}/>
                                             </td>
                                             <td>Fuerza (Fue)</td>
-                                            <td class="text-right">{{ character.save_strength_mod|default(0) }}</td>
+                                            {% set save_strength = strength_mod %}
+                                            <td class="text-right">{{ "%+d"|format(save_strength) }}</td>
                                         </tr>
 
                                         <!-- Destreza -->
@@ -223,7 +233,8 @@
                                                        {% if character.save_dexterity %}checked{% endif %}/>
                                             </td>
                                             <td>Destreza (Des)</td>
-                                            <td class="text-right">{{ character.save_dexterity_mod|default(1) }}</td>
+                                            {% set save_dexterity = dexterity_mod %}
+                                            <td class="text-right">{{ "%+d"|format(save_dexterity) }}</td>
                                         </tr>
 
                                         <!-- Constitución -->
@@ -233,7 +244,8 @@
                                                        {% if character.save_constitution %}checked{% endif %}/>
                                             </td>
                                             <td>Constitución (Con)</td>
-                                            <td class="text-right">{{ character.save_constitution_mod|default(1) }}</td>
+                                            {% set save_constitution = constitution_mod %}
+                                            <td class="text-right">{{ "%+d"|format(save_constitution) }}</td>
                                         </tr>
 
                                         <!-- Inteligencia -->
@@ -243,7 +255,8 @@
                                                        {% if character.save_intelligence %}checked{% endif %}/>
                                             </td>
                                             <td>Inteligencia (Int)</td>
-                                            <td class="text-right">{{ character.save_intelligence_mod|default(3) }}</td>
+                                            {% set save_intelligence = intelligence_mod %}
+                                            <td class="text-right">{{ "%+d"|format(save_intelligence) }}</td>
                                         </tr>
 
                                         <!-- Sabiduría -->
@@ -253,7 +266,8 @@
                                                        {% if character.save_wisdom %}checked{% endif %}/>
                                             </td>
                                             <td>Sabiduría (Sab)</td>
-                                            <td class="text-right">{{ character.save_wisdom_mod|default(2) }}</td>
+                                            {% set save_wisdom = wisdom_mod %}
+                                            <td class="text-right">{{ "%+d"|format(save_wisdom) }}</td>
                                         </tr>
 
                                         <!-- Carisma -->
@@ -263,7 +277,8 @@
                                                        {% if character.save_charisma %}checked{% endif %}/>
                                             </td>
                                             <td>Carisma (Car)</td>
-                                            <td class="text-right">{{ character.save_charisma_mod|default(1) }}</td>
+                                            {% set save_charisma = charisma_mod %}
+                                            <td class="text-right">{{ "%+d"|format(save_charisma) }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -315,7 +330,7 @@
                     </div>
 
                     <!-- Columna derecha - Habilidades -->
-                    <div class="w-full lg:w-2/3">
+                    <div class="w-full lg:w-3/5 xl:w-7/12">
                         <div class="card bg-base-200 shadow-xl mb-6">
                             <div class="card-body p-4">
                                 <h2 class="card-title text-xl mb-4">Habilidades</h2>
@@ -335,7 +350,8 @@
                                                        {% if character.skill_acrobatics %}checked{% endif %}/>
                                             </td>
                                             <td>Acrobacias (Des)</td>
-                                            <td class="text-right">{{ character.skill_acrobatics_mod|default(1) }}</td>
+                                            {% set skill_acrobatics = dexterity_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_acrobatics) }}</td>
                                         </tr>
 
                                         <!-- Arcanos -->
@@ -345,7 +361,8 @@
                                                        {% if character.skill_arcana %}checked{% endif %}/>
                                             </td>
                                             <td>Arcanos (Int)</td>
-                                            <td class="text-right">{{ character.skill_arcana_mod|default(5) }}</td>
+                                            {% set skill_arcana = intelligence_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_arcana) }}</td>
                                         </tr>
 
                                         <!-- Atletismo -->
@@ -355,7 +372,8 @@
                                                        {% if character.skill_athletics %}checked{% endif %}/>
                                             </td>
                                             <td>Atletismo (Fue)</td>
-                                            <td class="text-right">{{ character.skill_athletics_mod|default(0) }}</td>
+                                            {% set skill_athletics = strength_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_athletics) }}</td>
                                         </tr>
 
                                         <!-- Engañar -->
@@ -365,7 +383,8 @@
                                                        {% if character.skill_deception %}checked{% endif %}/>
                                             </td>
                                             <td>Engañar (Car)</td>
-                                            <td class="text-right">{{ character.skill_deception_mod|default(1) }}</td>
+                                            {% set skill_deception = charisma_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_deception) }}</td>
                                         </tr>
 
                                         <!-- Historia -->
@@ -375,7 +394,8 @@
                                                        {% if character.skill_history %}checked{% endif %}/>
                                             </td>
                                             <td>Historia (Int)</td>
-                                            <td class="text-right">{{ character.skill_history_mod|default(5) }}</td>
+                                            {% set skill_history = intelligence_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_history) }}</td>
                                         </tr>
 
                                         <!-- Interpretación -->
@@ -385,7 +405,8 @@
                                                        {% if character.skill_performance %}checked{% endif %}/>
                                             </td>
                                             <td>Interpretación (Car)</td>
-                                            <td class="text-right">{{ character.skill_performance_mod|default(1) }}</td>
+                                            {% set skill_performance = charisma_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_performance) }}</td>
                                         </tr>
 
                                         <!-- Intimidar -->
@@ -395,7 +416,8 @@
                                                        {% if character.skill_intimidation %}checked{% endif %}/>
                                             </td>
                                             <td>Intimidar (Car)</td>
-                                            <td class="text-right">{{ character.skill_intimidation_mod|default(1) }}</td>
+                                            {% set skill_intimidation = charisma_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_intimidation) }}</td>
                                         </tr>
 
                                         <!-- Investigación -->
@@ -405,7 +427,8 @@
                                                        {% if character.skill_investigation %}checked{% endif %}/>
                                             </td>
                                             <td>Investigación (Int)</td>
-                                            <td class="text-right">{{ character.skill_investigation_mod|default(3) }}</td>
+                                            {% set skill_investigation = intelligence_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_investigation) }}</td>
                                         </tr>
 
                                         <!-- Juego de Manos -->
@@ -415,7 +438,8 @@
                                                        {% if character.skill_sleight_of_hand %}checked{% endif %}/>
                                             </td>
                                             <td>Juego de Manos (Des)</td>
-                                            <td class="text-right">{{ character.skill_sleight_of_hand_mod|default(1) }}</td>
+                                            {% set skill_sleight_of_hand = dexterity_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_sleight_of_hand) }}</td>
                                         </tr>
 
                                         <!-- Medicina -->
@@ -425,7 +449,8 @@
                                                        {% if character.skill_medicine %}checked{% endif %}/>
                                             </td>
                                             <td>Medicina (Sab)</td>
-                                            <td class="text-right">{{ character.skill_medicine_mod|default(2) }}</td>
+                                            {% set skill_medicine = wisdom_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_medicine) }}</td>
                                         </tr>
 
                                         <!-- Naturaleza -->
@@ -435,7 +460,8 @@
                                                        {% if character.skill_nature %}checked{% endif %}/>
                                             </td>
                                             <td>Naturaleza (Int)</td>
-                                            <td class="text-right">{{ character.skill_nature_mod|default(3) }}</td>
+                                            {% set skill_nature = intelligence_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_nature) }}</td>
                                         </tr>
 
                                         <!-- Percepción -->
@@ -445,7 +471,8 @@
                                                        {% if character.skill_perception %}checked{% endif %}/>
                                             </td>
                                             <td>Percepción (Sab)</td>
-                                            <td class="text-right">{{ character.skill_perception_mod|default(2) }}</td>
+                                            {% set skill_perception = wisdom_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_perception) }}</td>
                                         </tr>
 
                                         <!-- Perspicacia -->
@@ -455,7 +482,8 @@
                                                        {% if character.skill_insight %}checked{% endif %}/>
                                             </td>
                                             <td>Perspicacia (Sab)</td>
-                                            <td class="text-right">{{ character.skill_insight_mod|default(2) }}</td>
+                                            {% set skill_insight = wisdom_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_insight) }}</td>
                                         </tr>
 
                                         <!-- Persuasión -->
@@ -465,7 +493,8 @@
                                                        {% if character.skill_persuasion %}checked{% endif %}/>
                                             </td>
                                             <td>Persuasión (Car)</td>
-                                            <td class="text-right">{{ character.skill_persuasion_mod|default(1) }}</td>
+                                            {% set skill_persuasion = charisma_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_persuasion) }}</td>
                                         </tr>
 
                                         <!-- Religión -->
@@ -475,7 +504,8 @@
                                                        {% if character.skill_religion %}checked{% endif %}/>
                                             </td>
                                             <td>Religión (Int)</td>
-                                            <td class="text-right">{{ character.skill_religion_mod|default(3) }}</td>
+                                            {% set skill_religion = intelligence_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_religion) }}</td>
                                         </tr>
 
                                         <!-- Sigilo -->
@@ -485,7 +515,8 @@
                                                        {% if character.skill_stealth %}checked{% endif %}/>
                                             </td>
                                             <td>Sigilo (Des)</td>
-                                            <td class="text-right">{{ character.skill_stealth_mod|default(1) }}</td>
+                                            {% set skill_stealth = dexterity_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_stealth) }}</td>
                                         </tr>
 
                                         <!-- Supervivencia -->
@@ -495,7 +526,8 @@
                                                        {% if character.skill_survival %}checked{% endif %}/>
                                             </td>
                                             <td>Supervivencia (Sab)</td>
-                                            <td class="text-right">{{ character.skill_survival_mod|default(2) }}</td>
+                                            {% set skill_survival = wisdom_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_survival) }}</td>
                                         </tr>
 
                                         <!-- Trato con Animales -->
@@ -505,7 +537,8 @@
                                                        {% if character.skill_animal_handling %}checked{% endif %}/>
                                             </td>
                                             <td>Trato con Animales (Sab)</td>
-                                            <td class="text-right">{{ character.skill_animal_handling_mod|default(2) }}</td>
+                                            {% set skill_animal_handling = wisdom_mod %}
+                                            <td class="text-right">{{ "%+d"|format(skill_animal_handling) }}</td>
                                         </tr>
                                         </tbody>
                                     </table>

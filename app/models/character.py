@@ -10,7 +10,9 @@ class Character(Document):
     race: str
     char_class: str
     level: int
+    hp: int
     ability_scores: dict[str, int]
+    ability_modifiers: Optional[dict[str, int]] = None
     background: Optional[dict[str, str]] = None
     info: Optional[dict[str, str]] = None
     spells: Optional[dict[str, str]] = None

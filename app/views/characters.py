@@ -43,13 +43,14 @@ def create_character_post():
                           race=request.form["race"],
                           char_class=request.form["class"],
                           level=1,
+                          hp=42,
                           ability_scores={
                               "strength": request.form.get("strength"),
                               "dexterity": request.form.get("dexterity"),
                               "constitution": request.form.get("constitution"),
                               "intelligence": request.form.get("intelligence"),
                               "wisdom": request.form.get("wisdom"),
-                              "charisma": request.form.get("charisma")
+                              "charisma": request.form.get("charisma"),
                           },
                           background={
                               "name": request.form.get("bg_name", ""),
@@ -64,6 +65,8 @@ def create_character_post():
                               "history": request.form.get("history", "")
                           },
                           user=current_user)
+
+    character.ability_modifiers = calculate_ability_modifiers(character.ability_scores)
 
     character.save()
     flash("Se ha creado el personaje correctamente.", "success")
@@ -86,3 +89,13 @@ def character_detail(char_id):
     except ValidationError:
         flash("ID de personaje inválido.", "error")
         return redirect(url_for("characters.character_gallery"))
+
+
+def calculate_ability_modifiers(ability_scores):
+    modifiers = {}
+    for ability, score in ability_scores.items():
+        if score is not None:
+            modifiers[ability] = (score - 10) // 2
+        else:
+            modifiers[ability] = None
+    return modifiers
