@@ -53,12 +53,12 @@
                                     <div class="dropdown-content z-[1] card card-compact bg-base-300 shadow-xl w-64">
                                         <div class="card-body">
                                             <h3 class="card-title text-sm font-medium mb-2">Contenido del Plugin</h3>
-                                            {% set stats = compendium.get_stats() %}
+                                            {% set stats = plugin.get_stats() %}
                                             {% if stats %}
                                                 <div class="space-y-2">
                                                     {% for key, value in stats.items() %}
                                                         <div class="flex items-center justify-between rounded-lg p-2">
-                                                            <span class="text-sm">{{ key }}</span>
+                                                            <span class="text-sm mr-2">{{ key }}</span>
                                                             <div class="badge badge-primary">{{ value }}</div>
                                                         </div>
                                                     {% endfor %}

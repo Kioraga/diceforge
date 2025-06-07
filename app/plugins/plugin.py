@@ -84,3 +84,15 @@ class Plugin:
         """Valida que el plugin esté correctamente configurado"""
         required_fields = ['id', 'name', 'version']
         return all(field in self.config for field in required_fields)
+
+    def get_stats(self) -> Dict[str, int]:
+        """Obtiene estadísticas del compendio del plugin"""
+        if not self.compendium_data:
+            self.load_compendium()
+        stats = {self.get_data_type_name(data_type): len(data.get('entries', {})) for data_type, data in
+                 self.compendium_data.items()}
+        return stats
+
+    def get_data_type_name(self, data_type: str) -> str:
+        """Obtiene el nombre del tipo de datos del plugin"""
+        return self.compendium_data.get(data_type, {}).get('label')

@@ -92,6 +92,7 @@ def character_detail(char_id):
 
 
 def calculate_ability_modifiers(ability_scores):
+    # Calcula los modificadores de habilidad basados en los valores de habilidad
     modifiers = {}
     for ability, score in ability_scores.items():
         if score is not None:
