@@ -49,7 +49,14 @@
         <div id="charactersList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for character in characters %}
                 <a href="{{ url_for('characters.character_detail', char_id=character.id) }}"
-                   class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                   class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative">
+                    {% if not character.check_dependencies() %}
+                    <div class="absolute right-4 top-4 tooltip tooltip-warning" data-tip="¡Este personaje tiene dependencias sin cumplir!">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    {% endif %}
                     <figure class="px-6 pt-6">
                         <div class="avatar placeholder">
                             <div class="bg-neutral text-neutral-content rounded-full w-24">
@@ -60,7 +67,7 @@
                     <div class="card-body items-center text-center">
                         <h2 class="card-title text-2xl">{{ character.name }}</h2>
                         <div class="flex gap-2 my-2">
-                            <span class="badge badge-accent badge-lg">{{ character.char_class }}</span>
+                            <span class="badge badge-accent badge-lg">{{ compendium.get_class(character.char_class).get('name', '') if character.check_dependencies() else 'N/A' }}</span>
                             <span class="badge badge-secondary badge-lg">Nivel {{ character.level }}</span>
                         </div>
                     </div>

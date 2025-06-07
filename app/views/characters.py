@@ -24,7 +24,7 @@ def character_gallery():
         fetch_links=True
     ).to_list()
 
-    return render_template("characters/character_gallery.html", characters=characters)
+    return render_template("characters/character_gallery.html", characters=characters, compendium=compendium)
 
 
 @characters_bp.route("/characters/create")
