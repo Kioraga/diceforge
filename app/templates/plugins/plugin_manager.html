@@ -44,39 +44,47 @@
                             </div>
                             <!-- Plugin Stats -->
                             {% if plugin.enabled %}
-                                <details class="dropdown dropdown-end">
-                                    <summary class="btn btn-sm btn-ghost">
-                                        <svg width="24" height="24">
-                                            <use xlink:href="{{ url_for('static', filename='icons/alerts.svg') }}#info"></use>
-                                        </svg>
-                                    </summary>
-                                    <div class="dropdown-content z-[1] card card-compact bg-base-300 shadow-xl w-64">
-                                        <div class="card-body">
-                                            <h3 class="card-title text-sm font-medium mb-2">Contenido del Plugin</h3>
-                                            {% set stats = compendium.get_stats() %}
-                                            {% if stats %}
-                                                <div class="space-y-2">
-                                                    {% for key, value in stats.items() %}
-                                                        <div class="flex items-center justify-between rounded-lg p-2">
-                                                            <span class="text-sm">{{ key }}</span>
-                                                            <div class="badge badge-primary">{{ value }}</div>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
-                                            {% else %}
-                                                <div class="alert alert-info shadow-lg">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              stroke-width="2"
-                                                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                    <span>No hay contenido disponibles</span>
-                                                </div>
-                                            {% endif %}
+                                <button onclick="document.getElementById('pluginModal{{ loop.index }}').showModal()" class="btn btn-sm btn-ghost">
+                                    <svg width="24" height="24">
+                                        <use xlink:href="{{ url_for('static', filename='icons/alerts.svg') }}#info"></use>
+                                    </svg>
+                                </button>
+                                <!-- Modal -->
+                                <dialog id="pluginModal{{ loop.index }}" class="modal">
+                                    <div class="modal-box w-11/12 max-w-5xl">
+                                        <h3 class="font-bold text-lg mb-4">Contenido del Plugin - {{ plugin.name }}</h3>
+                                        <div class="card bg-base-100">
+                                            <div class="card-body">
+                                                {% set stats = plugin.get_stats() %}
+                                                {% if stats %}
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                        {% for key, value in stats.items() %}
+                                                            <div class="flex items-center justify-between bg-base-200 p-4 rounded-lg">
+                                                                <span class="text-sm font-medium">{{ key }}</span>
+                                                                <div class="badge badge-primary badge-lg">{{ value }}</div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% else %}
+                                                    <div class="alert alert-info">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        </svg>
+                                                        <span>No hay contenido disponible para este plugin</span>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="modal-action">
+                                            <form method="dialog">
+                                                <button class="btn">Cerrar</button>
+                                            </form>
                                         </div>
                                     </div>
-                                </details>
+                                    <form method="dialog" class="modal-backdrop">
+                                        <button>close</button>
+                                    </form>
+                                </dialog>
                             {% endif %}
                         </div>
 
