@@ -1,0 +1,109 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Columna izquierda: Trasfondo -->
+    <div class="card bg-base-200 shadow-xl">
+        <div class="card-body p-6 space-y-6">
+            <h2 class="card-title text-xl mb-2">Trasfondo</h2>
+
+            <!-- Trasfondo -->
+            <div>
+                {% if character.background and character.background.get('name') %}
+                <h3 class="text-lg mb-2">Trasfondo: {{ character.background.get('name') }}</h3>
+                {% else %}
+                    <p class="text-base-content/50 italic">Sin trasfondo definido</p>
+                {% endif %}
+            </div>
+
+            <!-- Rasgos de personalidad -->
+            <div>
+                <h3 class="text-lg mb-2">Rasgos de personalidad</h3>
+                <div class="prose max-w-none">
+                    {% if character.background and character.background.get('features') %}
+                        <p class="whitespace-pre-line">{{ character.background.get('features') }}</p>
+                    {% else %}
+                        <p class="text-base-content/50 italic">Sin rasgos de personalidad definidos</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Ideales -->
+            <div>
+                <h3 class="text-lg mb-2">Ideales</h3>
+                <div class="prose max-w-none">
+                    {% if character.background and character.background.get('ideals') %}
+                        <p class="whitespace-pre-line">{{ character.background.get('ideals') }}</p>
+                    {% else %}
+                        <p class="text-base-content/50 italic">Sin ideales definidos</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Vínculos -->
+            <div>
+                <h3 class="text-lg mb-2">Vínculos</h3>
+                <div class="prose max-w-none">
+                    {% if character.background and character.background.get('bonds') %}
+                        <p class="whitespace-pre-line">{{ character.background.get('bonds') }}</p>
+                    {% else %}
+                        <p class="text-base-content/50 italic">Sin vínculos definidos</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Defectos -->
+            <div>
+                <h3 class="text-lg mb-2">Defectos</h3>
+                <div class="prose max-w-none">
+                    {% if character.background and character.background.get('flaws') %}
+                        <p class="whitespace-pre-line">{{ character.background.get('flaws') }}</p>
+                    {% else %}
+                        <p class="text-base-content/50 italic">Sin defectos definidos</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Columna derecha: Información adicional -->
+    <div class="card bg-base-200 shadow-xl">
+        <div class="card-body p-6 space-y-6">
+            <h2 class="card-title text-xl mb-2">Información</h2>
+            <p class="text-sm text-base-content/70 mb-2">Información adicional del personaje.</p>
+
+            <!-- Alineamiento -->
+            <div>
+                <h3 class="text-lg mb-2">Alineamiento</h3>
+                <div class="prose max-w-none">
+                    {% if character.info and character.info.get('alignment') %}
+                        <p class="whitespace-pre-line">{{ character.info.get('alignment') }}</p>
+                    {% else %}
+                        <p class="text-base-content/50 italic">Sin alineamiento definido</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Apariencia -->
+            <div>
+                <h3 class="text-lg mb-2">Apariencia</h3>
+                <div class="prose max-w-none">
+                    {% if character.info and character.info.get('appearance') %}
+                        <p class="whitespace-pre-line">{{ character.info.get('appearance') }}</p>
+                    {% else %}
+                        <p class="text-base-content/50 italic">Sin descripción de apariencia</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Historia -->
+            <div>
+                <h3 class="text-lg mb-2">Historia</h3>
+                <div class="prose max-w-none">
+                    {% if character.info and character.info.get('history') %}
+                        <p class="whitespace-pre-line">{{ character.info.get('history') }}</p>
+                    {% else %}
+                        <p class="text-base-content/50 italic">Sin historia definida</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
