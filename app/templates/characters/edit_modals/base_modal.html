@@ -49,6 +49,37 @@
                     <input type="number" name="hit_points" value="{{ character.hit_points }}" min="1"
                            class="input input-bordered w-full">
                 </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Clase de Armadura</span>
+                    </label>
+                    <div class="flex items-end gap-3 p-3">
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs opacity-60 mb-1">Base</span>
+                            <div class="min-w-[40px] text-center">
+                                <span class="font-mono font-bold text-lg" id="base_armor_class">{{ character.armor_class }}</span>
+                            </div>
+                        </div>
+                        <span class="text-xl font-light opacity-70 mb-2">+</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs opacity-60 mb-1">Ajuste</span>
+                            <input type="number" 
+                                   name="armor_class_adjustment" 
+                                   value="{{ character.armor_class_adjustment or 0 }}" 
+                                   class="input input-sm w-14 text-center font-mono px-1 text-lg" 
+                                   id="armor_class_adjustment">
+                        </div>
+                        <span class="text-xl font-light opacity-70 mb-2">=</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs opacity-60 mb-1">Total</span>
+                            <div class="min-w-[40px] text-center">
+                                <span class="font-mono font-bold text-xl" id="armor_class_total">
+                                    {{ character.armor_class + (character.armor_class_adjustment or 0) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-action">
                 <button type="button" class="btn btn-ghost" onclick="edit_base_modal.close()">Cancelar</button>
@@ -60,3 +91,27 @@
         <button>close</button>
     </form>
 </dialog>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const adjustmentInput = document.getElementById('armor_class_adjustment');
+        const baseValueElement = document.getElementById('base_armor_class');
+        const totalDisplay = document.getElementById('armor_class_total');
+        
+        if (!adjustmentInput || !baseValueElement || !totalDisplay) return;
+        
+        const baseValue = parseInt(baseValueElement.textContent) || 0;
+        
+        function updateArmorClass() {
+            const adjustment = parseInt(adjustmentInput.value) || 0;
+            const total = baseValue + adjustment;
+            totalDisplay.textContent = total;
+        }
+        
+        // Add event listener for input changes
+        adjustmentInput.addEventListener('input', updateArmorClass);
+        
+        // Initialize on page load
+        updateArmorClass();
+    });
+</script>

@@ -67,6 +67,7 @@ def create_character_post():
 
     character.update_ability_modifiers()
     character.hit_points = compendium.get_class_hp(character.char_class) + character.ability_modifiers.get('constitution', 0)
+    character.armor_class = 10 + character.ability_modifiers.get('dexterity', 0)
     character.update_dependencies()
 
     character.save()
@@ -116,6 +117,7 @@ def update_character(char_id):
             character.char_class = compendium.get_class_id(request.form.get('char_class'))
             character.level = int(request.form.get('level'))
             character.hit_points = int(request.form.get('hit_points'))
+            character.armor_class_adjustment = int(request.form.get('armor_class_adjustment'))
 
         def update_stats():
             character.ability_scores = {

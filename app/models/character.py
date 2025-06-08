@@ -13,6 +13,7 @@ class Character(Document):
     char_class: str
     level: int
     hit_points: Optional[int] = 0
+    armor_class: Optional[int] = 10
     armor_class_adjustment: Optional[int] = 0
     ability_scores: dict[str, int]
     ability_modifiers: Optional[dict[str, int]] = {}
