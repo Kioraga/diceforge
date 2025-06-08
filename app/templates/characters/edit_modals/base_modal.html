@@ -4,6 +4,7 @@
         <h3 class="font-bold text-lg mb-4">Editar Personaje</h3>
         <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
               class="space-y-4">
+            <input type="hidden" name="modal" value="base">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="form-control">
                     <label class="label">
