@@ -6,427 +6,56 @@
             class="space-y-4">
             <input type="hidden" name="modal" value="saving_throws">
 
+            <!-- Macro para generar filas de habilidades -->
+            {% macro skill_row(skill_name, display_name, ability_mod, ability_short) %}
+                {% set proficiency = character.proficiencies.get(skill_name, {}) %}
+                {% set mod_value = namespace(value=ability_mod) %}
+                
+                {% if proficiency.get('proficiency', False) %}
+                    {% set mod_value.value = ability_mod + proficiency_bonus %}
+                {% elif proficiency.get('expertise', False) %}
+                    {% set mod_value.value = ability_mod + (2 * proficiency_bonus) %}
+                {% endif %}
+                
+                <tr>
+                    <td class="text-center space-x-1">
+                        <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
+                            name="{{ skill_name }}_proficiency" data-ability="{{ skill_name }}" data-mod="{{ ability_mod }}"
+                            onclick="toggleProficiency(this, false)" {{ 'checked="checked"' if proficiency.get('proficiency', False) }} />
+                        <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
+                            name="{{ skill_name }}_expertise" data-ability="{{ skill_name }}" data-mod="{{ ability_mod }}"
+                            onclick="toggleProficiency(this, true)" {{ 'checked="checked"' if proficiency.get('expertise', False) }} />
+                    </td>
+                    <td>{{ display_name }} ({{ ability_short }})</td>
+                    <td class="text-right">{{ "%+d"|format(mod_value.value) }}</td>
+                </tr>
+            {% endmacro %}
+
             <div class="overflow-x-auto">
                 <table class="table w-full">
                     <tbody>
-
                         <tr>
                             <td class="text-center">Competencia</td>
                         </tr>
 
-                        <!-- Acrobacias -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set acrobatics_proficiency = character.proficiencies.get('acrobatics', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="acrobatics_proficiency" data-ability="acrobatics"
-                                    data-mod="{{ dexterity_mod }}" onclick="toggleProficiency(this, false)" {% if
-                                    acrobatics_proficiency.get('proficiency', False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="acrobatics_expertise" data-ability="acrobatics" data-mod="{{ dexterity_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if
-                                    acrobatics_proficiency.get('expertise', False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Acrobacias (Des)</td>
-                            {% set save_acrobatics = dexterity_mod %}
-                            {% if acrobatics_proficiency.get('proficiency', False) %}
-                            {% set save_acrobatics = dexterity_mod + proficiency_bonus %}
-                            {% elif acrobatics_proficiency.get('expertise', False) %}
-                            {% set save_acrobatics = dexterity_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_acrobatics) }}</td>
-                        </tr>
-
-                        <!-- Arcanos -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set arcane_proficiency = character.proficiencies.get('arcane', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="arcane_proficiency" data-ability="arcane" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if arcane_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="arcane_expertise" data-ability="arcane" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if arcane_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Arcanos (Int)</td>
-                            {% set save_arcane = intelligence_mod %}
-                            {% if arcane_proficiency.get('proficiency', False) %}
-                            {% set save_arcane = intelligence_mod + proficiency_bonus %}
-                            {% elif arcane_proficiency.get('expertise', False) %}
-                            {% set save_arcane = intelligence_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_arcane) }}</td>
-                        </tr>
-
-                        <!-- Atletismo -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set athletics_proficiency = character.proficiencies.get('athletics', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="athletics_proficiency" data-ability="athletics" data-mod="{{ strength_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if arcane_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="arcane_expertise" data-ability="arcane" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if arcane_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Atletismo (Fue)</td>
-                            {% set save_athletics = strength_mod %}
-                            {% if athletics_proficiency.get('proficiency', False) %}
-                            {% set save_athletics = strength_mod + proficiency_bonus %}
-                            {% elif athletics_proficiency.get('expertise', False) %}
-                            {% set save_athletics = strength_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_athletics) }}</td>
-                        </tr>
-
-                        <!-- Engañar -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set deception_proficiency = character.proficiencies.get('deception', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="deception_proficiency" data-ability="deception" data-mod="{{ charisma_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if deception_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="deception_expertise" data-ability="deception" data-mod="{{ charisma_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if deception_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Engañar (Car)</td>
-                            {% set save_deception = charisma_mod %}
-                            {% if deception_proficiency.get('proficiency', False) %}
-                            {% set save_deception = charisma_mod + proficiency_bonus %}
-                            {% elif deception_proficiency.get('expertise', False) %}
-                            {% set save_deception = charisma_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_deception) }}</td>
-                        </tr>
-
-                        <!-- Historia -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set history_proficiency = character.proficiencies.get('history', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="history_proficiency" data-ability="history" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if history_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="history_expertise" data-ability="history" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if history_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Historia (Int)</td>
-                            {% set save_history = intelligence_mod %}
-                            {% if history_proficiency.get('proficiency', False) %}
-                            {% set save_history = intelligence_mod + proficiency_bonus %}
-                            {% elif history_proficiency.get('expertise', False) %}
-                            {% set save_history = intelligence_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_history) }}</td>
-                        </tr>
-
-                        <!-- Interpretación -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set performance_proficiency = character.proficiencies.get('performance', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="performance_proficiency" data-ability="performance" data-mod="{{ charisma_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if performance_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="performance_expertise" data-ability="performance" data-mod="{{ charisma_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if performance_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Interpretación (Car)</td>
-                            {% set save_performance = charisma_mod %}
-                            {% if performance_proficiency.get('proficiency', False) %}
-                            {% set save_performance = charisma_mod + proficiency_bonus %}
-                            {% elif performance_proficiency.get('expertise', False) %}
-                            {% set save_performance = charisma_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_performance) }}</td>
-                        </tr>
-
-                        <!-- Intimidar -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set intimidation_proficiency = character.proficiencies.get('intimidation', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="intimidation_proficiency" data-ability="intimidation" data-mod="{{ charisma_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if intimidation_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="intimidation_expertise" data-ability="intimidation" data-mod="{{ charisma_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if intimidation_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Intimidar (Car)</td>
-                            {% set save_intimidation = charisma_mod %}
-                            {% if intimidation_proficiency.get('proficiency', False) %}
-                            {% set save_intimidation = charisma_mod + proficiency_bonus %}
-                            {% elif intimidation_proficiency.get('expertise', False) %}
-                            {% set save_intimidation = charisma_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_intimidation) }}</td>
-                        </tr>
-
-                        <!-- Investigación -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set investigation_proficiency = character.proficiencies.get('investigation', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="investigation_proficiency" data-ability="investigation" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if investigation_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="investigation_expertise" data-ability="investigation" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if investigation_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Investigación (Int)</td>
-                            {% set save_investigation = intelligence_mod %}
-                            {% if investigation_proficiency.get('proficiency', False) %}
-                            {% set save_investigation = intelligence_mod + proficiency_bonus %}
-                            {% elif investigation_proficiency.get('expertise', False) %}
-                            {% set save_investigation = intelligence_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_investigation) }}</td>
-                        </tr>
-
-                        <!-- Juego de manos -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set sleight_of_hand_proficiency = character.proficiencies.get('sleight_of_hand', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="sleight_of_hand_proficiency" data-ability="sleight_of_hand" data-mod="{{ dexterity_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if sleight_of_hand_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="sleight_of_hand_expertise" data-ability="sleight_of_hand" data-mod="{{ dexterity_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if sleight_of_hand_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Juego de manos (Dest)</td>
-                            {% set save_sleight_of_hand = dexterity_mod %}
-                            {% if sleight_of_hand_proficiency.get('proficiency', False) %}
-                            {% set save_sleight_of_hand = dexterity_mod + proficiency_bonus %}
-                            {% elif sleight_of_hand_proficiency.get('expertise', False) %}
-                            {% set save_sleight_of_hand = dexterity_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_sleight_of_hand) }}</td>
-                        </tr>
-
-                        <!-- Medicina -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set medicine_proficiency = character.proficiencies.get('medicine', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="medicine_proficiency" data-ability="medicine" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if medicine_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="medicine_expertise" data-ability="medicine" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if medicine_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Medicina (Sab)</td>
-                            {% set save_medicine = wisdom_mod %}
-                            {% if medicine_proficiency.get('proficiency', False) %}
-                            {% set save_medicine = wisdom_mod + proficiency_bonus %}
-                            {% elif medicine_proficiency.get('expertise', False) %}
-                            {% set save_medicine = wisdom_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_medicine) }}</td>
-                        </tr>
-
-                        <!-- Naturaleza -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set nature_proficiency = character.proficiencies.get('nature', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="nature_proficiency" data-ability="nature" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if nature_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="nature_expertise" data-ability="nature" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if nature_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Naturaleza (Int)</td>
-                            {% set save_nature = intelligence_mod %}
-                            {% if nature_proficiency.get('proficiency', False) %}
-                            {% set save_nature = intelligence_mod + proficiency_bonus %}
-                            {% elif nature_proficiency.get('expertise', False) %}
-                            {% set save_nature = intelligence_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_nature) }}</td>
-                        </tr>
-
-                        <!-- Percepción -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set perception_proficiency = character.proficiencies.get('perception', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="perception_proficiency" data-ability="perception" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if perception_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="perception_expertise" data-ability="perception" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if perception_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Percepción (Sab)</td>
-                            {% set save_perception = wisdom_mod %}
-                            {% if perception_proficiency.get('proficiency', False) %}
-                            {% set save_perception = wisdom_mod + proficiency_bonus %}
-                            {% elif perception_proficiency.get('expertise', False) %}
-                            {% set save_perception = wisdom_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_perception) }}</td>
-                        </tr>
-
-                        <!-- Perspicacia -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set insight_proficiency = character.proficiencies.get('insight', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="insight_proficiency" data-ability="insight" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if insight_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="insight_expertise" data-ability="insight" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if insight_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Perspicacia (Sab)</td>
-                            {% set save_insight = wisdom_mod %}
-                            {% if insight_proficiency.get('proficiency', False) %}
-                            {% set save_insight = wisdom_mod + proficiency_bonus %}
-                            {% elif insight_proficiency.get('expertise', False) %}
-                            {% set save_insight = wisdom_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_insight) }}</td>
-                        </tr>
-
-                        <!-- Persuasión -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set persuasion_proficiency = character.proficiencies.get('persuasion', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="persuasion_proficiency" data-ability="persuasion" data-mod="{{ charisma_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if persuasion_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="persuasion_expertise" data-ability="persuasion" data-mod="{{ charisma_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if persuasion_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Persuasión (Car)</td>
-                            {% set save_persuasion = charisma_mod %}
-                            {% if persuasion_proficiency.get('proficiency', False) %}
-                            {% set save_persuasion = charisma_mod + proficiency_bonus %}
-                            {% elif persuasion_proficiency.get('expertise', False) %}
-                            {% set save_persuasion = charisma_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_persuasion) }}</td>
-                        </tr>
-
-                        <!-- Religión -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set religion_proficiency = character.proficiencies.get('religion', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="religion_proficiency" data-ability="religion" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if religion_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="religion_expertise" data-ability="religion" data-mod="{{ intelligence_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if religion_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Religión (Int)</td>
-                            {% set save_religion = intelligence_mod %}
-                            {% if religion_proficiency.get('proficiency', False) %}
-                            {% set save_religion = intelligence_mod + proficiency_bonus %}
-                            {% elif religion_proficiency.get('expertise', False) %}
-                            {% set save_religion = intelligence_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_religion) }}</td>
-                        </tr>
-                        
-                        <!-- Sigilo -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set stealth_proficiency = character.proficiencies.get('stealth', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="stealth_proficiency" data-ability="stealth" data-mod="{{ dexterity_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if stealth_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="stealth_expertise" data-ability="stealth" data-mod="{{ dexterity_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if stealth_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Sigilo (Dest)</td>
-                            {% set save_stealth = dexterity_mod %}
-                            {% if stealth_proficiency.get('proficiency', False) %}
-                            {% set save_stealth = dexterity_mod + proficiency_bonus %}
-                            {% elif stealth_proficiency.get('expertise', False) %}
-                            {% set save_stealth = dexterity_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_stealth) }}</td>
-                        </tr>
-                        
-                        <!-- Supervivencia -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set survival_proficiency = character.proficiencies.get('survival', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="survival_proficiency" data-ability="survival" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if survival_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="survival_expertise" data-ability="survival" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if survival_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Supervivencia (Sab)</td>
-                            {% set save_survival = wisdom_mod %}
-                            {% if survival_proficiency.get('proficiency', False) %}
-                            {% set save_survival = wisdom_mod + proficiency_bonus %}
-                            {% elif survival_proficiency.get('expertise', False) %}
-                            {% set save_survival = wisdom_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_survival) }}</td>
-                        </tr>
-
-                        <!-- Trato con Animales -->
-                        <tr>
-                            <td class="text-center space-x-1">
-                                {% set animal_handling_proficiency = character.proficiencies.get('animal_handling', {}) %}
-                                <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                                    name="animal_handling_proficiency" data-ability="animal_handling" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, false)" {% if animal_handling_proficiency.get('proficiency',
-                                    False) %}checked="checked" {% endif %} />
-                                <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                                    name="animal_handling_expertise" data-ability="animal_handling" data-mod="{{ wisdom_mod }}"
-                                    onclick="toggleProficiency(this, true)" {% if animal_handling_proficiency.get('expertise',
-                                    False) %}checked="checked" {% endif %} />
-                            </td>
-                            <td>Trato con Animales (Sab)</td>
-                            {% set save_animal_handling = wisdom_mod %}
-                            {% if animal_handling_proficiency.get('proficiency', False) %}
-                            {% set save_animal_handling = wisdom_mod + proficiency_bonus %}
-                            {% elif animal_handling_proficiency.get('expertise', False) %}
-                            {% set save_animal_handling = wisdom_mod + (2 * proficiency_bonus) %}
-                            {% endif %}
-                            <td class="text-right">{{ "%+d"|format(save_animal_handling) }}</td>
-                        </tr>
+                        {{ skill_row('acrobatics', 'Acrobacias', dexterity_mod, 'Des') }}
+                        {{ skill_row('arcane', 'Arcanos', intelligence_mod, 'Int') }}
+                        {{ skill_row('athletics', 'Atletismo', strength_mod, 'Fue') }}
+                        {{ skill_row('deception', 'Engañar', charisma_mod, 'Car') }}
+                        {{ skill_row('history', 'Historia', intelligence_mod, 'Int') }}
+                        {{ skill_row('performance', 'Interpretación', charisma_mod, 'Car') }}
+                        {{ skill_row('intimidation', 'Intimidar', charisma_mod, 'Car') }}
+                        {{ skill_row('investigation', 'Investigación', intelligence_mod, 'Int') }}
+                        {{ skill_row('sleight_of_hand', 'Juego de manos', dexterity_mod, 'Des') }}
+                        {{ skill_row('medicine', 'Medicina', wisdom_mod, 'Sab') }}
+                        {{ skill_row('nature', 'Naturaleza', intelligence_mod, 'Int') }}
+                        {{ skill_row('perception', 'Percepción', wisdom_mod, 'Sab') }}
+                        {{ skill_row('insight', 'Perspicacia', wisdom_mod, 'Sab') }}
+                        {{ skill_row('persuasion', 'Persuasión', charisma_mod, 'Car') }}
+                        {{ skill_row('religion', 'Religión', wisdom_mod, 'Sab') }}
+                        {{ skill_row('stealth', 'Sigilo', dexterity_mod, 'Des') }}
+                        {{ skill_row('survival', 'Supervivencia', wisdom_mod, 'Sab') }}
+                        {{ skill_row('animal_handling', 'Trato con Animales', wisdom_mod, 'Sab') }}
                     </tbody>
                 </table>
             </div>
