@@ -12,7 +12,8 @@ class Character(Document):
     race: str
     char_class: str
     level: int
-    hp: Optional[int] = 0
+    hit_points: Optional[int] = 0
+    armor_class_adjustment: Optional[int] = 0
     ability_scores: dict[str, int]
     ability_modifiers: Optional[dict[str, int]] = {}
     proficiencies: Optional[dict[str, dict[str, bool]]] = {}

@@ -66,10 +66,10 @@ def create_character_post():
                           })
 
     character.update_ability_modifiers()
-    character.hp = compendium.get_class_hp(character.char_class) + character.ability_modifiers.get('constitution', 0)
+    character.hit_points = compendium.get_class_hp(character.char_class) + character.ability_modifiers.get('constitution', 0)
     character.update_dependencies()
 
-    character.update()
+    character.save()
     flash("Se ha creado el personaje correctamente.", "success")
 
     return redirect(url_for("characters.character_gallery"))
@@ -115,7 +115,7 @@ def update_character(char_id):
             character.race = compendium.get_race_id(request.form.get('race'))
             character.char_class = compendium.get_class_id(request.form.get('char_class'))
             character.level = int(request.form.get('level'))
-            character.hp = int(request.form.get('hp'))
+            character.hit_points = int(request.form.get('hit_points'))
 
         def update_stats():
             character.ability_scores = {
