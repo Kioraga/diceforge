@@ -1,6 +1,6 @@
 <!-- Modal para editar personaje -->
 <dialog id="edit_base_modal" class="modal">
-    <div class="modal-box max-w-2xl">
+    <div class="modal-box max-w-2xl h-full w-full md:w-11/12 md:h-auto">
         <h3 class="font-bold text-lg mb-4">Editar Personaje</h3>
         <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
               class="space-y-4">
