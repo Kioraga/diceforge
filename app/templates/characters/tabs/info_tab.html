@@ -385,7 +385,7 @@
                             <td class="text-center">
                                 {% set intimidation_proficiency= character.proficiencies.get('intimidation', {}) %}
                                 <input type="checkbox" class="checkbox checkbox-sm disabled:opacity-70 {% if intimidation_proficiency.get('expertise', False) %}checkbox-accent{% endif %}"
-                                       {% if intimidation_proficiency.get('proficiency', False) or intimidation_proficiency.get('expertise', False) %}ch    ecked="checked"{% endif %}
+                                       {% if intimidation_proficiency.get('proficiency', False) or intimidation_proficiency.get('expertise', False) %}checked="checked"{% endif %}
                                        disabled/>
                             </td>
                             <td>Intimidar (Car)</td>

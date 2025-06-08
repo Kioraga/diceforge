@@ -115,6 +115,7 @@ def update_character(char_id):
                 "base": update_base,
                 "stats": update_stats,
                 "saving_throws": update_saving_throws,
+                "skills": update_skills,
             }
             switch.get(modal)()
 
@@ -136,31 +137,25 @@ def update_character(char_id):
             }
 
         def update_saving_throws():
+            abilities = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]
             character.proficiencies = {
-                "strength": {
-                    "proficiency": True if request.form.get('strength_proficiency') == 'on' else False,
-                    "expertise": True if request.form.get('strength_expertise') == 'on' else False
-                },
-                "dexterity": {
-                    "proficiency": True if request.form.get('dexterity_proficiency') == 'on' else False,
-                    "expertise": True if request.form.get('dexterity_expertise') == 'on' else False
-                },
-                "constitution": {
-                    "proficiency": True if request.form.get('constitution_proficiency') == 'on' else False,
-                    "expertise": True if request.form.get('constitution_expertise') == 'on' else False
-                },
-                "intelligence": {
-                    "proficiency": True if request.form.get('intelligence_proficiency') == 'on' else False,
-                    "expertise": True if request.form.get('intelligence_expertise') == 'on' else False
-                },
-                "wisdom": {
-                    "proficiency": True if request.form.get('wisdom_proficiency') == 'on' else False,
-                    "expertise": True if request.form.get('wisdom_expertise') == 'on' else False
-                },
-                "charisma": {
-                    "proficiency": True if request.form.get('charisma_proficiency') == 'on' else False,
-                    "expertise": True if request.form.get('charisma_expertise') == 'on' else False
-                },
+                ability: {
+                    "proficiency": request.form.get(f'{ability}_proficiency') == 'on'
+                } for ability in abilities
+            }
+
+        def update_skills():
+            skills = [
+                "acrobatics", "arcana", "athletics", "deception", "history",
+                "performance", "intimidation", "investigation", "sleight_of_hand",
+                "stealth", "survival", "perception", "persuasion", "insight",
+                "medicine", "nature", "religion", "animal_handling"
+            ]
+            character.proficiencies = {
+                skill: {
+                    "proficiency": request.form.get(f'{skill}_proficiency') == 'on',
+                    "expertise": request.form.get(f'{skill}_expertise') == 'on'
+                } for skill in skills
             }
 
         select_modal(request.form.get('modal'))

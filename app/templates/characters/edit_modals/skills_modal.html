@@ -4,7 +4,7 @@
         <h3 class="font-bold text-lg mb-4">Editar Habilidades</h3>
         <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
               class="space-y-4">
-            <input type="hidden" name="modal" value="saving_throws">
+            <input type="hidden" name="modal" value="skills">
 
             <!-- Macro para generar filas de habilidades -->
             {% macro skill_row(skill_name, display_name, ability_mod, ability_short) %}
@@ -13,8 +13,6 @@
 
                 {% if proficiency.get('proficiency', False) %}
                     {% set mod_value.value = ability_mod + proficiency_bonus %}
-                {% elif proficiency.get('expertise', False) %}
-                    {% set mod_value.value = ability_mod + (2 * proficiency_bonus) %}
                 {% endif %}
 
                 <tr>
@@ -41,7 +39,7 @@
                     </tr>
 
                     {{ skill_row('acrobatics', 'Acrobacias', dexterity_mod, 'Des') }}
-                    {{ skill_row('arcane', 'Arcanos', intelligence_mod, 'Int') }}
+                    {{ skill_row('arcana', 'Arcanos', intelligence_mod, 'Int') }}
                     {{ skill_row('athletics', 'Atletismo', strength_mod, 'Fue') }}
                     {{ skill_row('deception', 'Engañar', charisma_mod, 'Car') }}
                     {{ skill_row('history', 'Historia', intelligence_mod, 'Int') }}
