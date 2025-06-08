@@ -44,7 +44,6 @@ def create_character_post():
                           race=compendium.get_race_id(request.form["race"]),
                           char_class=compendium.get_class_id(request.form["class"]),
                           level=1,
-                          hp=42,
                           ability_scores={
                               "strength": request.form.get("strength"),
                               "dexterity": request.form.get("dexterity"),
@@ -67,6 +66,7 @@ def create_character_post():
                           })
 
     character.update_ability_modifiers()
+    character.hp = compendium.get_class_hp(character.char_class) + character.ability_modifiers.get('constitution', 0)
     character.update_dependencies()
 
     character.save()

@@ -1,3 +1,4 @@
+import re
 from typing import Dict, Any, List, Optional
 from .manager import PluginManager
 
@@ -86,6 +87,13 @@ class Compendium:
             if cls_data.get('name') == class_name:
                 return cls_id
         return None
+
+    def get_class_hp(self, class_name: str) -> Optional[int]:
+        """Obtiene los puntos de golpe base de una clase por su nombre"""
+        description = self.get_class(class_name).get('description', {})
+
+        match = re.search(r'1:</strong>\s*(\d+)', description)
+        return int(match.group(1)) if match else None
 
     # Métodos para hechizos
     def get_spells(self) -> Dict[str, Any]:
