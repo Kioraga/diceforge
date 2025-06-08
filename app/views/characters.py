@@ -137,18 +137,35 @@ def update_character(char_id):
 
         def update_saving_throws():
             character.proficiencies = {
-                "strength": request.form.get('strength_proficiency'),
-                "dexterity": request.form.get('dexterity_proficiency'),
-                "constitution": request.form.get('constitution_proficiency'),
-                "intelligence": request.form.get('intelligence_proficiency'),
-                "wisdom": request.form.get('wisdom_proficiency'),
-                "charisma": request.form.get('charisma_proficiency'),
+                "strength": {
+                    "proficiency": True if request.form.get('strength_proficiency') == 'on' else False,
+                    "expertise": True if request.form.get('strength_expertise') == 'on' else False
+                },
+                "dexterity": {
+                    "proficiency": True if request.form.get('dexterity_proficiency') == 'on' else False,
+                    "expertise": True if request.form.get('dexterity_expertise') == 'on' else False
+                },
+                "constitution": {
+                    "proficiency": True if request.form.get('constitution_proficiency') == 'on' else False,
+                    "expertise": True if request.form.get('constitution_expertise') == 'on' else False
+                },
+                "intelligence": {
+                    "proficiency": True if request.form.get('intelligence_proficiency') == 'on' else False,
+                    "expertise": True if request.form.get('intelligence_expertise') == 'on' else False
+                },
+                "wisdom": {
+                    "proficiency": True if request.form.get('wisdom_proficiency') == 'on' else False,
+                    "expertise": True if request.form.get('wisdom_expertise') == 'on' else False
+                },
+                "charisma": {
+                    "proficiency": True if request.form.get('charisma_proficiency') == 'on' else False,
+                    "expertise": True if request.form.get('charisma_expertise') == 'on' else False
+                },
             }
-            print(character.proficiencies)
 
         select_modal(request.form.get('modal'))
 
-        #character.save()
+        character.save()
 
         flash("Personaje actualizado correctamente.", "success")
         return redirect(url_for("characters.character_detail", char_id=char_id))

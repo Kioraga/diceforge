@@ -15,7 +15,7 @@ class Character(Document):
     hp: Optional[int] = 0
     ability_scores: dict[str, int]
     ability_modifiers: Optional[dict[str, int]] = {}
-    proficiencies: Optional[dict[str, str]] = {}  # proficiency | expertise
+    proficiencies: Optional[dict[str, dict[str, bool]]] = {}
     background: Optional[dict[str, str]] = {}
     info: Optional[dict[str, str]] = {}
     spells: Optional[dict[str, str]] = {}
