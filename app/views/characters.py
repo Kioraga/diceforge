@@ -128,6 +128,8 @@ def update_character(char_id):
                 "wisdom": int(request.form.get('wisdom')),
                 "charisma": int(request.form.get('charisma')),
             }
+            character.update_ability_modifiers()
+            character.armor_class = 10 + character.ability_modifiers.get('dexterity', 0)
 
         def update_saving_throws():
             abilities = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]

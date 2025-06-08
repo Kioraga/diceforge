@@ -1,7 +1,7 @@
 <!-- Modal para editar información del personaje -->
 <dialog id="info_modal" class="modal">
     <div class="modal-box max-w-2xl h-full w-full md:w-11/12 md:h-auto">
-        <h3 class="font-bold text-lg mb-4">Editar Información del Personaje</h3>
+        <h3 class="font-bold text-lg mb-4">Editar Información</h3>
         <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
               class="space-y-4">
             <input type="hidden" name="modal" value="info">
