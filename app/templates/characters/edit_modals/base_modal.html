@@ -1,0 +1,55 @@
+<!-- Modal para editar personaje -->
+<dialog id="edit_base_modal" class="modal">
+    <div class="modal-box max-w-2xl">
+        <h3 class="font-bold text-lg mb-4">Editar Personaje</h3>
+        <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Nombre</span>
+                    </label>
+                    <input type="text" name="name" value="{{ character.name }}" class="input input-bordered w-full" required>
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Raza</span>
+                    </label>
+                    <select name="race" class="select select-bordered w-full">
+                        {% for race in compendium.race_names() %}
+                        <option value="{{ race }}" {% if compendium.get_race_id(race) == character.race %}selected{% endif %}>{{ race }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Clase</span>
+                    </label>
+                    <select name="char_class" class="select select-bordered w-full">
+                        {% for class in compendium.class_names() %}
+                        <option value="{{ class }}" {% if compendium.get_class_id(class) == character.char_class %}selected{% endif %}>{{ class }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Nivel</span>
+                    </label>
+                    <input type="number" name="level" value="{{ character.level }}" min="1" max="20" class="input input-bordered w-full">
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Puntos de Golpe</span>
+                    </label>
+                    <input type="number" name="hp" value="{{ character.hp }}" min="1" class="input input-bordered w-full">
+                </div>
+            </div>
+            <div class="modal-action">
+                <button type="button" class="btn btn-ghost" onclick="edit_base_modal.close()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>

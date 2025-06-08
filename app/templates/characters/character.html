@@ -54,67 +54,11 @@
                     <button>close</button>
                 </form>
             </dialog>
-            
-            <!-- Modal para editar personaje -->
-            <dialog id="edit_character_modal" class="modal">
-                <div class="modal-box max-w-2xl">
-                    <h3 class="font-bold text-lg mb-4">Editar Personaje</h3>
-                    <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Nombre</span>
-                                </label>
-                                <input type="text" name="name" value="{{ character.name }}" class="input input-bordered w-full" required>
-                            </div>
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Raza</span>
-                                </label>
-                                <select name="race" class="select select-bordered w-full">
-                                    {% for race in compendium.race_names() %}
-                                    <option value="{{ race }}" {% if compendium.get_race_id(race) == character.race %}selected{% endif %}>{{ race }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Clase</span>
-                                </label>
-                                <select name="char_class" class="select select-bordered w-full">
-                                    {% for class in compendium.class_names() %}
-                                    <option value="{{ class }}" {% if compendium.get_class_id(class) == character.char_class %}selected{% endif %}>{{ class }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Nivel</span>
-                                </label>
-                                <input type="number" name="level" value="{{ character.level }}" min="1" max="20" class="input input-bordered w-full">
-                            </div>
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Puntos de Golpe</span>
-                                </label>
-                                <input type="number" name="hp" value="{{ character.hp }}" min="1" class="input input-bordered w-full">
-                            </div>
-                        </div>
-                        <div class="modal-action">
-                            <button type="button" class="btn btn-ghost" onclick="edit_character_modal.close()">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </form>
-                </div>
-                <form method="dialog" class="modal-backdrop">
-                    <button>close</button>
-                </form>
-            </dialog>
         </div>
 
         <!-- Encabezado del perfil del personaje -->
         <div class="card bg-base-200 shadow-xl mb-6 relative overflow-visible">
-            <button class="btn btn-ghost btn-circle btn-sm absolute -right-2 -top-2 z-10 bg-secondary shadow-md hover:bg-secondary" onclick="edit_character_modal.showModal()">
+            <button class="btn btn-ghost btn-circle btn-sm absolute -right-2 -top-2 z-10 bg-secondary shadow-md hover:bg-secondary" onclick="edit_base_modal.showModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
@@ -151,6 +95,8 @@
                     </div>
                 </div>
             </div>
+
+            {% include 'characters/edit_modals/base_modal.html' %}
         </div>
 
         <!-- Pestañas para secciones diferentes -->
