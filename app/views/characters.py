@@ -69,7 +69,7 @@ def create_character_post():
     character.hp = compendium.get_class_hp(character.char_class) + character.ability_modifiers.get('constitution', 0)
     character.update_dependencies()
 
-    character.save()
+    character.update()
     flash("Se ha creado el personaje correctamente.", "success")
 
     return redirect(url_for("characters.character_gallery"))
@@ -97,10 +97,39 @@ def character_detail(char_id):
         return redirect(url_for("characters.character_gallery"))
 
 
+@characters_bp.route("/update_character/<char_id>", methods=["POST"])
+@login_required
+def update_character(char_id):
+    character = Character.get(char_id).run()
+    if not character:
+        flash("Personaje no encontrado.", "error")
+        return redirect(url_for("characters.character_gallery"))
+
+    try:
+        character.name = request.form.get('name')
+        character.race = compendium.get_race_id(request.form.get('race'))
+        character.char_class = compendium.get_class_id(request.form.get('char_class'))
+        character.level = int(request.form.get('level', 1))
+        character.hp = int(request.form.get('hp', 0))
+
+        character.save()
+        
+        flash("Personaje actualizado correctamente.", "success")
+        return redirect(url_for("characters.character_detail", char_id=char_id))
+        
+    except Exception as e:
+        flash(f"Error al actualizar el personaje: {str(e)}", "error")
+        return redirect(url_for("characters.character_detail", char_id=char_id))
+
+
 @characters_bp.route("/delete_character/<char_id>", methods=["POST"])
 @login_required
 def delete_character(char_id):
     character = Character.get(char_id).run()
+    if not character:
+        flash("Personaje no encontrado.", "error")
+        return redirect(url_for("characters.character_gallery"))
+
     character.delete()
     flash("Personaje eliminado correctamente.", "success")
     return redirect(url_for("characters.character_gallery"))
