@@ -2,9 +2,10 @@
 <dialog id="edit_saving_throws_modal" class="modal">
     <div class="modal-box max-w-2xl h-full w-full md:w-11/12 md:h-auto">
         <h3 class="font-bold text-lg mb-4">Editar Tiradas de Salvación</h3>
-        <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}" class="space-y-4">
+        <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
+              class="space-y-4">
             <input type="hidden" name="modal" value="saving_throws">
-            
+
             <div class="overflow-x-auto">
                 <table class="table w-full">
                     <tbody>
@@ -17,11 +18,15 @@
                     <tr>
                         <td class="text-center space-x-1">
                             {% set strength_proficiency = character.proficiencies.get('strength', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm"
-                                   onclick="addProficiencyBonus(this, false)"
+                            <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
+                                   data-ability="strength"
+                                   data-mod="{{ strength_mod }}"
+                                   onclick="toggleProficiency(this, false)"
                                    {% if strength_proficiency == 'proficiency' or strength_proficiency == 'expertise' %}checked="checked"{% endif %}/>
-                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
-                                   onclick="addProficiencyBonus(this, true)"
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
+                                   data-ability="strength"
+                                   data-mod="{{ strength_mod }}"
+                                   onclick="toggleProficiency(this, true)"
                                    {% if strength_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Fuerza (Fue)</td>
@@ -36,13 +41,17 @@
 
                     <!-- Destreza -->
                     <tr>
-                        <td class="text-center space-x-1">    
+                        <td class="text-center space-x-1">
                             {% set dexterity_proficiency = character.proficiencies.get('dexterity', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm"
-                                   onclick="addProficiencyBonus(this, false)"
+                            <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
+                                   data-ability="dexterity"
+                                   data-mod="{{ dexterity_mod }}"
+                                   onclick="toggleProficiency(this, false)"
                                    {% if dexterity_proficiency == 'proficiency' or dexterity_proficiency == 'expertise' %}checked="checked"{% endif %}/>
-                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
-                                   onclick="addProficiencyBonus(this, true)"
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
+                                   data-ability="dexterity"
+                                   data-mod="{{ dexterity_mod }}"
+                                   onclick="toggleProficiency(this, true)"
                                    {% if dexterity_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Destreza (Des)</td>
@@ -59,11 +68,15 @@
                     <tr>
                         <td class="text-center space-x-1">
                             {% set constitution_proficiency = character.proficiencies.get('constitution', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm"
-                                   onclick="addProficiencyBonus(this, false)"
+                            <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
+                                   data-ability="constitution"
+                                   data-mod="{{ constitution_mod }}"
+                                   onclick="toggleProficiency(this, false)"
                                    {% if constitution_proficiency == 'proficiency' or constitution_proficiency == 'expertise' %}checked="checked"{% endif %}/>
-                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
-                                   onclick="addProficiencyBonus(this, true)"
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
+                                   data-ability="constitution"
+                                   data-mod="{{ constitution_mod }}"
+                                   onclick="toggleProficiency(this, true)"
                                    {% if constitution_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Constitución (Con)</td>
@@ -80,11 +93,15 @@
                     <tr>
                         <td class="text-center space-x-1">
                             {% set intelligence_proficiency = character.proficiencies.get('intelligence', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm"
-                                   onclick="addProficiencyBonus(this, false)"
+                            <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
+                                   data-ability="intelligence"
+                                   data-mod="{{ intelligence_mod }}"
+                                   onclick="toggleProficiency(this, false)"
                                    {% if intelligence_proficiency == 'proficiency' or intelligence_proficiency == 'expertise' %}checked="checked"{% endif %}/>
-                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
-                                   onclick="addProficiencyBonus(this, true)"
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
+                                   data-ability="intelligence"
+                                   data-mod="{{ intelligence_mod }}"
+                                   onclick="toggleProficiency(this, true)"
                                    {% if intelligence_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Inteligencia (Int)</td>
@@ -101,11 +118,15 @@
                     <tr>
                         <td class="text-center space-x-1">
                             {% set wisdom_proficiency = character.proficiencies.get('wisdom', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm"
-                                   onclick="addProficiencyBonus(this, false)"
+                            <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
+                                   data-ability="wisdom"
+                                   data-mod="{{ wisdom_mod }}"
+                                   onclick="toggleProficiency(this, false)"
                                    {% if wisdom_proficiency == 'proficiency' or wisdom_proficiency == 'expertise' %}checked="checked"{% endif %}/>
-                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
-                                   onclick="addProficiencyBonus(this, true)"
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
+                                   data-ability="wisdom"
+                                   data-mod="{{ wisdom_mod }}"
+                                   onclick="toggleProficiency(this, true)"
                                    {% if wisdom_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Sabiduría (Sab)</td>
@@ -122,11 +143,15 @@
                     <tr>
                         <td class="text-center space-x-1">
                             {% set charisma_proficiency = character.proficiencies.get('charisma', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm"
-                                   onclick="addProficiencyBonus(this, false)"
+                            <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
+                                   data-ability="charisma"
+                                   data-mod="{{ charisma_mod }}"
+                                   onclick="toggleProficiency(this, false)"
                                    {% if charisma_proficiency == 'proficiency' or charisma_proficiency == 'expertise' %}checked="checked"{% endif %}/>
-                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
-                                   onclick="addProficiencyBonus(this, true)"
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
+                                   data-ability="charisma"
+                                   data-mod="{{ charisma_mod }}"
+                                   onclick="toggleProficiency(this, true)"
                                    {% if charisma_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Carisma (Car)</td>
@@ -148,24 +173,90 @@
             </div>
         </form>
     </div>
-    
-    <script>
-    function addProficiencyBonus(checkbox, expertise = false) {
-            const proficiency_bonus = parseInt("{{ proficiency_bonus | tojson }}");
-            const bonusCell = checkbox.parentElement.nextElementSibling.nextElementSibling;
-            const currentValue = parseInt(bonusCell.textContent);
-            const originalValue = parseInt(checkbox.dataset.originalValue || currentValue);
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
 
-            if (checkbox.checked) {
-                // Almacena el valor original si no se ha almacenado
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializar los valores de los bonos al cargar la página
+            initializeProficiencyBonuses();
+        });
+
+        function initializeProficiencyBonuses() {
+            const proficiencyBonus = parseInt("{{ proficiency_bonus | tojson }}");
+            const checkboxes = document.querySelectorAll('.proficiency-checkbox, .expertise-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                const ability = checkbox.dataset.ability;
+                const mod = parseInt(checkbox.dataset.mod);
+                const isExpertise = checkbox.classList.contains('expertise-checkbox');
+                const bonusCell = checkbox.closest('tr').querySelector('td:last-child');
+
+                // Guardar el valor base del modificador
                 if (!checkbox.dataset.originalValue) {
-                    checkbox.dataset.originalValue = currentValue.toString();
+                    checkbox.dataset.originalValue = mod.toString();
                 }
-                const newValue = originalValue + (expertise ? 2 * proficiency_bonus : proficiency_bonus);
-                bonusCell.textContent = (newValue >= 0 ? '+' : '') + newValue;
+
+                // Actualizar el valor mostrado
+                updateBonusDisplay(checkbox, bonusCell, proficiencyBonus);
+            });
+        }
+
+        function toggleProficiency(checkbox, isExpertise) {
+            const proficiencyBonus = parseInt("{{ proficiency_bonus | tojson }}");
+            const ability = checkbox.dataset.ability;
+            const row = checkbox.closest('tr');
+            const proficiencyCheckbox = row.querySelector('.proficiency-checkbox');
+            const expertiseCheckbox = row.querySelector('.expertise-checkbox');
+            const bonusCell = row.querySelector('td:last-child');
+
+            if (isExpertise) {
+                // Si se está marcando expertise, asegurarse de que proficiency también esté marcado
+                if (checkbox.checked && !proficiencyCheckbox.checked) {
+                    proficiencyCheckbox.checked = true;
+                    updateBonusDisplay(proficiencyCheckbox, bonusCell, proficiencyBonus);
+                }
             } else {
-                // Restaura el valor original con su signo
-                bonusCell.textContent = (originalValue >= 0 ? '+' : '') + originalValue;
+                // Si se está desmarcando proficiency, asegurarse de que expertise también se desmarque
+                if (!checkbox.checked && expertiseCheckbox.checked) {
+                    expertiseCheckbox.checked = false;
+                    updateBonusDisplay(expertiseCheckbox, bonusCell, proficiencyBonus);
+                }
+            }
+
+            // Actualizar la visualización del bono
+            updateBonusDisplay(checkbox, bonusCell, proficiencyBonus);
+        }
+
+        function updateBonusDisplay(checkbox, bonusCell, proficiencyBonus) {
+            const isExpertise = checkbox.classList.contains('expertise-checkbox');
+            const row = checkbox.closest('tr');
+            const proficiencyCheckbox = row.querySelector('.proficiency-checkbox');
+            const expertiseCheckbox = row.querySelector('.expertise-checkbox');
+            const mod = parseInt(checkbox.dataset.mod);
+
+            let bonus = mod;
+
+            if (expertiseCheckbox.checked) {
+                bonus += 2 * proficiencyBonus;
+            } else if (proficiencyCheckbox.checked) {
+                bonus += proficiencyBonus;
+            }
+
+            // Actualizar el valor mostrado
+            bonusCell.textContent = (bonus >= 0 ? '+' : '') + bonus;
+
+            // Actualizar los campos ocultos para el formulario
+            const ability = checkbox.dataset.ability;
+            const hiddenInput = document.querySelector(`input[name="proficiency_${ability}"]`);
+
+            if (expertiseCheckbox.checked) {
+                hiddenInput.value = 'expertise';
+            } else if (proficiencyCheckbox.checked) {
+                hiddenInput.value = 'proficiency';
+            } else {
+                hiddenInput.value = '';
             }
         }
     </script>

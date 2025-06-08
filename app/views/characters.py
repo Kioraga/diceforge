@@ -110,24 +110,45 @@ def update_character(char_id):
         return redirect(url_for("characters.character_gallery"))
 
     try:
-        # Actualización de características básicas
-        character.name = request.form.get('name', )
-        character.race = compendium.get_race_id(request.form.get('race'))
-        character.char_class = compendium.get_class_id(request.form.get('char_class'))
-        character.level = int(request.form.get('level'))
-        character.hp = int(request.form.get('hp'))
+        def select_modal(modal):
+            switch = {
+                "base": update_base,
+                "stats": update_stats,
+                "saving_throws": update_saving_throws,
+            }
+            switch.get(modal)()
 
-        # Actualización de características
-        character.ability_scores = {
-            "strength": int(request.form.get('strength')),
-            "dexterity": int(request.form.get('dexterity')),
-            "constitution": int(request.form.get('constitution')),
-            "intelligence": int(request.form.get('intelligence')),
-            "wisdom": int(request.form.get('wisdom')),
-            "charisma": int(request.form.get('charisma')),
-        }
+        def update_base():
+            character.name = request.form.get('name')
+            character.race = compendium.get_race_id(request.form.get('race'))
+            character.char_class = compendium.get_class_id(request.form.get('char_class'))
+            character.level = int(request.form.get('level'))
+            character.hp = int(request.form.get('hp'))
 
-        character.save()
+        def update_stats():
+            character.ability_scores = {
+                "strength": int(request.form.get('strength')),
+                "dexterity": int(request.form.get('dexterity')),
+                "constitution": int(request.form.get('constitution')),
+                "intelligence": int(request.form.get('intelligence')),
+                "wisdom": int(request.form.get('wisdom')),
+                "charisma": int(request.form.get('charisma')),
+            }
+
+        def update_saving_throws():
+            character.proficiencies = {
+                "strength": request.form.get('strength_proficiency'),
+                "dexterity": request.form.get('dexterity_proficiency'),
+                "constitution": request.form.get('constitution_proficiency'),
+                "intelligence": request.form.get('intelligence_proficiency'),
+                "wisdom": request.form.get('wisdom_proficiency'),
+                "charisma": request.form.get('charisma_proficiency'),
+            }
+            print(character.proficiencies)
+
+        select_modal(request.form.get('modal'))
+
+        #character.save()
 
         flash("Personaje actualizado correctamente.", "success")
         return redirect(url_for("characters.character_detail", char_id=char_id))
