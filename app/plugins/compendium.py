@@ -68,6 +68,13 @@ class Compendium:
                 return race_id
         return None
 
+    def get_race_speed(self, race_name: str) -> Optional[int]:
+        """Obtiene la velocidad base de una raza por su nombre"""
+        description = self.get_race(race_name).get('description', {})
+
+        match = re.search(r'base.*?(\d+).*?pies', description)
+        return int(match.group(1)) if match else None
+
     # Métodos para clases
     def get_classes(self) -> Dict[str, Any]:
         """Obtiene todas las clases disponibles"""

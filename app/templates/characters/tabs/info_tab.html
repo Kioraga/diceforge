@@ -97,7 +97,7 @@
 
                     <div class="stat bg-base-100 rounded-box p-2 text-center">
                         <div class="stat-title text-xs">Velocidad</div>
-                        <div class="stat-value text-xl">{{ character.speed | default(30) }}</div>
+                        <div class="stat-value text-xl">{{ compendium.get_race_speed(character.race) }}</div>
                         <div class="text-xs">pies</div>
                     </div>
 
