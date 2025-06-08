@@ -161,18 +161,18 @@ def update_character(char_id):
 
         def update_background():
             character.background = {
-                "name": request.form.get("bg_name", ""),
-                "features": request.form.get("bg_features", ""),
-                "ideals": request.form.get("bg_ideals", ""),
-                "bonds": request.form.get("bg_bonds", ""),
-                "flaws": request.form.get("bg_flaws", "")
+                "name": request.form.get("bg_name"),
+                "features": request.form.get("bg_features"),
+                "ideals": request.form.get("bg_ideals"),
+                "bonds": request.form.get("bg_bonds"),
+                "flaws": request.form.get("bg_flaws")
             }
 
         def update_info():
             character.info = {
-                "alignment": request.form.get("alignment", ""),
-                "appearance": request.form.get("appearance", ""),
-                "history": request.form.get("history", "")
+                "alignment": request.form.get("alignment"),
+                "appearance": request.form.get("appearance"),
+                "history": request.form.get("history")
             }
 
         def select_modal(modal):

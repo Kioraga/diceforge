@@ -1,0 +1,67 @@
+<!-- Modal para editar el trasfondo del personaje -->
+<dialog id="background_modal" class="modal">
+    <div class="modal-box max-w-2xl h-full w-full md:w-11/12 md:h-auto">
+        <h3 class="font-bold text-lg mb-4">Editar Trasfondo del Personaje</h3>
+        <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
+              class="space-y-4">
+            <input type="hidden" name="modal" value="background">
+            
+            <!-- Nombre del trasfondo -->
+            <div class="form-control w-full">
+                <label class="label" for="bg_name">
+                    <span class="label-text py-1.5">Nombre del Trasfondo</span>
+                </label>
+                <input type="text" name="bg_name" id="bg_name" class="input input-bordered w-full" 
+                       placeholder="Ej: Acolito, Artesano, Criminal..."
+                       value="{{ character.background.get('name', '') if character.background and character.background.get('name') else '' }}">
+            </div>
+
+            <!-- Rasgos de personalidad -->
+            <div class="form-control w-full">
+                <label class="label" for="bg_features">
+                    <span class="label-text py-1.5">Rasgos de personalidad</span>
+                </label>
+                <textarea name="bg_features" id="bg_features" class="textarea textarea-bordered h-24 w-full text-sm" 
+                    placeholder="Describe los rasgos de personalidad de tu personaje...">{%- if character.background and character.background.get('features') -%}{{ character.background.get('features') }}{%- endif -%}</textarea>
+            </div>
+
+            <!-- Ideales -->
+            <div class="form-control w-full">
+                <label class="label" for="bg_ideals">
+                    <span class="label-text py-1.5">Ideales</span>
+                </label>
+                <textarea name="bg_ideals" id="bg_ideals" class="textarea textarea-bordered h-24 w-full text-sm" 
+                    placeholder="¿Cuáles son los ideales que guían a tu personaje?...">{%- if character.background and character.background.get('ideals') -%}{{ character.background.get('ideals') }}{%- endif -%}</textarea>
+            </div>
+
+            <!-- Vínculos -->
+            <div class="form-control w-full">
+                <label class="label" for="bg_bonds">
+                    <span class="label-text py-1.5">Vínculos</span>
+                </label>
+                <textarea name="bg_bonds" id="bg_bonds" class="textarea textarea-bordered h-24 w-full text-sm" 
+                    placeholder="¿A qué o a quién está vinculado tu personaje?...">{%- if character.background and character.background.get('bonds') -%}{{ character.background.get('bonds') }}{%- endif -%}</textarea>
+            </div>
+
+            <!-- Defectos -->
+            <div class="form-control w-full">
+                <label class="label" for="bg_flaws">
+                    <span class="label-text py-1.5">Defectos</span>
+                </label>
+                <textarea name="bg_flaws" id="bg_flaws" class="textarea textarea-bordered h-24 w-full text-sm" 
+                    placeholder="¿Cuáles son los defectos o debilidades de tu personaje?...">{%- if character.background and character.background.get('flaws') -%}{{ character.background.get('flaws') }}{%- endif -%}</textarea>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="background_modal.close()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Cerrar al hacer clic fuera del modal -->
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>

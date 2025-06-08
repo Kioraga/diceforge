@@ -57,7 +57,7 @@
                         <div class="flex flex-col items-center">
                             <span class="text-xs opacity-60 mb-1">Base</span>
                             <div class="min-w-[40px] text-center">
-                                <span class="font-mono font-bold text-lg" id="base_armor_class">{{ character.armor_class }}</span>
+                                <span class="font-mono text-lg" id="base_armor_class">{{ character.armor_class }}</span>
                             </div>
                         </div>
                         <span class="text-xl font-light opacity-70 mb-2">+</span>
@@ -73,7 +73,7 @@
                         <div class="flex flex-col items-center">
                             <span class="text-xs opacity-60 mb-1">Total</span>
                             <div class="min-w-[40px] text-center">
-                                <span class="font-mono font-bold text-xl" id="armor_class_total">
+                                <span class="font-mono font-bold text-lg" id="armor_class_total">
                                     {{ character.armor_class + (character.armor_class_adjustment or 0) }}
                                 </span>
                             </div>
