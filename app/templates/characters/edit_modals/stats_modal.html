@@ -12,90 +12,102 @@
                         <span class="label-text">Fuerza</span>
                     </label>
                     <div class="flex items-center gap-2">
-                        <input type="number" name="strength" value="{{ character.ability_scores.get('strength', 10) }}" min="1" max="30"
-                               class="input input-bordered w-full" oninput="updateModifier('strength', this.value)" required>
+                        <input type="number" name="strength" value="{{ character.ability_scores.get('strength', 10) }}"
+                               min="1" max="30"
+                               class="input input-bordered w-full" oninput="updateModifier('strength', this.value)"
+                               required>
                         <div class="badge badge-accent h-10 w-10 flex items-center justify-center text-lg">
                             <span id="strength_mod">{{ "%+d"|format((character.ability_scores.get('strength', 10) - 10) // 2) }}</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Destreza -->
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Destreza</span>
                     </label>
                     <div class="flex items-center gap-2">
-                        <input type="number" name="dexterity" value="{{ character.ability_scores.get('dexterity', 10) }}" min="1" max="30"
-                               class="input input-bordered w-full" oninput="updateModifier('dexterity', this.value)" required>
+                        <input type="number" name="dexterity"
+                               value="{{ character.ability_scores.get('dexterity', 10) }}" min="1" max="30"
+                               class="input input-bordered w-full" oninput="updateModifier('dexterity', this.value)"
+                               required>
                         <div class="badge badge-accent h-10 w-10 flex items-center justify-center text-lg">
                             <span id="dexterity_mod">{{ "%+d"|format((character.ability_scores.get('dexterity', 10) - 10) // 2) }}</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Constitución -->
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Constitución</span>
                     </label>
                     <div class="flex items-center gap-2">
-                        <input type="number" name="constitution" value="{{ character.ability_scores.get('constitution', 10) }}" min="1" max="30"
-                               class="input input-bordered w-full" oninput="updateModifier('constitution', this.value)" required>
+                        <input type="number" name="constitution"
+                               value="{{ character.ability_scores.get('constitution', 10) }}" min="1" max="30"
+                               class="input input-bordered w-full" oninput="updateModifier('constitution', this.value)"
+                               required>
                         <div class="badge badge-accent h-10 w-10 flex items-center justify-center text-lg">
                             <span id="constitution_mod">{{ "%+d"|format((character.ability_scores.get('constitution', 10) - 10) // 2) }}</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Inteligencia -->
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Inteligencia</span>
                     </label>
                     <div class="flex items-center gap-2">
-                        <input type="number" name="intelligence" value="{{ character.ability_scores.get('intelligence', 10) }}" min="1" max="30"
-                               class="input input-bordered w-full" oninput="updateModifier('intelligence', this.value)" required>
+                        <input type="number" name="intelligence"
+                               value="{{ character.ability_scores.get('intelligence', 10) }}" min="1" max="30"
+                               class="input input-bordered w-full" oninput="updateModifier('intelligence', this.value)"
+                               required>
                         <div class="badge badge-accent h-10 w-10 flex items-center justify-center text-lg">
                             <span id="intelligence_mod">{{ "%+d"|format((character.ability_scores.get('intelligence', 10) - 10) // 2) }}</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Sabiduría -->
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Sabiduría</span>
                     </label>
                     <div class="flex items-center gap-2">
-                        <input type="number" name="wisdom" value="{{ character.ability_scores.get('wisdom', 10) }}" min="1" max="30"
-                               class="input input-bordered w-full" oninput="updateModifier('wisdom', this.value)" required>
+                        <input type="number" name="wisdom" value="{{ character.ability_scores.get('wisdom', 10) }}"
+                               min="1" max="30"
+                               class="input input-bordered w-full" oninput="updateModifier('wisdom', this.value)"
+                               required>
                         <div class="badge badge-accent h-10 w-10 flex items-center justify-center text-lg">
                             <span id="wisdom_mod">{{ "%+d"|format((character.ability_scores.get('wisdom', 10) - 10) // 2) }}</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Carisma -->
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Carisma</span>
                     </label>
                     <div class="flex items-center gap-2">
-                        <input type="number" name="charisma" value="{{ character.ability_scores.get('charisma', 10) }}" min="1" max="30"
-                               class="input input-bordered w-full" oninput="updateModifier('charisma', this.value)" required>
+                        <input type="number" name="charisma" value="{{ character.ability_scores.get('charisma', 10) }}"
+                               min="1" max="30"
+                               class="input input-bordered w-full" oninput="updateModifier('charisma', this.value)"
+                               required>
                         <div class="badge badge-accent h-10 w-10 flex items-center justify-center text-lg">
                             <span id="charisma_mod">{{ "%+d"|format((character.ability_scores.get('charisma', 10) - 10) // 2) }}</span>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="modal-action">
                 <button type="button" class="btn" onclick="edit_stats_modal.close()">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
-            
+
             <script>
                 function updateModifier(ability, value) {
                     const score = parseInt(value) || 0;
