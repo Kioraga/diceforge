@@ -10,7 +10,6 @@ Flask-Login==0.6.3
 itsdangerous==2.2.0
 Jinja2==3.1.6
 lazy-model==0.2.0
-livereload==2.7.1
 MarkupSafe==3.0.2
 motor==3.7.1
 pydantic==2.11.4

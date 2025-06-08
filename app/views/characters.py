@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from pydantic import ValidationError
 
 from app.models import Character
-from app.plugins import compendium, plugin_manager
+from app.plugins import compendium
 
 
 def get_blueprint():
@@ -79,7 +79,11 @@ def create_character_post():
 @login_required
 def character_detail(char_id):
     try:
-        character = Character.get(char_id).run()
+        character = Character.get(char_id, fetch_links=True).run()
+
+        if character.user.id != current_user.id:
+            flash("No tienes permiso para ver este personaje.", "error")
+            return redirect(url_for("characters.character_gallery"))
 
         if character.check_dependencies() is False or character is None:
             flash("No se ha podido cargar el personaje.", "error")
@@ -113,10 +117,10 @@ def update_character(char_id):
         character.hp = int(request.form.get('hp', 0))
 
         character.save()
-        
+
         flash("Personaje actualizado correctamente.", "success")
         return redirect(url_for("characters.character_detail", char_id=char_id))
-        
+
     except Exception as e:
         flash(f"Error al actualizar el personaje: {str(e)}", "error")
         return redirect(url_for("characters.character_detail", char_id=char_id))
