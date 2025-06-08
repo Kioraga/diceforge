@@ -110,11 +110,22 @@ def update_character(char_id):
         return redirect(url_for("characters.character_gallery"))
 
     try:
-        character.name = request.form.get('name')
+        # Actualización de características básicas
+        character.name = request.form.get('name', )
         character.race = compendium.get_race_id(request.form.get('race'))
         character.char_class = compendium.get_class_id(request.form.get('char_class'))
-        character.level = int(request.form.get('level', 1))
-        character.hp = int(request.form.get('hp', 0))
+        character.level = int(request.form.get('level'))
+        character.hp = int(request.form.get('hp'))
+
+        # Actualización de características
+        character.ability_scores = {
+            "strength": int(request.form.get('strength')),
+            "dexterity": int(request.form.get('dexterity')),
+            "constitution": int(request.form.get('constitution')),
+            "intelligence": int(request.form.get('intelligence')),
+            "wisdom": int(request.form.get('wisdom')),
+            "charisma": int(request.form.get('charisma')),
+        }
 
         character.save()
 

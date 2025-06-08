@@ -1,0 +1,72 @@
+<!-- Modal para editar estadísticas del personaje -->
+<dialog id="edit_stats_modal" class="modal">
+    <div class="modal-box max-w-2xl">
+        <h3 class="font-bold text-lg mb-4">Editar Características</h3>
+        <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
+              class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Fuerza -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Fuerza</span>
+                    </label>
+                    <input type="number" name="strength" value="{{ character.ability_scores.get('strength', 10) }}" min="1" max="30"
+                           class="input input-bordered w-full" required>
+                </div>
+                
+                <!-- Destreza -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Destreza</span>
+                    </label>
+                    <input type="number" name="dexterity" value="{{ character.ability_scores.get('dexterity', 10) }}" min="1" max="30"
+                           class="input input-bordered w-full" required>
+                </div>
+                
+                <!-- Constitución -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Constitución</span>
+                    </label>
+                    <input type="number" name="constitution" value="{{ character.ability_scores.get('constitution', 10) }}" min="1" max="30"
+                           class="input input-bordered w-full" required>
+                </div>
+                
+                <!-- Inteligencia -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Inteligencia</span>
+                    </label>
+                    <input type="number" name="intelligence" value="{{ character.ability_scores.get('intelligence', 10) }}" min="1" max="30"
+                           class="input input-bordered w-full" required>
+                </div>
+                
+                <!-- Sabiduría -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Sabiduría</span>
+                    </label>
+                    <input type="number" name="wisdom" value="{{ character.ability_scores.get('wisdom', 10) }}" min="1" max="30"
+                           class="input input-bordered w-full" required>
+                </div>
+                
+                <!-- Carisma -->
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Carisma</span>
+                    </label>
+                    <input type="number" name="charisma" value="{{ character.ability_scores.get('charisma', 10) }}" min="1" max="30"
+                           class="input input-bordered w-full" required>
+                </div>
+            </div>
+            
+            <div class="modal-action">
+                <button type="button" class="btn btn-ghost" onclick="edit_stats_modal.close()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
