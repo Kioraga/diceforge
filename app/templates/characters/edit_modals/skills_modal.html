@@ -3,28 +3,30 @@
     <div class="modal-box max-w-2xl h-full w-full md:w-11/12 md:h-auto">
         <h3 class="font-bold text-lg mb-4">Editar Habilidades</h3>
         <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
-            class="space-y-4">
+              class="space-y-4">
             <input type="hidden" name="modal" value="saving_throws">
 
             <!-- Macro para generar filas de habilidades -->
             {% macro skill_row(skill_name, display_name, ability_mod, ability_short) %}
                 {% set proficiency = character.proficiencies.get(skill_name, {}) %}
                 {% set mod_value = namespace(value=ability_mod) %}
-                
+
                 {% if proficiency.get('proficiency', False) %}
                     {% set mod_value.value = ability_mod + proficiency_bonus %}
                 {% elif proficiency.get('expertise', False) %}
                     {% set mod_value.value = ability_mod + (2 * proficiency_bonus) %}
                 {% endif %}
-                
+
                 <tr>
                     <td class="text-center space-x-1">
                         <input type="checkbox" class="checkbox checkbox-sm proficiency-checkbox"
-                            name="{{ skill_name }}_proficiency" data-ability="{{ skill_name }}" data-mod="{{ ability_mod }}"
-                            onclick="toggleProficiency(this, false)" {{ 'checked="checked"' if proficiency.get('proficiency', False) }} />
+                               name="{{ skill_name }}_proficiency" data-ability="{{ skill_name }}"
+                               data-mod="{{ ability_mod }}"
+                               onclick="toggleProficiency(this, false)" {{ 'checked="checked"' if proficiency.get('proficiency', False) }} />
                         <input type="checkbox" class="checkbox checkbox-sm checkbox-accent expertise-checkbox"
-                            name="{{ skill_name }}_expertise" data-ability="{{ skill_name }}" data-mod="{{ ability_mod }}"
-                            onclick="toggleProficiency(this, true)" {{ 'checked="checked"' if proficiency.get('expertise', False) }} />
+                               name="{{ skill_name }}_expertise" data-ability="{{ skill_name }}"
+                               data-mod="{{ ability_mod }}"
+                               onclick="toggleProficiency(this, true)" {{ 'checked="checked"' if proficiency.get('expertise', False) }} />
                     </td>
                     <td>{{ display_name }} ({{ ability_short }})</td>
                     <td class="text-right">{{ "%+d"|format(mod_value.value) }}</td>
@@ -34,28 +36,28 @@
             <div class="overflow-x-auto">
                 <table class="table w-full">
                     <tbody>
-                        <tr>
-                            <td class="text-center">Competencia</td>
-                        </tr>
+                    <tr>
+                        <td class="text-center">Competencia</td>
+                    </tr>
 
-                        {{ skill_row('acrobatics', 'Acrobacias', dexterity_mod, 'Des') }}
-                        {{ skill_row('arcane', 'Arcanos', intelligence_mod, 'Int') }}
-                        {{ skill_row('athletics', 'Atletismo', strength_mod, 'Fue') }}
-                        {{ skill_row('deception', 'Engañar', charisma_mod, 'Car') }}
-                        {{ skill_row('history', 'Historia', intelligence_mod, 'Int') }}
-                        {{ skill_row('performance', 'Interpretación', charisma_mod, 'Car') }}
-                        {{ skill_row('intimidation', 'Intimidar', charisma_mod, 'Car') }}
-                        {{ skill_row('investigation', 'Investigación', intelligence_mod, 'Int') }}
-                        {{ skill_row('sleight_of_hand', 'Juego de manos', dexterity_mod, 'Des') }}
-                        {{ skill_row('medicine', 'Medicina', wisdom_mod, 'Sab') }}
-                        {{ skill_row('nature', 'Naturaleza', intelligence_mod, 'Int') }}
-                        {{ skill_row('perception', 'Percepción', wisdom_mod, 'Sab') }}
-                        {{ skill_row('insight', 'Perspicacia', wisdom_mod, 'Sab') }}
-                        {{ skill_row('persuasion', 'Persuasión', charisma_mod, 'Car') }}
-                        {{ skill_row('religion', 'Religión', wisdom_mod, 'Sab') }}
-                        {{ skill_row('stealth', 'Sigilo', dexterity_mod, 'Des') }}
-                        {{ skill_row('survival', 'Supervivencia', wisdom_mod, 'Sab') }}
-                        {{ skill_row('animal_handling', 'Trato con Animales', wisdom_mod, 'Sab') }}
+                    {{ skill_row('acrobatics', 'Acrobacias', dexterity_mod, 'Des') }}
+                    {{ skill_row('arcane', 'Arcanos', intelligence_mod, 'Int') }}
+                    {{ skill_row('athletics', 'Atletismo', strength_mod, 'Fue') }}
+                    {{ skill_row('deception', 'Engañar', charisma_mod, 'Car') }}
+                    {{ skill_row('history', 'Historia', intelligence_mod, 'Int') }}
+                    {{ skill_row('performance', 'Interpretación', charisma_mod, 'Car') }}
+                    {{ skill_row('intimidation', 'Intimidar', charisma_mod, 'Car') }}
+                    {{ skill_row('investigation', 'Investigación', intelligence_mod, 'Int') }}
+                    {{ skill_row('sleight_of_hand', 'Juego de manos', dexterity_mod, 'Des') }}
+                    {{ skill_row('medicine', 'Medicina', wisdom_mod, 'Sab') }}
+                    {{ skill_row('nature', 'Naturaleza', intelligence_mod, 'Int') }}
+                    {{ skill_row('perception', 'Percepción', wisdom_mod, 'Sab') }}
+                    {{ skill_row('insight', 'Perspicacia', wisdom_mod, 'Sab') }}
+                    {{ skill_row('persuasion', 'Persuasión', charisma_mod, 'Car') }}
+                    {{ skill_row('religion', 'Religión', wisdom_mod, 'Sab') }}
+                    {{ skill_row('stealth', 'Sigilo', dexterity_mod, 'Des') }}
+                    {{ skill_row('survival', 'Supervivencia', wisdom_mod, 'Sab') }}
+                    {{ skill_row('animal_handling', 'Trato con Animales', wisdom_mod, 'Sab') }}
                     </tbody>
                 </table>
             </div>
