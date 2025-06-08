@@ -15,11 +15,14 @@
 
                     <!-- Fuerza -->
                     <tr>
-                        <td class="text-center">
-                            {% set strength_proficiency= character.proficiencies.get('strength', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm {% if strength_proficiency == 'expertise' %}checkbox-accent{% endif %}"
-                                   onclick="addProficiencyBonus(this)"
+                        <td class="text-center space-x-1">
+                            {% set strength_proficiency = character.proficiencies.get('strength', None) %}
+                            <input type="checkbox" class="checkbox checkbox-sm"
+                                   onclick="addProficiencyBonus(this, false)"
                                    {% if strength_proficiency == 'proficiency' or strength_proficiency == 'expertise' %}checked="checked"{% endif %}/>
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
+                                   onclick="addProficiencyBonus(this, true)"
+                                   {% if strength_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Fuerza (Fue)</td>
                         {% set save_strength = strength_mod %}
@@ -33,11 +36,14 @@
 
                     <!-- Destreza -->
                     <tr>
-                        <td class="text-center">
-                            {% set dexterity_proficiency= character.proficiencies.get('dexterity', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm {% if dexterity_proficiency == 'expertise' %}checkbox-accent{% endif %}"
-                                   onclick="addProficiencyBonus(this)"
+                        <td class="text-center space-x-1">    
+                            {% set dexterity_proficiency = character.proficiencies.get('dexterity', None) %}
+                            <input type="checkbox" class="checkbox checkbox-sm"
+                                   onclick="addProficiencyBonus(this, false)"
                                    {% if dexterity_proficiency == 'proficiency' or dexterity_proficiency == 'expertise' %}checked="checked"{% endif %}/>
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
+                                   onclick="addProficiencyBonus(this, true)"
+                                   {% if dexterity_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Destreza (Des)</td>
                         {% set save_dexterity = dexterity_mod %}
@@ -51,11 +57,14 @@
 
                     <!-- Constitución -->
                     <tr>
-                        <td class="text-center">
-                            {% set constitution_proficiency= character.proficiencies.get('constitution', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm {% if constitution_proficiency == 'expertise' %}checkbox-accent{% endif %}"
-                                   onclick="addProficiencyBonus(this)"
+                        <td class="text-center space-x-1">
+                            {% set constitution_proficiency = character.proficiencies.get('constitution', None) %}
+                            <input type="checkbox" class="checkbox checkbox-sm"
+                                   onclick="addProficiencyBonus(this, false)"
                                    {% if constitution_proficiency == 'proficiency' or constitution_proficiency == 'expertise' %}checked="checked"{% endif %}/>
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
+                                   onclick="addProficiencyBonus(this, true)"
+                                   {% if constitution_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Constitución (Con)</td>
                         {% set save_constitution = constitution_mod %}
@@ -69,11 +78,14 @@
 
                     <!-- Inteligencia -->
                     <tr>
-                        <td class="text-center">
-                            {% set intelligence_proficiency= character.proficiencies.get('intelligence', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm {% if intelligence_proficiency == 'expertise' %}checkbox-accent{% endif %}"
-                                   onclick="addProficiencyBonus(this)"
+                        <td class="text-center space-x-1">
+                            {% set intelligence_proficiency = character.proficiencies.get('intelligence', None) %}
+                            <input type="checkbox" class="checkbox checkbox-sm"
+                                   onclick="addProficiencyBonus(this, false)"
                                    {% if intelligence_proficiency == 'proficiency' or intelligence_proficiency == 'expertise' %}checked="checked"{% endif %}/>
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
+                                   onclick="addProficiencyBonus(this, true)"
+                                   {% if intelligence_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Inteligencia (Int)</td>
                         {% set save_intelligence = intelligence_mod %}
@@ -87,11 +99,14 @@
 
                     <!-- Sabiduría -->
                     <tr>
-                        <td class="text-center">
-                            {% set wisdom_proficiency= character.proficiencies.get('wisdom', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm {% if wisdom_proficiency == 'expertise' %}checkbox-accent{% endif %}"
-                                   onclick="addProficiencyBonus(this)"
+                        <td class="text-center space-x-1">
+                            {% set wisdom_proficiency = character.proficiencies.get('wisdom', None) %}
+                            <input type="checkbox" class="checkbox checkbox-sm"
+                                   onclick="addProficiencyBonus(this, false)"
                                    {% if wisdom_proficiency == 'proficiency' or wisdom_proficiency == 'expertise' %}checked="checked"{% endif %}/>
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
+                                   onclick="addProficiencyBonus(this, true)"
+                                   {% if wisdom_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Sabiduría (Sab)</td>
                         {% set save_wisdom = wisdom_mod %}
@@ -105,11 +120,14 @@
 
                     <!-- Carisma -->
                     <tr>
-                        <td class="text-center">
-                            {% set charisma_proficiency= character.proficiencies.get('charisma', None) %}
-                            <input type="checkbox" class="checkbox checkbox-sm {% if charisma_proficiency == 'expertise' %}checkbox-accent{% endif %}"
-                                   onclick="addProficiencyBonus(this)"
+                        <td class="text-center space-x-1">
+                            {% set charisma_proficiency = character.proficiencies.get('charisma', None) %}
+                            <input type="checkbox" class="checkbox checkbox-sm"
+                                   onclick="addProficiencyBonus(this, false)"
                                    {% if charisma_proficiency == 'proficiency' or charisma_proficiency == 'expertise' %}checked="checked"{% endif %}/>
+                            <input type="checkbox" class="checkbox checkbox-sm checkbox-accent" 
+                                   onclick="addProficiencyBonus(this, true)"
+                                   {% if charisma_proficiency == 'expertise' %}checked="checked"{% endif %}/>
                         </td>
                         <td>Carisma (Car)</td>
                         {% set save_charisma = charisma_mod %}
@@ -132,7 +150,7 @@
     </div>
     
     <script>
-    function addProficiencyBonus(checkbox) {
+    function addProficiencyBonus(checkbox, expertise = false) {
             const proficiency_bonus = parseInt("{{ proficiency_bonus | tojson }}");
             const bonusCell = checkbox.parentElement.nextElementSibling.nextElementSibling;
             const currentValue = parseInt(bonusCell.textContent);
@@ -143,7 +161,7 @@
                 if (!checkbox.dataset.originalValue) {
                     checkbox.dataset.originalValue = currentValue.toString();
                 }
-                const newValue = originalValue + proficiency_bonus;
+                const newValue = originalValue + (expertise ? 2 * proficiency_bonus : proficiency_bonus);
                 bonusCell.textContent = (newValue >= 0 ? '+' : '') + newValue;
             } else {
                 // Restaura el valor original con su signo
