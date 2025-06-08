@@ -13,8 +13,6 @@
 
                 {% if proficiency.get('proficiency', False) %}
                     {% set mod_value.value = ability_mod + proficiency_bonus %}
-                {% elif proficiency.get('expertise', False) %}
-                    {% set mod_value.value = ability_mod + (2 * proficiency_bonus) %}
                 {% endif %}
 
                 <tr>

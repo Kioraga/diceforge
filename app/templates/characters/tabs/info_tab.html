@@ -8,7 +8,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                 </svg>
             </button>
             <div class="card-body p-4">
@@ -140,10 +140,8 @@
                     {% set proficiency = character.proficiencies.get(ability_name, {}) %}
                     {% set mod_value = namespace(value=ability_mod) %}
 
-                    {% if proficiency.get('proficiency', False) and not proficiency.get('expertise', False) %}
+                    {% if proficiency.get('proficiency', False) %}
                         {% set mod_value.value = ability_mod + proficiency_bonus %}
-                    {% elif proficiency.get('expertise', False) %}
-                        {% set mod_value.value = ability_mod + (2 * proficiency_bonus) %}
                     {% endif %}
 
                     <tr>
@@ -200,11 +198,10 @@
                     {% set proficiency = character.proficiencies.get(skill_name, {}) %}
                     {% set mod_value = namespace(value=ability_mod) %}
 
-                    {% if proficiency.get('proficiency', False) %}
+                    {% if proficiency.get('proficiency', False) and not proficiency.get('expertise', False) %}
                         {% set mod_value.value = ability_mod + proficiency_bonus %}
-                    {% endif %}
-                    {% if proficiency.get('expertise', False) %}
-                        {% set mod_value.value = ability_mod + (proficiency_bonus * 2) %}
+                    {% elif proficiency.get('expertise', False) %}
+                        {% set mod_value.value = ability_mod + (2 * proficiency_bonus) %}
                     {% endif %}
 
                     <tr>
@@ -222,11 +219,11 @@
                 <div class="overflow-x-auto">
                     <table class="table table-zebra w-full">
                         <thead>
-                            <tr>
-                                <th class="text-center">Competencia</th>
-                                <th>Habilidad</th>
-                                <th class="text-right">Total</th>
-                            </tr>
+                        <tr>
+                            <th class="text-center">Competencia</th>
+                            <th>Habilidad</th>
+                            <th class="text-right">Total</th>
+                        </tr>
                         </thead>
                         <tbody>
                         {{ skill_row('acrobatics', 'Acrobacias', dexterity_mod, 'Des') }}

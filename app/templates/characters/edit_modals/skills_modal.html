@@ -11,8 +11,10 @@
                 {% set proficiency = character.proficiencies.get(skill_name, {}) %}
                 {% set mod_value = namespace(value=ability_mod) %}
 
-                {% if proficiency.get('proficiency', False) %}
+                {% if proficiency.get('proficiency', False) and not proficiency.get('expertise', False) %}
                     {% set mod_value.value = ability_mod + proficiency_bonus %}
+                {% elif proficiency.get('expertise', False) %}
+                    {% set mod_value.value = ability_mod + (2 * proficiency_bonus) %}
                 {% endif %}
 
                 <tr>

@@ -110,15 +110,6 @@ def update_character(char_id):
         return redirect(url_for("characters.character_gallery"))
 
     try:
-        def select_modal(modal):
-            switch = {
-                "base": update_base,
-                "stats": update_stats,
-                "saving_throws": update_saving_throws,
-                "skills": update_skills,
-            }
-            switch.get(modal)()
-
         def update_base():
             character.name = request.form.get('name')
             character.race = compendium.get_race_id(request.form.get('race'))
@@ -138,11 +129,15 @@ def update_character(char_id):
 
         def update_saving_throws():
             abilities = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]
-            character.proficiencies = {
-                ability: {
-                    "proficiency": request.form.get(f'{ability}_proficiency') == 'on'
-                } for ability in abilities
-            }
+            # Initialize proficiencies if it doesn't exist
+            if not hasattr(character, 'proficiencies') or character.proficiencies is None:
+                character.proficiencies = {}
+
+            # Only update the saving throw proficiencies, leave others unchanged
+            for ability in abilities:
+                if ability not in character.proficiencies:
+                    character.proficiencies[ability] = {}
+                character.proficiencies[ability]["proficiency"] = request.form.get(f'{ability}_proficiency') == 'on'
 
         def update_skills():
             skills = [
@@ -151,12 +146,25 @@ def update_character(char_id):
                 "stealth", "survival", "perception", "persuasion", "insight",
                 "medicine", "nature", "religion", "animal_handling"
             ]
-            character.proficiencies = {
-                skill: {
-                    "proficiency": request.form.get(f'{skill}_proficiency') == 'on',
-                    "expertise": request.form.get(f'{skill}_expertise') == 'on'
-                } for skill in skills
+            # Initialize proficiencies if it doesn't exist
+            if not hasattr(character, 'proficiencies') or character.proficiencies is None:
+                character.proficiencies = {}
+
+            # Only update the skill proficiencies, leave others unchanged
+            for skill in skills:
+                if skill not in character.proficiencies:
+                    character.proficiencies[skill] = {}
+                character.proficiencies[skill]["proficiency"] = request.form.get(f'{skill}_proficiency') == 'on'
+                character.proficiencies[skill]["expertise"] = request.form.get(f'{skill}_expertise') == 'on'
+
+        def select_modal(modal):
+            switch = {
+                "base": update_base,
+                "stats": update_stats,
+                "saving_throws": update_saving_throws,
+                "skills": update_skills,
             }
+            switch.get(modal)()
 
         select_modal(request.form.get('modal'))
 
