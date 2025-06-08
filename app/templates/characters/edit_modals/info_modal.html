@@ -1,0 +1,58 @@
+<!-- Modal para editar información del personaje -->
+<dialog id="info_modal" class="modal">
+    <div class="modal-box max-w-2xl h-full w-full md:w-11/12 md:h-auto">
+        <h3 class="font-bold text-lg mb-4">Editar Información del Personaje</h3>
+        <form method="POST" action="{{ url_for('characters.update_character', char_id=character.id) }}"
+              class="space-y-4">
+            <input type="hidden" name="modal" value="info">
+            
+            <!-- Alineamiento -->
+            <div class="form-control w-full">
+                <label class="label" for="alignment">
+                    <span class="label-text py-1.5">Alineamiento</span>
+                </label>
+                <select name="alignment" id="alignment" class="select select-bordered w-full">
+                    <option value="" {% if not character.info or not character.info.get('alignment') %}selected{% endif %}>Sin especificar</option>
+                    <option value="Legal Bueno" {% if character.info and character.info.get('alignment') == 'Legal Bueno' %}selected{% endif %}>Legal Bueno</option>
+                    <option value="Neutral Bueno" {% if character.info and character.info.get('alignment') == 'Neutral Bueno' %}selected{% endif %}>Neutral Bueno</option>
+                    <option value="Caótico Bueno" {% if character.info and character.info.get('alignment') == 'Caótico Bueno' %}selected{% endif %}>Caótico Bueno</option>
+                    <option value="Legal Neutral" {% if character.info and character.info.get('alignment') == 'Legal Neutral' %}selected{% endif %}>Legal Neutral</option>
+                    <option value="Neutral" {% if character.info and character.info.get('alignment') == 'Neutral' %}selected{% endif %}>Neutral</option>
+                    <option value="Caótico Neutral" {% if character.info and character.info.get('alignment') == 'Caótico Neutral' %}selected{% endif %}>Caótico Neutral</option>
+                    <option value="Legal Malvado" {% if character.info and character.info.get('alignment') == 'Legal Malvado' %}selected{% endif %}>Legal Malvado</option>
+                    <option value="Neutral Malvado" {% if character.info and character.info.get('alignment') == 'Neutral Malvado' %}selected{% endif %}>Neutral Malvado</option>
+                    <option value="Caótico Malvado" {% if character.info and character.info.get('alignment') == 'Caótico Malvado' %}selected{% endif %}>Caótico Malvado</option>
+                </select>
+            </div>
+
+            <!-- Apariencia -->
+            <div class="form-control w-full">
+                <label class="label" for="appearance">
+                    <span class="label-text py-1.5">Apariencia</span>
+                </label>
+                <textarea name="appearance" id="appearance" class="textarea textarea-bordered h-24 w-full text-sm" 
+                    placeholder="Describe la apariencia de tu personaje...">{%- if character.info and character.info.get('appearance') -%}{{ character.info.get('appearance') }}{%- endif -%}</textarea>
+            </div>
+
+            <!-- Historia -->
+            <div class="form-control w-full">
+                <label class="label" for="history">
+                    <span class="label-text py-1.5">Historia</span>
+                </label>
+                <textarea name="history" id="history" class="textarea textarea-bordered h-24 w-full text-sm" 
+                    placeholder="Escribe la historia de tu personaje...">{%- if character.info and character.info.get('history') -%}{{ character.info.get('history') }}{%- endif -%}</textarea>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="info_modal.close()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Cerrar al hacer clic fuera del modal -->
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>

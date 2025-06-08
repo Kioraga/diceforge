@@ -157,12 +157,30 @@ def update_character(char_id):
                 character.proficiencies[skill]["proficiency"] = request.form.get(f'{skill}_proficiency') == 'on'
                 character.proficiencies[skill]["expertise"] = request.form.get(f'{skill}_expertise') == 'on'
 
+        def update_background():
+            character.background = {
+                "name": request.form.get("bg_name", ""),
+                "features": request.form.get("bg_features", ""),
+                "ideals": request.form.get("bg_ideals", ""),
+                "bonds": request.form.get("bg_bonds", ""),
+                "flaws": request.form.get("bg_flaws", "")
+            }
+
+        def update_info():
+            character.info = {
+                "alignment": request.form.get("alignment", ""),
+                "appearance": request.form.get("appearance", ""),
+                "history": request.form.get("history", "")
+            }
+
         def select_modal(modal):
             switch = {
                 "base": update_base,
                 "stats": update_stats,
                 "saving_throws": update_saving_throws,
                 "skills": update_skills,
+                "background": update_background,
+                "info": update_info,
             }
             switch.get(modal)()
 
