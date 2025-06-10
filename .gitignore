@@ -4,7 +4,6 @@ node_modules/
 __pycache__/
 docs/_build/
 htmlcov/
-dist/
 /plugins/
 .tox/
 .DS_Store
