@@ -17,7 +17,6 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     app.name = "Diceforge"
-    app.debug = True
     app.config.from_pyfile("config.py")
     app.jinja_env.globals["title"] = app.name
     app.jinja_env.filters["hashlib_md5"] = hashlib_md5
@@ -36,7 +35,7 @@ def create_app():
 
     # Database initialization
     try:
-        client = MongoClient("mongodb://localhost:27017", serverSelectionTimeoutMS=5000)
+        client = MongoClient("mongodb://mongodb:27017", serverSelectionTimeoutMS=5000)
         init_bunnet(database=client.diceforge, document_models=models.__all__)
         print("Connection to MongoDB established successfully")
     except Exception as e:

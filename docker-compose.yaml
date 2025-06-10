@@ -1,7 +1,18 @@
-name: mongodb
+name: diceforge
 services:
-  mongodb-community-server:
+  web:
+    build: .
+    container_name: diceforge
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+    depends_on:
+      - mongodb
+
+  mongodb:
     container_name: mongodb
+    image: mongodb/mongodb-community-server:latest
     ports:
       - "27017:27017"
-    image: mongodb/mongodb-community-server:latest
